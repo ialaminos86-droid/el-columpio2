@@ -369,8 +369,26 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
-                  Los servicios extra se calculan automáticamente sobre todos los días contratados: 5 días por semana completa + días sueltos indicados en la calculadora.
+                <div className="mt-6">
+                  <label className="mb-3 block text-sm font-semibold text-slate-700">Servicios extra para calcular</label>
+                  <div className="grid gap-3 sm:grid-cols-3">
+                    {['Aula matinal: 8:00 a 9:00', 'Postcampus', 'Comedor'].map((servicio) => (
+                      <label
+                        key={servicio}
+                        className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-3 text-sm ${serviciosSeleccionados.includes(servicio) ? 'border-sky-600 bg-sky-50 text-sky-700' : 'border-slate-300 bg-white text-slate-700'}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={serviciosSeleccionados.includes(servicio)}
+                          onChange={() => toggleServicio(servicio)}
+                        />
+                        <span>{servicio}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-xs text-slate-500">
+                    Los extras se aplican a todos los días contratados. Si seleccionas comedor, el postcampus ya queda incluido y no se cobra aparte.
+                  </p>
                 </div>
 
                 <label className="mt-6 flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700">
