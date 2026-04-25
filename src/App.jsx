@@ -22,34 +22,57 @@ const FORM_CONFIG = {
   },
 };
 
-function precioSemana(semanas, tipo) {
+function calcularPrecioSemanas(semanas, tipo) {
   if (semanas <= 0) return 0;
-  if (tipo === 'socio') {
-    if (semanas <= 3) return 60;
-    if (semanas <= 5) return 55;
-    return 50;
+
+  const precioPrimerasTres = tipo === 'socio' ? 60 : 70;
+  const precioCuartaYQuinta = tipo === 'socio' ? 55 : 65;
+  const precioSextaEnAdelante = tipo === 'socio' ? 50 : 60;
+
+  let total = 0;
+
+  const semanasPrimerTramo = Math.min(semanas, 3);
+  total += semanasPrimerTramo * precioPrimerasTres;
+
+  if (semanas > 3) {
+    const semanasSegundoTramo = Math.min(semanas - 3, 2);
+    total += semanasSegundoTramo * precioCuartaYQuinta;
   }
-  if (semanas <= 3) return 70;
-  if (semanas <= 5) return 65;
-  return 60;
+
+  if (semanas > 5) {
+    const semanasTercerTramo = semanas - 5;
+    total += semanasTercerTramo * precioSextaEnAdelante;
+  }
+
+  return total;
 }
 
 function calcularPrecioEstimado({
   tipoCliente,
   numSemanas,
   diasSueltos,
-  diasMatinal,
-  diasPostcampus,
-  diasComedor,
+  serviciosSeleccionados,
   matricula,
 }) {
   const precioDiaSuelto = tipoCliente === 'socio' ? 15 : 18;
   const precioMatricula = matricula ? 12 : 0;
-  const precioSemanasTotal = numSemanas * precioSemana(numSemanas, tipoCliente);
+  const precioSemanasTotal = calcularPrecioSemanas(numSemanas, tipoCliente);
   const precioDiasSueltosTotal = diasSueltos * precioDiaSuelto;
-  const precioMatinalTotal = diasMatinal * 3;
-  const precioPostcampusTotal = diasPostcampus * 3;
-  const precioComedorTotal = diasComedor * 7.5;
+
+  // Los extras se aplican a todos los días contratados.
+  // Cada semana completa se considera de lunes a viernes: 5 días.
+  const diasTotales = numSemanas * 5 + diasSueltos;
+  const tieneMatinal = serviciosSeleccionados.includes('Aula matinal: 8:00 a 9:00');
+  const tieneComedor = serviciosSeleccionados.includes('Comedor');
+  const tienePostcampus = serviciosSeleccionados.includes('Postcampus');
+
+  const precioMatinalTotal = tieneMatinal ? diasTotales * 3 : 0;
+  const precioComedorTotal = tieneComedor ? diasTotales * 7.5 : 0;
+
+  // Si hay comedor, el postcampus ya está incluido en los 7,5€/día.
+  // Solo se cobra postcampus aparte cuando NO hay comedor.
+  const precioPostcampusTotal = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
+
   const precioEstimado =
     precioMatricula +
     precioSemanasTotal +
@@ -67,6 +90,7 @@ function calcularPrecioEstimado({
     precioPostcampusTotal,
     precioComedorTotal,
     precioEstimado,
+    diasTotales,
   };
 }
 
@@ -76,18 +100,22 @@ function formatearEuros(valor) {
 
 const testCases = [
   { input: [1, 'socio'], expected: 60 },
-  { input: [4, 'socio'], expected: 55 },
-  { input: [6, 'socio'], expected: 50 },
+  { input: [3, 'socio'], expected: 180 },
+  { input: [4, 'socio'], expected: 235 },
+  { input: [5, 'socio'], expected: 290 },
+  { input: [6, 'socio'], expected: 340 },
   { input: [1, 'noSocio'], expected: 70 },
-  { input: [4, 'noSocio'], expected: 65 },
-  { input: [6, 'noSocio'], expected: 60 },
+  { input: [3, 'noSocio'], expected: 210 },
+  { input: [4, 'noSocio'], expected: 275 },
+  { input: [5, 'noSocio'], expected: 340 },
+  { input: [6, 'noSocio'], expected: 400 },
   { input: [0, 'socio'], expected: 0 },
 ];
 
 if (typeof console !== 'undefined') {
   testCases.forEach(({ input, expected }) => {
-    const actual = precioSemana(Number(input[0]), input[1]);
-    console.assert(actual === expected, 'Error en precioSemana');
+    const actual = calcularPrecioSemanas(Number(input[0]), input[1]);
+    console.assert(actual === expected, 'Error en calcularPrecioSemanas');
   });
 }
 
@@ -109,10 +137,7 @@ export default function App() {
   const [tipoCliente, setTipoCliente] = useState('socio');
   const [numSemanas, setNumSemanas] = useState(1);
   const [diasSueltos, setDiasSueltos] = useState(0);
-  const [diasMatinal, setDiasMatinal] = useState(0);
-  const [diasPostcampus, setDiasPostcampus] = useState(0);
-  const [diasComedor, setDiasComedor] = useState(0);
-  const [matricula, setMatricula] = useState(true);
+    const [matricula, setMatricula] = useState(true);
 
   const [nombreNino, setNombreNino] = useState('');
   const [edad, setEdad] = useState('');
@@ -138,12 +163,10 @@ export default function App() {
         tipoCliente,
         numSemanas,
         diasSueltos,
-        diasMatinal,
-        diasPostcampus,
-        diasComedor,
+        serviciosSeleccionados,
         matricula,
       }),
-    [tipoCliente, numSemanas, diasSueltos, diasMatinal, diasPostcampus, diasComedor, matricula]
+    [tipoCliente, numSemanas, diasSueltos, serviciosSeleccionados, matricula]
   );
 
   const semanasTextoFinal = semanasSeleccionadas.join(' | ');
@@ -157,13 +180,13 @@ export default function App() {
       `Días sueltos especificados: ${diasSueltosTexto || 'No solicita días sueltos'}`,
       `Servicios extra: ${serviciosTextoFinal || 'Sin servicios extra'}`,
       `Días sueltos: ${diasSueltos}`,
-      `Aula matinal: ${diasMatinal}`,
-      `Postcampus: ${diasPostcampus}`,
-      `Comedor: ${diasComedor}`,
+      `Aula matinal: ${serviciosSeleccionados.includes('Aula matinal: 8:00 a 9:00') ? 'Sí' : 'No'}`,
+      `Postcampus: ${serviciosSeleccionados.includes('Postcampus') ? 'Sí' : 'No'}`,
+      `Comedor: ${serviciosSeleccionados.includes('Comedor') ? 'Sí' : 'No'}`,
       `Matrícula: ${matricula ? 'Sí' : 'No'}`,
       `Total estimado: ${formatearEuros(resumen.precioEstimado)}`,
     ].join(' | ');
-  }, [tipoCliente, numSemanas, semanasTextoFinal, diasSueltosTexto, serviciosTextoFinal, diasSueltos, diasMatinal, diasPostcampus, diasComedor, matricula, resumen.precioEstimado]);
+  }, [tipoCliente, numSemanas, semanasTextoFinal, diasSueltosTexto, serviciosTextoFinal, diasSueltos, serviciosSeleccionados, matricula, resumen.precioEstimado]);
 
   function toggleSemana(semana) {
     setSemanasSeleccionadas((prev) => {
@@ -346,19 +369,8 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="mt-6 grid gap-5 sm:grid-cols-3">
-                  <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">Días aula matinal</label>
-                    <input type="number" min="0" value={diasMatinal} onChange={(e) => setDiasMatinal(Math.max(0, Number(e.target.value) || 0))} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none" />
-                  </div>
-                  <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">Días postcampus</label>
-                    <input type="number" min="0" value={diasPostcampus} onChange={(e) => setDiasPostcampus(Math.max(0, Number(e.target.value) || 0))} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none" />
-                  </div>
-                  <div>
-                    <label className="mb-2 block text-sm font-semibold text-slate-700">Días comedor</label>
-                    <input type="number" min="0" value={diasComedor} onChange={(e) => setDiasComedor(Math.max(0, Number(e.target.value) || 0))} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none" />
-                  </div>
+                <div className="mt-6 rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">
+                  Los servicios extra se calculan automáticamente sobre todos los días contratados: 5 días por semana completa + días sueltos indicados en la calculadora.
                 </div>
 
                 <label className="mt-6 flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700">
@@ -374,6 +386,7 @@ export default function App() {
                   <p>Matrícula: {formatearEuros(resumen.precioMatricula)}</p>
                   <p>Semanas: {formatearEuros(resumen.precioSemanasTotal)}</p>
                   <p>Días sueltos: {formatearEuros(resumen.precioDiasSueltosTotal)}</p>
+                  <p>Días calculados para extras: {resumen.diasTotales}</p>
                   <p>Aula matinal: {formatearEuros(resumen.precioMatinalTotal)}</p>
                   <p>Postcampus: {formatearEuros(resumen.precioPostcampusTotal)}</p>
                   <p>Comedor: {formatearEuros(resumen.precioComedorTotal)}</p>
