@@ -141,9 +141,9 @@ export default function App() {
 
   const [nombreNino, setNombreNino] = useState('');
   const [edad, setEdad] = useState('');
-  const [hermanosTexto, setHermanosTexto] = useState('');
   const [propietario, setPropietario] = useState('No');
   const [direccionPropietario, setDireccionPropietario] = useState('');
+  const [hermanosTexto, setHermanosTexto] = useState('');
   const [sedeSeleccionada, setSedeSeleccionada] = useState('El Carmen');
   const [semanasSeleccionadas, setSemanasSeleccionadas] = useState([]);
   const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
@@ -211,6 +211,9 @@ export default function App() {
     if (!nombreNino.trim()) nuevosErrores.nombreNino = 'Introduce el nombre del niño o niña.';
     if (!edad.trim()) nuevosErrores.edad = 'Indica la edad.';
     if (!semanasTextoFinal.trim()) nuevosErrores.semanas = 'Selecciona al menos una semana.';
+    if (propietario === 'Si' && !direccionPropietario.trim()) {
+      nuevosErrores.direccionPropietario = 'Indica la dirección y nombre del propietario.';
+    }
     if (propietario === 'Si' && !direccionPropietario.trim()) nuevosErrores.direccionPropietario = 'Indica la dirección y nombre del propietario.';
     if (!padreMadre.trim()) nuevosErrores.padreMadre = 'Indica el nombre del padre o madre.';
     if (!telefono.trim()) nuevosErrores.telefono = 'Indica un teléfono de contacto.';
@@ -235,6 +238,8 @@ export default function App() {
       const formData = new FormData();
       formData.append(FORM_CONFIG.fields.nombreNino, nombreNino);
       formData.append(FORM_CONFIG.fields.edad, edad);
+      formData.append(FORM_CONFIG.fields.propietario, propietario);
+      formData.append(FORM_CONFIG.fields.direccionPropietario, propietario === 'Si' ? direccionPropietario : 'No aplica');
       formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto || 'No indicado');
       formData.append(FORM_CONFIG.fields.propietario, propietario);
       formData.append(FORM_CONFIG.fields.direccionPropietario, direccionPropietario);
@@ -261,6 +266,8 @@ export default function App() {
       setMensajeEnvio('Inscripción enviada correctamente. Revisa tu hoja de respuestas de Google Forms.');
       setNombreNino('');
       setEdad('');
+      setPropietario('No');
+      setDireccionPropietario('');
       setHermanosTexto('');
       setPropietario('No');
       setDireccionPropietario('');
@@ -441,6 +448,38 @@ export default function App() {
                     <option value="El Mirador de Santa Eufemia">El Mirador de Santa Eufemia</option>
                   </select>
                 </div>
+
+                <div>
+                  <p className="mb-3 text-sm font-semibold text-slate-700">¿Es propietario de la urbanización?</p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={() => setPropietario('Si')}
+                      className={`rounded-2xl border px-4 py-3 text-left font-semibold ${propietario === 'Si' ? 'border-sky-600 bg-sky-50 text-sky-700' : 'border-slate-300 bg-white text-slate-700'}`}
+                    >
+                      Sí
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPropietario('No')}
+                      className={`rounded-2xl border px-4 py-3 text-left font-semibold ${propietario === 'No' ? 'border-sky-600 bg-sky-50 text-sky-700' : 'border-slate-300 bg-white text-slate-700'}`}
+                    >
+                      No
+                    </button>
+                  </div>
+                </div>
+
+                {propietario === 'Si' ? (
+                  <div>
+                    <input
+                      value={direccionPropietario}
+                      onChange={(e) => setDireccionPropietario(e.target.value)}
+                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none"
+                      placeholder="Dirección y nombre del propietario"
+                    />
+                    {errores.direccionPropietario ? <p className="mt-2 text-sm text-rose-600">{errores.direccionPropietario}</p> : null}
+                  </div>
+                ) : null
 
                 <div>
                   <input value={hermanosTexto} onChange={(e) => setHermanosTexto(e.target.value)} className="w-full rounded-2xl border border-slate-300 px-4 py-3 outline-none" placeholder="Nombre del hermano/a y edad (si aplica)" />
