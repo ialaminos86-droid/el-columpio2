@@ -37,7 +37,11 @@ const SEMANAS = [
   "11º Semana Campus: Agosto 31 a Septiembre 4. Vuelta al cole",
 ];
 
-const SERVICIOS = ["Aula matinal: 8:00 a 9:00", "Postcampus", "Comedor"];
+const SERVICIOS = [
+  "Aula matinal: 8:00 a 9:00",
+  "Postcampus: 14:00 a 16:00",
+  "Postcampus+Comedor: 14:00 a 16:00",
+];
 
 const ACTIVIDADES = [
   { titulo: "Deportes", texto: "Juegos, retos y deportes adaptados por edades.", icono: "⚽" },
