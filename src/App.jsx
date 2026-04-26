@@ -143,6 +143,7 @@ export default function App() {
 
   const [nombreNino, setNombreNino] = useState("");
   const [edad, setEdad] = useState("");
+  const [email, setEmail] = useState("");
   const [hermanosTexto, setHermanosTexto] = useState("");
   const [propietario, setPropietario] = useState("No");
   const [direccionPropietario, setDireccionPropietario] = useState("");
@@ -288,8 +289,9 @@ export default function App() {
 
       const codigoInscripcion = `WEB-${Date.now()}`;
       const formData = new FormData();
-      formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
-      formData.append(FORM_CONFIG.fields.edad, edad.trim());
+      formData.append("emailAddress", email.trim());
+     formData.append(FORM_CONFIG.fields.nombreNino,`${nombreNino.trim()} - ${edad.trim()} años`
+);
       formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
       formData.append(FORM_CONFIG.fields.propietario, propietario);
       formData.append(
@@ -661,7 +663,20 @@ Código inscripción: ${codigoInscripcion}`
                     </select>
                   </div>
                 </div>
-
+<div>
+  <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+    Email *
+  </label>
+  <input
+    value={email}
+    onChange={(event) => setEmail(event.target.value)}
+    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+    placeholder="Ej: padre@email.com"
+  />
+  {errores.email ? (
+    <p className="mt-1 text-xs text-rose-600">{errores.email}</p>
+  ) : null}
+</div>
                 <input value={hermanosTexto} onChange={(event) => setHermanosTexto(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Hermano/a y edad si aplica" />
 
                 <div className="grid gap-4 md:grid-cols-2">
