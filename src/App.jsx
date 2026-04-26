@@ -1,3 +1,4 @@
+import logo from "./assets/logocolumpiopng";
 import React, { useMemo, useState } from "react";
 
 const FORM_CONFIG = {
@@ -282,22 +283,34 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white text-slate-800">
-      <header className="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div>
-            <p className="text-lg font-black tracking-tight text-slate-900">
-              El Columpio Animación
-            </p>
-            <p className="text-sm text-slate-500">Campus de Verano 2026</p>
-          </div>
-          <a
-            href="#inscripcion"
-            className="rounded-2xl bg-sky-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 transition hover:bg-sky-700"
-          >
-            Inscribir ahora
-          </a>
-        </div>
-      </header>
+<header className="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur">
+  <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+    
+    <div className="flex items-center gap-3">
+      <img
+        src={logo}
+        alt="El Columpio"
+        className="h-14 w-auto"
+      />
+      <div>
+        <p className="text-lg font-black text-slate-900">
+          El Columpio Animación
+        </p>
+        <p className="text-sm text-slate-500">
+          Campus de Verano 2026
+        </p>
+      </div>
+    </div>
+
+    <a
+      href="#inscripcion"
+      className="rounded-2xl bg-sky-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-sky-100 hover:bg-sky-700"
+    >
+      Inscribir ahora
+    </a>
+
+  </div>
+</header>
 
       <main>
         <section className="bg-gradient-to-br from-sky-50 via-white to-amber-50">
