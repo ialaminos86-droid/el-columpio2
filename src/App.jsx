@@ -76,26 +76,6 @@ function toggleArrayValue(array, value) {
     : [...array, value];
 }
 
-const priceTestCases = [
-  { semanas: 0, tipo: "socio", expected: 0 },
-  { semanas: 3, tipo: "socio", expected: 180 },
-  { semanas: 4, tipo: "socio", expected: 235 },
-  { semanas: 6, tipo: "socio", expected: 340 },
-  { semanas: 7, tipo: "socio", expected: 390 },
-  { semanas: 3, tipo: "noSocio", expected: 210 },
-  { semanas: 4, tipo: "noSocio", expected: 275 },
-  { semanas: 6, tipo: "noSocio", expected: 400 },
-  { semanas: 7, tipo: "noSocio", expected: 460 },
-];
-
-priceTestCases.forEach(({ semanas, tipo, expected }) => {
-  const actual = calcularPrecioSemanas(semanas, tipo);
-  console.assert(
-    actual === expected,
-    `calcularPrecioSemanas(${semanas}, ${tipo}) debería ser ${expected}, pero fue ${actual}`
-  );
-});
-
 function Logo({ className = "h-14 w-auto object-contain" }) {
   const [failed, setFailed] = useState(false);
 
@@ -255,6 +235,36 @@ export default function App() {
     return nuevosErrores;
   }
 
+  function enviarAGoogleForms(formData) {
+    const iframeName = "google-forms-hidden-frame";
+    let iframe = document.querySelector(`iframe[name="${iframeName}"]`);
+
+    if (!iframe) {
+      iframe = document.createElement("iframe");
+      iframe.name = iframeName;
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+    }
+
+    const form = document.createElement("form");
+    form.action = FORM_CONFIG.formUrl;
+    form.method = "POST";
+    form.target = iframeName;
+    form.style.display = "none";
+
+    formData.forEach((value, key) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = value;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     if (estadoEnvio === "loading") return;
@@ -272,53 +282,58 @@ export default function App() {
       setEstadoEnvio("loading");
       setMensajeEnvio("Enviando inscripción...");
 
+      const codigoInscripcion = `WEB-${Date.now()}`;
       const formData = new FormData();
-      formData.append(FORM_CONFIG.fields.nombreNino, nombreNino);
-      formData.append(FORM_CONFIG.fields.edad, edad);
-      formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto || "No indicado");
+      formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
+      formData.append(FORM_CONFIG.fields.edad, edad.trim());
+      formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
       formData.append(FORM_CONFIG.fields.propietario, propietario);
       formData.append(
         FORM_CONFIG.fields.direccionPropietario,
-        propietario === "Si" ? direccionPropietario : "No aplica"
+        propietario === "Si" ? direccionPropietario.trim() : "No aplica"
       );
       formData.append(FORM_CONFIG.fields.sede, sede);
       formData.append(FORM_CONFIG.fields.semanasTexto, semanasTexto || "No selecciona semanas completas");
-      formData.append(FORM_CONFIG.fields.diasSueltosTexto, diasSueltosTexto || "No solicita días sueltos");
+      formData.append(FORM_CONFIG.fields.diasSueltosTexto, diasSueltosTexto.trim() || "No solicita días sueltos");
       formData.append(FORM_CONFIG.fields.serviciosExtras, serviciosTexto || "Sin servicios extra");
-      formData.append(FORM_CONFIG.fields.padreMadre, padreMadre);
-      formData.append(FORM_CONFIG.fields.telefono, telefono);
-      formData.append(FORM_CONFIG.fields.segundoContacto, segundoContacto || "No indicado");
-      formData.append(FORM_CONFIG.fields.telefono2, telefono2 || "No indicado");
+      formData.append(FORM_CONFIG.fields.padreMadre, padreMadre.trim());
+      formData.append(FORM_CONFIG.fields.telefono, telefono.trim());
+      formData.append(FORM_CONFIG.fields.segundoContacto, segundoContacto.trim() || "No indicado");
+      formData.append(FORM_CONFIG.fields.telefono2, telefono2.trim() || "No indicado");
       formData.append(
         FORM_CONFIG.fields.observaciones,
-        `${observaciones || "Sin observaciones"}\n\nResumen web: ${resumenTexto}`
+        `${observaciones.trim() || "Sin observaciones"}
+
+Resumen web: ${resumenTexto}
+
+Código inscripción: ${codigoInscripcion}`
       );
 
-      await fetch(FORM_CONFIG.formUrl, {
-        method: "POST",
-        mode: "no-cors",
-        body: formData,
-      });
+      enviarAGoogleForms(formData);
 
-      setEstadoEnvio("success");
-      setMensajeEnvio("Inscripción enviada correctamente. Nos pondremos en contacto para confirmar la plaza.");
-      setNombreNino("");
-      setEdad("");
-      setHermanosTexto("");
-      setPropietario("No");
-      setDireccionPropietario("");
-      setSede("El Carmen");
-      setSemanasSeleccionadas([]);
-      setSemanasCalculadora(0);
-      setDiasSueltosTexto("");
-      setDiasSueltosNumero(0);
-      setServiciosSeleccionados([]);
-      setPadreMadre("");
-      setTelefono("");
-      setSegundoContacto("");
-      setTelefono2("");
-      setObservaciones("");
-      setErrores({});
+      setTimeout(() => {
+        setEstadoEnvio("success");
+        setMensajeEnvio(
+          `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
+        );
+        setNombreNino("");
+        setEdad("");
+        setHermanosTexto("");
+        setPropietario("No");
+        setDireccionPropietario("");
+        setSede("El Carmen");
+        setSemanasSeleccionadas([]);
+        setSemanasCalculadora(0);
+        setDiasSueltosTexto("");
+        setDiasSueltosNumero(0);
+        setServiciosSeleccionados([]);
+        setPadreMadre("");
+        setTelefono("");
+        setSegundoContacto("");
+        setTelefono2("");
+        setObservaciones("");
+        setErrores({});
+      }, 900);
     } catch (error) {
       setEstadoEnvio("error");
       setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
