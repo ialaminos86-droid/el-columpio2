@@ -679,6 +679,20 @@ Código inscripción: ${codigoInscripcion}`
     <p className="mt-1 text-xs text-rose-600">{errores.email}</p>
   ) : null}
 </div>
+          <div>
+  <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+    Email *
+  </label>
+  <input
+    value={email}
+    onChange={(event) => setEmail(event.target.value)}
+    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+    placeholder="Ej: padre@email.com"
+  />
+  {errores.email ? (
+    <p className="mt-1 text-xs text-rose-600">{errores.email}</p>
+  ) : null}
+</div>      
                 <input value={hermanosTexto} onChange={(event) => setHermanosTexto(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Hermano/a y edad si aplica" />
 
                 <div className="grid gap-4 md:grid-cols-2">
