@@ -169,9 +169,9 @@ export default function App() {
     const precioDiasSueltos = diasSueltosNumero * precioDiaSuelto;
 
     const tieneMatinal = serviciosSeleccionados.includes("Aula matinal: 8:00 a 9:00");
-    const tienePostcampus = serviciosSeleccionados.includes("Postcampus");
-    const tieneComedor = serviciosSeleccionados.includes("Comedor");
-
+const tienePostcampus = serviciosSeleccionados.includes("Postcampus: 14:00 a 16:00");
+const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 a 16:00");
+    
     const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
     const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
     const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
@@ -228,6 +228,7 @@ export default function App() {
 
     if (!nombreNino.trim()) nuevosErrores.nombreNino = "Introduce el nombre del niño/a.";
     if (!edad.trim()) nuevosErrores.edad = "Indica la edad.";
+    if (!email.trim()) nuevosErrores.email = "Indica un email.";
     if (!semanasTexto.trim() && !diasSueltosTexto.trim()) {
       nuevosErrores.semanas = "Selecciona semanas o especifica días sueltos.";
     }
@@ -324,6 +325,7 @@ Código inscripción: ${codigoInscripcion}`
         );
         setNombreNino("");
         setEdad("");
+        setEmail("");
         setHermanosTexto("");
         setPropietario("No");
         setDireccionPropietario("");
