@@ -337,7 +337,7 @@ setMensajeEnvio(
   `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
 );
 
-// 👉 AQUI METES WHATSAPP
+// 👉 MENSAJE WHATSAPP
 const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
 
 👤 Niño/a: ${nombreNino}
@@ -349,37 +349,30 @@ const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Ve
 💰 Total estimado: ${formatearEuros(resumen.total)}
 🆔 Código: ${codigoInscripcion}`;
 
-window.open(
-  `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`,
-  "_blank"
-);
-
-// 👇 DESPUÉS LIMPIAS FORMULARIO
+// 👇 PRIMERO LIMPIAS FORMULARIO
 setNombreNino("");
-        setEdad("");
-        setEmail("");
-        setHermanosTexto("");
-        setPropietario("No");
-        setDireccionPropietario("");
-        setSede("El Carmen");
-        setSemanasSeleccionadas([]);
-        setSemanasCalculadora(0);
-        setDiasSueltosTexto("");
-        setDiasSueltosNumero(0);
-        setServiciosSeleccionados([]);
-        setPadreMadre("");
-        setTelefono("");
-        setSegundoContacto("");
-        setTelefono2("");
-        setObservaciones("");
-        setErrores({});
-      }, 900);
-    } catch (error) {
-      setEstadoEnvio("error");
-      setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
-    }
-  }
+setEdad("");
+setEmail("");
+setHermanosTexto("");
+setPropietario("No");
+setDireccionPropietario("");
+setSede("El Carmen");
+setSemanasSeleccionadas([]);
+setSemanasCalculadora(0);
+setDiasSueltosTexto("");
+setDiasSueltosNumero(0);
+setServiciosSeleccionados([]);
+setPadreMadre("");
+setTelefono("");
+setSegundoContacto("");
+setTelefono2("");
+setObservaciones("");
+setErrores({});
 
+// 👉 DESPUÉS ABRES WHATSAPP
+setTimeout(() => {
+  window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
+}, 500);
   return (
     <div className="min-h-screen bg-[#F8FBFF] text-[#071B4D]">
       <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
