@@ -514,9 +514,9 @@ enviarAGoogleForms(formData);
                 <p className="mt-2 text-xl font-black text-[#071B4D]">El Carmen · El Mirador de Santa Eufemia</p>
                 <p className="mt-2 text-sm text-slate-600">Actividades, piscina, talleres y juegos organizados por semanas.</p>
               </div>
-              <div className="absolute left-1/2 top-1/2 flex h-48 w-48 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 p-6 shadow-2xl md:h-64 md:w-64">
-                <Logo className="max-h-full max-w-full object-contain" />
-              </div>
+             <div className="absolute left-1/2 top-1/2 flex h-44 w-44 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:h-56 md:w-56">
+  <Logo className="h-28 w-auto object-contain md:h-36" />
+</div>
             </div>
           </div>
         </section>
@@ -934,7 +934,7 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
       <footer className="bg-white px-5 py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 border-t border-blue-100 pt-8 text-center md:flex-row md:justify-between md:text-left">
           <div className="flex flex-col items-center gap-3 md:flex-row">
-            <Logo className="h-full w-auto object-contain" />
+            <Logo className="h-12 w-auto object-contain md:h-14" />
             <div>
               <p className="font-black text-blue-900">El Columpio Animación</p>
               <p className="text-sm text-slate-500">Campus, eventos infantiles y experiencias familiares</p>
