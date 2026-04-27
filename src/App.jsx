@@ -537,7 +537,7 @@ enviarAGoogleForms(formData);
           <div className="mb-8 text-center">
             <p className="text-sm font-black uppercase tracking-[0.25em] text-blue-700">Galería</p>
             <h2 className="mt-2 text-3xl font-black text-[#071B4D]">Así se vive el campus</h2>
-            <p className="mt-3 text-slate-600">Imágenes reales para transmitir confianza a los padres</p>
+           <p className="mt-3 text-slate-600">Momentos de diversión, juegos y actividades del campus</p>
           </div>
 
 <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
