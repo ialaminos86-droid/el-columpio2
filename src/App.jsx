@@ -373,11 +373,16 @@ enviarAGoogleForms(formData);
   setErrores({});
 
   // 👉 WHATSAPP
-  setTimeout(() => {
-    window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
-  }, 500);
+        setTimeout(() => {
+        window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
+      }, 500);
 
-}, 900); 
+    }, 900);
+  } catch (error) {
+    setEstadoEnvio("error");
+    setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
+  }
+}
   return (
     <div className="min-h-screen bg-[#F8FBFF] text-[#071B4D]">
       <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
