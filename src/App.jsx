@@ -170,7 +170,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
     const numeroSemanas = semanasSeleccionadas.length;
     const diasTotales = numeroSemanas * 5 + diasSueltosNumero;
     const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
-    const precioMatricula = matricula ? 12;
+    const precioMatricula = 12;
     const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
     const precioDiasSueltos = diasSueltosNumero * precioDiaSuelto;
 
@@ -202,7 +202,7 @@ const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 
       precioComedor,
       total,
     };
-  }, [tipoCliente, matricula, semanasSeleccionadas, diasSueltosNumero, serviciosSeleccionados]);
+  }, [tipoCliente, semanasSeleccionadas, diasSueltosNumero, serviciosSeleccionados]);
   
 const resumenCalculadora = useMemo(() => {
   const numeroSemanas = semanasCalculadora;
