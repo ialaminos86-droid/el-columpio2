@@ -414,7 +414,7 @@ enviarAGoogleForms(formData);
           <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
             <div className="relative z-10 flex flex-col justify-center">
               <div className="mb-6 flex items-center gap-4">
-                <Logo className="h-20 w-auto object-contain drop-shadow-sm" />
+                <Logo className="h-32 w-auto object-contain drop-shadow-lg" />
                 <div className="hidden rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-blue-50 sm:block">
                   <p className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">Kids events & entertainment</p>
                   <p className="text-sm font-black text-blue-800">Campus de Verano 2026</p>
@@ -833,7 +833,7 @@ enviarAGoogleForms(formData);
       <footer className="bg-white px-5 py-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-blue-100 pt-8 text-center md:flex-row md:text-left">
           <div className="flex items-center gap-3">
-            <Logo className="h-14 w-auto object-contain" />
+            <Logo className="h-full w-auto object-contain" />
             <div>
               <p className="font-black text-blue-900">El Columpio Animación</p>
               <p className="text-sm text-slate-500">Campus, eventos infantiles y experiencias familiares</p>
