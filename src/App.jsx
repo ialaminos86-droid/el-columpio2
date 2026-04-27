@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-import logoColumpio from "./assets/logocolumpio.png";
-
-const LOGO_SRC = logoColumpio;
+const LOGO_SRC = "/assets/logocolumpio.png";
 
 const FORM_CONFIG = {
   formUrl:
