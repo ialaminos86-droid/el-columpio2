@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-import logoColumpio from "./src/assets/logocolumpio.png";
+import logoColumpio from "./assets/logocolumpio.png";
+
 const LOGO_SRC = logoColumpio;
 
 const FORM_CONFIG = {
