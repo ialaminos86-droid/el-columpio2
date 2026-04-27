@@ -689,6 +689,14 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
               <h3 className="mt-4 text-5xl font-black text-amber-300">
   {formatearEuros(resumenCalculadora.total)}
 </h3>
+              <p className="mt-2 text-center text-xs text-blue-100">
+  {resumenCalculadora.diasTotales > 0
+    ? `(${formatearEuros(resumenCalculadora.total / resumenCalculadora.diasTotales)} / día)`
+    : ""}
+</p>
+              <p className="mt-2 text-center text-sm text-green-200 font-bold">
+  ✅ Reserva tu plaza en menos de 1 minuto
+</p>
               <div className="mt-8 space-y-4 text-sm">
                 {[
   ["Matrícula", resumenCalculadora.precioMatricula],
@@ -863,7 +871,9 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 </div>
 
                 <textarea value={observaciones} onChange={(event) => setObservaciones(event.target.value)} className="min-h-[110px] w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Observaciones: alergias, medicación o información importante" />
-
+<p className="rounded-xl bg-amber-50 px-4 py-3 text-center text-sm font-bold text-amber-700 ring-1 ring-amber-100">
+  ⚠️ Plazas limitadas por grupo de edad y sede
+</p>
                 <button type="submit" disabled={estadoEnvio === "loading"} className="rounded-xl bg-blue-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800 disabled:opacity-70">
                   ✈️ {estadoEnvio === "loading" ? "Enviando..." : "Enviar inscripción"}
                 </button>
@@ -889,6 +899,14 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
               <div className="my-6 border-t border-dashed border-amber-300" />
               <p className="text-center text-sm font-black uppercase text-blue-800">Precio orientativo</p>
               <p className="mt-2 text-center text-4xl font-black text-blue-900">{formatearEuros(resumen.total)}</p>
+              <p className="mt-2 text-center text-xs text-slate-500">
+  {resumen.diasTotales > 0
+    ? `(${formatearEuros(resumen.total / resumen.diasTotales)} / día)`
+    : ""}
+</p>
+              <p className="mt-2 text-center text-sm text-green-700 font-bold">
+  ✅ Inscripción rápida en menos de 1 minuto
+</p>
               <p className="mt-4 rounded-2xl bg-white p-4 text-sm leading-6 text-slate-600">Este es el precio orientativo según los datos introducidos. El importe final se confirmará tras revisar la inscripción.</p>
               <a href="https://wa.me/34611503688" className="mt-5 flex items-center justify-center rounded-2xl border border-emerald-200 bg-white p-4 text-center font-black text-emerald-700">
                 💬 ¿Dudas? 611 503 688
