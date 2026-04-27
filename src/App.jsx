@@ -424,12 +424,11 @@ enviarAGoogleForms(formData);
 }
   return (
     <div className="min-h-screen bg-[#F8FBFF] text-[#071B4D]">
-      <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3">
-          <a href="#inicio" className="flex items-center gap-3">
-            <Logo className="h-16 w-auto object-contain md:h-20" />
-          </a>
-
+  <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
+    <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2">
+      <a href="#inicio" className="flex items-center gap-2">
+        <Logo className="h-11 w-auto object-contain md:h-14" />
+      </a>
           <nav className="hidden items-center gap-8 text-sm font-black text-[#071B4D] md:flex">
             <a href="#inicio" className="hover:text-blue-700">Inicio</a>
             <a href="#actividades" className="hover:text-blue-700">Actividades</a>
@@ -447,18 +446,24 @@ enviarAGoogleForms(formData);
         </div>
       </header>
 
-      <main id="inicio">
-        <section className="relative overflow-hidden bg-white">
-          <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
-            <div className="relative z-10 flex flex-col justify-center">
-              <div className="mb-6 flex items-center gap-4">
-                <Logo className="h-32 w-auto object-contain drop-shadow-lg" />
-                <div className="hidden rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-blue-50 sm:block">
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">Kids events & entertainment</p>
-                  <p className="text-sm font-black text-blue-800">Campus de Verano 2026</p>
-                </div>
-              </div>
+     <main id="inicio">
+  <section className="relative overflow-hidden bg-white">
+    <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
+
+    <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
+      
+      <div className="relative z-10 flex flex-col justify-center">
+        
+        <div className="mb-6">
+          <div className="inline-block rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-blue-50">
+            <p className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">
+              Kids events & entertainment
+            </p>
+            <p className="text-sm font-black text-blue-800">
+              Campus de Verano 2026
+            </p>
+          </div>
+        </div>
 
               <h1 className="max-w-2xl text-4xl font-black leading-tight tracking-tight text-[#071B4D] md:text-6xl">
                 Un verano para disfrutar, crecer y conciliar con <span className="text-amber-400">tranquilidad.</span>
@@ -927,8 +932,8 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
       </main>
 
       <footer className="bg-white px-5 py-8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-blue-100 pt-8 text-center md:flex-row md:text-left">
-          <div className="flex items-center gap-3">
+        <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 border-t border-blue-100 pt-8 text-center md:flex-row md:justify-between md:text-left">
+          <div className="flex flex-col items-center gap-3 md:flex-row">
             <Logo className="h-full w-auto object-contain" />
             <div>
               <p className="font-black text-blue-900">El Columpio Animación</p>
