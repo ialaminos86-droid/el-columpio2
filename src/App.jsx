@@ -155,7 +155,8 @@ const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
   const [sede, setSede] = useState("El Carmen");
   const [semanasSeleccionadas, setSemanasSeleccionadas] = useState([]);
   const [diasSueltosTexto, setDiasSueltosTexto] = useState("");
-  const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
+  const [serviciosCalculadora, setServiciosCalculadora] = useState([]);
+const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
   const [padreMadre, setPadreMadre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [segundoContacto, setSegundoContacto] = useState("");
@@ -201,8 +202,45 @@ const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 
       precioComedor,
       total,
     };
-  }, [tipoCliente, matricula, semanasCalculadora, diasSueltosNumero, serviciosSeleccionados]);
+  }, [tipoCliente, matricula, semanasSeleccionadas, diasSueltosNumero, serviciosSeleccionados]);
+  
+const resumenCalculadora = useMemo(() => {
+  const numeroSemanas = semanasCalculadora;
+  const diasTotales = numeroSemanas * 5 + diasSueltosCalculadora;
+  const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
+  const precioMatricula = matricula ? 12 : 0;
+  const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
+  const precioDiasSueltos = diasSueltosCalculadora * precioDiaSuelto;
 
+  const tieneMatinal = serviciosCalculadora.includes("Aula matinal: 8:00 a 9:00");
+  const tienePostcampus = serviciosCalculadora.includes("Postcampus: 14:00 a 16:00");
+  const tieneComedor = serviciosCalculadora.includes("Postcampus+Comedor: 14:00 a 16:00");
+
+  const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
+  const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
+  const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
+
+  const total =
+    precioMatricula +
+    precioSemanas +
+    precioDiasSueltos +
+    precioMatinal +
+    precioPostcampus +
+    precioComedor;
+
+  return {
+    numeroSemanas,
+    diasTotales,
+    precioMatricula,
+    precioSemanas,
+    precioDiasSueltos,
+    precioMatinal,
+    precioPostcampus,
+    precioComedor,
+    total,
+  };
+}, [tipoCliente, matricula, semanasCalculadora, diasSueltosCalculadora, serviciosCalculadora]);
+  
   const semanasTexto = semanasSeleccionadas.join(" | ");
   const serviciosTexto = serviciosSeleccionados.join(" | ");
 
@@ -215,7 +253,7 @@ const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 
       `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
       `Días calculados para extras: ${resumen.diasTotales}`,
       `Matrícula: ${matricula ? "Sí" : "No"}`,
-      `Total estimado: ${formatearEuros(resumen.total)}`,
+      `Total estimado: ${formatearEuros(resumenCalculadora.total)}`,
     ].join(" | ");
   }, [
     tipoCliente,
@@ -351,7 +389,7 @@ enviarAGoogleForms(formData);
 📅 Semanas: ${semanasTexto || "Días sueltos"}
 ➕ Servicios: ${serviciosTexto || "Sin extras"}
 
-💰 Total estimado: ${formatearEuros(resumen.total)}
+💰 Total estimado: ${formatearEuros(resumenCalculadora.total)}
 🆔 Código: ${codigoInscripcion}`;
 
   // 👇 LIMPIAS FORMULARIO
@@ -628,16 +666,16 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 <label className="mb-3 block text-sm font-black text-[#071B4D]">Servicios extra</label>
                 <div className="grid gap-3">
                   {SERVICIOS.map((servicio) => (
-                    <label key={servicio} className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#071B4D] hover:bg-blue-50">
-                      <input
-                        type="checkbox"
-                        checked={serviciosSeleccionados.includes(servicio)}
-                        onChange={() => setServiciosSeleccionados((prev) => toggleArrayValue(prev, servicio))}
-                        className="h-4 w-4"
-                      />
-                      <span>{servicio}</span>
-                    </label>
-                  ))}
+  <label key={servicio} className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#071B4D] hover:bg-blue-50">
+    <input
+      type="checkbox"
+      checked={serviciosCalculadora.includes(servicio)}
+      onChange={() => setServiciosCalculadora((prev) => toggleArrayValue(prev, servicio))}
+      className="h-4 w-4"
+    />
+    <span>{servicio}</span>
+  </label>
+))}
                 </div>
               </div>
 
@@ -649,16 +687,19 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
 
             <div className="rounded-[2rem] bg-gradient-to-br from-blue-900 to-blue-700 p-7 text-white shadow-xl">
               <p className="text-sm font-black uppercase tracking-[0.25em] text-sky-200">Resumen estimado</p>
-              <h3 className="mt-4 text-5xl font-black text-amber-300">{formatearEuros(resumen.total)}</h3>
+              <h3 className="mt-4 text-5xl font-black text-amber-300">
+  {formatearEuros(resumenCalculadora.total)}
+</h3>
               <div className="mt-8 space-y-4 text-sm">
                 {[
-                  ["Matrícula", resumen.precioMatricula],
-                  [`Semanas completas (${resumen.numeroSemanas})`, resumen.precioSemanas],
-                  [`Días sueltos (${diasSueltosNumero})`, resumen.precioDiasSueltos],
-                  [`Aula matinal (${resumen.diasTotales} días)`, resumen.precioMatinal],
-                  ["Postcampus", resumen.precioPostcampus],
-                  ["Comedor", resumen.precioComedor],
-                ].map(([label, value]) => (
+                 [
+  ["Matrícula", resumenCalculadora.precioMatricula],
+  [`Semanas completas (${resumenCalculadora.numeroSemanas})`, resumenCalculadora.precioSemanas],
+  [`Días sueltos (${diasSueltosCalculadora})`, resumenCalculadora.precioDiasSueltos],
+  [`Aula matinal (${resumenCalculadora.diasTotales} días)`, resumenCalculadora.precioMatinal],
+  ["Postcampus", resumenCalculadora.precioPostcampus],
+  ["Comedor", resumenCalculadora.precioComedor],
+].map(([label, value]) => (
                   <div key={label} className="flex items-center justify-between border-b border-white/10 pb-3">
                     <span className="text-blue-100">{label}</span>
                     <span className="font-black">{formatearEuros(value)}</span>
@@ -666,7 +707,7 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 ))}
                 <div className="flex items-center justify-between pt-2 text-lg font-black">
                   <span>TOTAL ESTIMADO</span>
-                  <span className="text-amber-300">{formatearEuros(resumen.total)}</span>
+                  <span className="text-amber-300">{formatearEuros(resumenCalculadora.total)}</span>
                 </div>
               </div>
               <p className="mt-6 rounded-2xl bg-white/10 p-4 text-sm leading-6 text-blue-50">Precio orientativo. El importe final se confirmará tras revisar la inscripción.</p>
