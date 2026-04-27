@@ -425,27 +425,27 @@ enviarAGoogleForms(formData);
   return (
     <div className="min-h-screen bg-[#F8FBFF] text-[#071B4D]">
   <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
-    <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-2">
-      <a href="#inicio" className="flex items-center gap-2">
-        <Logo className="h-11 w-auto object-contain md:h-14" />
-      </a>
-          <nav className="hidden items-center gap-8 text-sm font-black text-[#071B4D] md:flex">
-            <a href="#inicio" className="hover:text-blue-700">Inicio</a>
-            <a href="#actividades" className="hover:text-blue-700">Actividades</a>
-            <a href="#precios" className="hover:text-blue-700">Precios</a>
-            <a href="#inscripcion" className="hover:text-blue-700">Inscripción</a>
-            <a href="https://wa.me/34611503688" className="hover:text-blue-700">Contacto</a>
-          </nav>
+  <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 md:px-5">
+    <a href="#inicio" className="flex shrink-0 items-center">
+      <Logo className="h-10 w-auto object-contain md:h-14" />
+    </a>
 
-          <a
-            href="#inscripcion"
-            className="rounded-xl bg-blue-700 px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800"
-          >
-            Inscribir ahora
-          </a>
-        </div>
-      </header>
+    <nav className="hidden items-center gap-8 text-sm font-black text-[#071B4D] md:flex">
+      <a href="#inicio" className="hover:text-blue-700">Inicio</a>
+      <a href="#actividades" className="hover:text-blue-700">Actividades</a>
+      <a href="#precios" className="hover:text-blue-700">Precios</a>
+      <a href="#inscripcion" className="hover:text-blue-700">Inscripción</a>
+      <a href="https://wa.me/34611503688" className="hover:text-blue-700">Contacto</a>
+    </nav>
 
+    <a
+      href="#inscripcion"
+      className="shrink-0 rounded-xl bg-blue-700 px-4 py-3 text-xs font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800 md:px-5 md:text-sm"
+    >
+      Inscribirme
+    </a>
+  </div>
+</header>
      <main id="inicio">
   <section className="relative overflow-hidden bg-white">
     <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
@@ -474,7 +474,7 @@ enviarAGoogleForms(formData);
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a href="#inscripcion" className="rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800">
-                  👤 Quiero inscribir a mi hijo
+                  👤 Quiero plaza
                 </a>
                 <a href="https://wa.me/34611503688" className="rounded-xl border border-blue-200 bg-white px-6 py-4 text-center text-base font-black text-blue-700 transition hover:bg-blue-50">
                   💬 Consultar por WhatsApp
