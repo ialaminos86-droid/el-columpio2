@@ -540,29 +540,42 @@ enviarAGoogleForms(formData);
             <p className="mt-3 text-slate-600">Imágenes reales para transmitir confianza a los padres</p>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {[
-              "/galeria/img1.jpg",
-              "/galeria/img2.jpg",
-              "/galeria/img3.jpg",
-              "/galeria/img4.jpg",
-              "/galeria/img5.jpg",
-              "/galeria/img6.jpg",
-              "/galeria/img7.jpg",
-              "/galeria/img8.jpg",
-            ].map((src, index) => (
-              <div key={src} className="group overflow-hidden rounded-2xl bg-slate-100">
-                <img
-                  src={src}
-                  alt={`Campus El Columpio ${index + 1}`}
-                  className="h-48 w-full object-cover transition duration-300 group-hover:scale-110"
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  {[
+    "/galeria/img01.jpg",
+    "/galeria/img1.jpg",
+    "/galeria/img2.jpg",
+    "/galeria/img3.jpg",
+    "/galeria/img4.jpg",
+    "/galeria/img05.jpg",
+    "/galeria/img6.jpg",
+    "/galeria/img7.jpg",
+    "/galeria/img8.jpg",
+    "/galeria/img9.jpg",
+    "/galeria/img10.jpg",
+    "/galeria/img11.jpg",
+    "/galeria/img13.jpg",
+    "/galeria/img14.jpg",
+    "/galeria/img15.jpg",
+  ].map((src, index) => (
+    <div
+      key={src}
+      className="group relative overflow-hidden rounded-2xl bg-slate-100"
+    >
+      <img
+        src={src}
+        alt={`Campus El Columpio ${index + 1}`}
+        className="h-48 w-full object-cover transition duration-300 group-hover:scale-110"
+        onError={(event) => {
+          event.currentTarget.src = "/galeria/img1.jpg";
+        }}
+      />
+
+      {/* Overlay efecto pro */}
+      <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/20" />
+    </div>
+  ))}
+</div>
         </section>
 
         <section className="mx-auto max-w-7xl px-5 py-14">
