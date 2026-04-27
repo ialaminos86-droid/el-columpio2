@@ -333,14 +333,15 @@ Código inscripción: ${codigoInscripcion}`
 
 enviarAGoogleForms(formData);
 
-      setTimeout(() => {
-       setEstadoEnvio("success");
-setMensajeEnvio(
-  `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
-);
+    setTimeout(() => {
+  setEstadoEnvio("success");
 
-// 👉 MENSAJE WHATSAPP
-const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
+  setMensajeEnvio(
+    `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
+  );
+
+  // 👉 MENSAJE WHATSAPP
+  const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
 
 👤 Niño/a: ${nombreNino}
 🎂 Edad: ${edad}
@@ -351,30 +352,32 @@ const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Ve
 💰 Total estimado: ${formatearEuros(resumen.total)}
 🆔 Código: ${codigoInscripcion}`;
 
-// 👇 PRIMERO LIMPIAS FORMULARIO
-setNombreNino("");
-setEdad("");
-setEmail("");
-setHermanosTexto("");
-setPropietario("No");
-setDireccionPropietario("");
-setSede("El Carmen");
-setSemanasSeleccionadas([]);
-setSemanasCalculadora(0);
-setDiasSueltosTexto("");
-setDiasSueltosNumero(0);
-setServiciosSeleccionados([]);
-setPadreMadre("");
-setTelefono("");
-setSegundoContacto("");
-setTelefono2("");
-setObservaciones("");
-setErrores({});
+  // 👇 LIMPIAS FORMULARIO
+  setNombreNino("");
+  setEdad("");
+  setEmail("");
+  setHermanosTexto("");
+  setPropietario("No");
+  setDireccionPropietario("");
+  setSede("El Carmen");
+  setSemanasSeleccionadas([]);
+  setSemanasCalculadora(0);
+  setDiasSueltosTexto("");
+  setDiasSueltosNumero(0);
+  setServiciosSeleccionados([]);
+  setPadreMadre("");
+  setTelefono("");
+  setSegundoContacto("");
+  setTelefono2("");
+  setObservaciones("");
+  setErrores({});
 
-// 👉 DESPUÉS ABRES WHATSAPP
-setTimeout(() => {
-  window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
-}, 500);
+  // 👉 WHATSAPP
+  setTimeout(() => {
+    window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
+  }, 500);
+
+}, 900); 
   return (
     <div className="min-h-screen bg-[#F8FBFF] text-[#071B4D]">
       <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
