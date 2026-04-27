@@ -290,7 +290,7 @@ const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 
 
       const codigoInscripcion = `WEB-${Date.now()}`;
       const formData = new FormData();
-      formData.append("emailAddress", email.trim());
+     formData.append(FORM_CONFIG.fields.email, email.trim());
      formData.append(FORM_CONFIG.fields.nombreNino,`${nombreNino.trim()} - ${edad.trim()} años`
 );
       formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
