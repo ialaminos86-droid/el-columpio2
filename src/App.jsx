@@ -170,7 +170,7 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
     const numeroSemanas = semanasSeleccionadas.length;
     const diasTotales = numeroSemanas * 5 + diasSueltosNumero;
     const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
-    const precioMatricula = matricula ? 12 : 0;
+    const precioMatricula = matricula ? 12;
     const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
     const precioDiasSueltos = diasSueltosNumero * precioDiaSuelto;
 
@@ -252,7 +252,7 @@ const resumenCalculadora = useMemo(() => {
       `Días sueltos para cálculo: ${diasSueltosNumero}`,
       `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
       `Días calculados para extras: ${resumen.diasTotales}`,
-      `Matrícula: ${matricula ? "Sí" : "No"}`,
+      `Matrícula: Sí`,
       `Total estimado: ${formatearEuros(resumen.total)}`,
     ].join(" | ");
   }, [
@@ -884,7 +884,7 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 <div className="flex justify-between gap-4"><span>📅 Días sueltos</span><strong>{diasSueltosNumero}</strong></div>
                 <div className="flex justify-between gap-4"><span>⏱️ Días para extras</span><strong>{resumen.diasTotales}</strong></div>
                 <div className="flex justify-between gap-4"><span>🧩 Servicios</span><strong className="text-right">{serviciosTexto || "Sin extras"}</strong></div>
-                <div className="flex justify-between gap-4"><span>🧾 Matrícula</span><strong>{matricula ? "Sí" : "No"}</strong></div>
+                <div className="flex justify-between gap-4"><span>🧾 Matrícula</span><strong>Sí</strong></div>
               </div>
               <div className="my-6 border-t border-dashed border-amber-300" />
               <p className="text-center text-sm font-black uppercase text-blue-800">Precio orientativo</p>
