@@ -543,7 +543,6 @@ enviarAGoogleForms(formData);
 <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
   {[
     "/galeria/img01.jpg",
-    "/galeria/img1.jpg",
     "/galeria/img2.jpg",
     "/galeria/img3.jpg",
     "/galeria/img4.jpg",
