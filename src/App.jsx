@@ -760,7 +760,35 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                   {errores.semanas ? <p className="mt-2 text-xs text-rose-600">{errores.semanas}</p> : null}
                 </div>
 
-                <input value={diasSueltosTexto} onChange={(event) => setDiasSueltosTexto(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Días sueltos: especificar si aplica" />
+                <div className="grid gap-4 md:grid-cols-2">
+  <div>
+    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+      Días sueltos: especificar fechas
+    </label>
+    <input
+      value={diasSueltosTexto}
+      onChange={(event) => setDiasSueltosTexto(event.target.value)}
+      className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+      placeholder="Ej: 24 junio, 25 junio..."
+    />
+  </div>
+
+  <div>
+    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+      Nº de días sueltos
+    </label>
+    <input
+      type="number"
+      min="0"
+      value={diasSueltosNumero}
+      onChange={(event) =>
+        setDiasSueltosNumero(Math.max(0, Number(event.target.value) || 0))
+      }
+      className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-lg font-black outline-none focus:border-blue-500"
+      placeholder="0"
+    />
+  </div>
+</div>
 
                 <div>
                   <label className="mb-2 block text-sm font-bold text-[#071B4D]">Servicios extra</label>
