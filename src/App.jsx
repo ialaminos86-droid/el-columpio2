@@ -142,7 +142,9 @@ export default function App() {
   const [tipoCliente, setTipoCliente] = useState("socio");
   const [matricula, setMatricula] = useState(true);
   const [semanasCalculadora, setSemanasCalculadora] = useState(0);
-  const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
+const [diasSueltosCalculadora, setDiasSueltosCalculadora] = useState(0);
+
+const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
 
   const [nombreNino, setNombreNino] = useState("");
   const [edad, setEdad] = useState("");
@@ -164,7 +166,7 @@ export default function App() {
   const [mensajeEnvio, setMensajeEnvio] = useState("");
 
   const resumen = useMemo(() => {
-    const numeroSemanas = semanasCalculadora;
+    const numeroSemanas = semanasSeleccionadas.length;
     const diasTotales = numeroSemanas * 5 + diasSueltosNumero;
     const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
     const precioMatricula = matricula ? 12 : 0;
@@ -614,8 +616,8 @@ enviarAGoogleForms(formData);
                   <input
                     type="number"
                     min="0"
-                    value={diasSueltosNumero}
-                    onChange={(event) => setDiasSueltosNumero(Math.max(0, Number(event.target.value) || 0))}
+                    value={diasSueltosCalculadora}
+onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.value) || 0))}
                     className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-xl font-black outline-none focus:border-blue-500"
                   />
                   <p className="mt-2 text-xs text-slate-500">Se añadirán al total</p>
@@ -747,8 +749,7 @@ enviarAGoogleForms(formData);
                           type="checkbox"
                           checked={semanasSeleccionadas.includes(semana)}
                           onChange={() => setSemanasSeleccionadas((prev) => {
-                            const nuevas = toggleArrayValue(prev, semana);
-                            setSemanasCalculadora(nuevas.length);
+                            const nuevas = toggleArrayValue(prev, semana)
                             return nuevas;
                           })}
                         />
