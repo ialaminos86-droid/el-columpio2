@@ -253,7 +253,7 @@ const resumenCalculadora = useMemo(() => {
       `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
       `Días calculados para extras: ${resumen.diasTotales}`,
       `Matrícula: ${matricula ? "Sí" : "No"}`,
-      `Total estimado: ${formatearEuros(resumenCalculadora.total)}`,
+      `Total estimado: ${formatearEuros(resumen.total)}`,
     ].join(" | ");
   }, [
     tipoCliente,
@@ -389,7 +389,7 @@ enviarAGoogleForms(formData);
 📅 Semanas: ${semanasTexto || "Días sueltos"}
 ➕ Servicios: ${serviciosTexto || "Sin extras"}
 
-💰 Total estimado: ${formatearEuros(resumenCalculadora.total)}
+💰 Total estimado: ${formatearEuros(resumen.total)}
 🆔 Código: ${codigoInscripcion}`;
 
   // 👇 LIMPIAS FORMULARIO
@@ -401,7 +401,6 @@ enviarAGoogleForms(formData);
   setDireccionPropietario("");
   setSede("El Carmen");
   setSemanasSeleccionadas([]);
-  setSemanasCalculadora(0);
   setDiasSueltosTexto("");
   setDiasSueltosNumero(0);
   setServiciosSeleccionados([]);
@@ -692,7 +691,6 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
 </h3>
               <div className="mt-8 space-y-4 text-sm">
                 {[
-                 [
   ["Matrícula", resumenCalculadora.precioMatricula],
   [`Semanas completas (${resumenCalculadora.numeroSemanas})`, resumenCalculadora.precioSemanas],
   [`Días sueltos (${diasSueltosCalculadora})`, resumenCalculadora.precioDiasSueltos],
