@@ -8,6 +8,7 @@ const FORM_CONFIG = {
   fields: {
     nombreNino: "entry.1632689659",
     edad: "entry.1212973234",
+    email: "entry.1799819209",    
     hermanosTexto: "entry.367621578",
     propietario: "entry.1387418677",
     direccionPropietario: "entry.1599358046",
@@ -289,35 +290,46 @@ const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 
       setMensajeEnvio("Enviando inscripción...");
 
       const codigoInscripcion = `WEB-${Date.now()}`;
-      const formData = new FormData();
-     formData.append(FORM_CONFIG.fields.email, email.trim());
-    formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
+const formData = new FormData();
+
+formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
 formData.append(FORM_CONFIG.fields.edad, edad.trim());
 formData.append(FORM_CONFIG.fields.email, email.trim());
-      formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
-      formData.append(FORM_CONFIG.fields.propietario, propietario);
-      formData.append(
-        FORM_CONFIG.fields.direccionPropietario,
-        propietario === "Si" ? direccionPropietario.trim() : "No aplica"
-      );
-      formData.append(FORM_CONFIG.fields.sede, sede);
-      formData.append(FORM_CONFIG.fields.semanasTexto, semanasTexto || "No selecciona semanas completas");
-      formData.append(FORM_CONFIG.fields.diasSueltosTexto, diasSueltosTexto.trim() || "No solicita días sueltos");
-      formData.append(FORM_CONFIG.fields.serviciosExtras, serviciosTexto || "Sin servicios extra");
-      formData.append(FORM_CONFIG.fields.padreMadre, padreMadre.trim());
-      formData.append(FORM_CONFIG.fields.telefono, telefono.trim());
-      formData.append(FORM_CONFIG.fields.segundoContacto, segundoContacto.trim() || "No indicado");
-      formData.append(FORM_CONFIG.fields.telefono2, telefono2.trim() || "No indicado");
-      formData.append(
-        FORM_CONFIG.fields.observaciones,
-        `${observaciones.trim() || "Sin observaciones"}
+formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
+formData.append(FORM_CONFIG.fields.propietario, propietario);
+formData.append(
+  FORM_CONFIG.fields.direccionPropietario,
+  propietario === "Si" ? direccionPropietario.trim() : "No aplica"
+);
+formData.append(FORM_CONFIG.fields.sede, sede);
+
+semanasSeleccionadas.forEach((semana) => {
+  formData.append(FORM_CONFIG.fields.semanasTexto, semana);
+});
+
+formData.append(
+  FORM_CONFIG.fields.diasSueltosTexto,
+  diasSueltosTexto.trim() || "No solicita días sueltos"
+);
+
+serviciosSeleccionados.forEach((servicio) => {
+  formData.append(FORM_CONFIG.fields.serviciosExtras, servicio);
+});
+
+formData.append(FORM_CONFIG.fields.padreMadre, padreMadre.trim());
+formData.append(FORM_CONFIG.fields.telefono, telefono.trim());
+formData.append(FORM_CONFIG.fields.segundoContacto, segundoContacto.trim() || "No indicado");
+formData.append(FORM_CONFIG.fields.telefono2, telefono2.trim() || "No indicado");
+formData.append(
+  FORM_CONFIG.fields.observaciones,
+  `${observaciones.trim() || "Sin observaciones"}
 
 Resumen web: ${resumenTexto}
 
 Código inscripción: ${codigoInscripcion}`
-      );
+);
 
-      enviarAGoogleForms(formData);
+enviarAGoogleForms(formData);
 
       setTimeout(() => {
         setEstadoEnvio("success");
