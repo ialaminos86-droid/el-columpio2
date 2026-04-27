@@ -332,11 +332,30 @@ Código inscripción: ${codigoInscripcion}`
 enviarAGoogleForms(formData);
 
       setTimeout(() => {
-        setEstadoEnvio("success");
-        setMensajeEnvio(
-          `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
-        );
-        setNombreNino("");
+       setEstadoEnvio("success");
+setMensajeEnvio(
+  `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
+);
+
+// 👉 AQUI METES WHATSAPP
+const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
+
+👤 Niño/a: ${nombreNino}
+🎂 Edad: ${edad}
+📍 Sede: ${sede}
+📅 Semanas: ${semanasTexto || "Días sueltos"}
+➕ Servicios: ${serviciosTexto || "Sin extras"}
+
+💰 Total estimado: ${formatearEuros(resumen.total)}
+🆔 Código: ${codigoInscripcion}`;
+
+window.open(
+  `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`,
+  "_blank"
+);
+
+// 👇 DESPUÉS LIMPIAS FORMULARIO
+setNombreNino("");
         setEdad("");
         setEmail("");
         setHermanosTexto("");
