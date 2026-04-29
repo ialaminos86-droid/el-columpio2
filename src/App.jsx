@@ -505,78 +505,108 @@ Código inscripción: ${codigoInscripcion}`
       </header>
 
       <main id="inicio">
-        <section className="relative overflow-hidden bg-white">
-          <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
+       <section className="relative overflow-hidden bg-white">
+  <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
 
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
-            <div className="relative z-10 flex flex-col justify-center">
-              <div className="mb-6">
-                <div className="inline-block rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-blue-50">
-                  <p className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">
-                    Kids events & entertainment
-                  </p>
-                  <p className="text-sm font-black text-blue-800">
-                    Campus de Verano 2026
-                  </p>
-                </div>
-              </div>
+  <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
+    <div className="relative z-10 flex flex-col justify-center">
+      <div className="mb-5 inline-flex w-fit rounded-full bg-amber-100 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-amber-700 ring-1 ring-amber-200">
+        Plazas limitadas · Inscripciones abiertas 2026
+      </div>
 
-              <h1 className="max-w-2xl text-4xl font-black leading-tight tracking-tight text-[#071B4D] md:text-6xl">
-                Un verano para disfrutar, crecer y conciliar con <span className="text-amber-400">tranquilidad.</span>
-              </h1>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
-                Campus de Verano El Columpio 2026 en El Carmen y El Mirador de Santa Eufemia. Deportes, piscina, talleres, juegos y semanas temáticas para que cada niño viva un verano inolvidable.
-              </p>
+      <h1 className="max-w-2xl text-4xl font-black leading-tight tracking-tight text-[#071B4D] md:text-6xl">
+        Campus de verano en Tomares y el Aljarafe
+        <span className="block text-amber-400">
+          diversión, piscina y tranquilidad para las familias.
+        </span>
+      </h1>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href="#inscripcion" className="rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800">
-                  👤 Quiero plaza
-                </a>
-                <a href="https://wa.me/34611503688" className="rounded-xl border border-blue-200 bg-white px-6 py-4 text-center text-base font-black text-blue-700 transition hover:bg-blue-50">
-                  💬 Consultar por WhatsApp
-                </a>
-              </div>
+      <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+        Más de 250 niños cada verano desde 2018. Actividades deportivas,
+        talleres, juegos, semanas temáticas y piscina diaria en un entorno seguro.
+      </p>
 
-              <div className="mt-9 grid grid-cols-2 items-stretch gap-4 md:grid-cols-4">
-                {[
-                  ["👥", "+250", "niños cada verano"],
-                  ["🏅", "Desde 2018", "creciendo juntos"],
-                  ["❤️", "Monitores", "con experiencia"],
-                  ["💬", "Comunicación", "directa con familias"],
-                ].map(([icono, titulo, texto]) => (
-                  <div key={titulo} className="flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-blue-50">
-                    <span className="text-3xl">{icono}</span>
-                    <p className="text-base font-black leading-tight text-blue-700">
-                      {titulo === "+250" ? <AnimatedCounter prefix="+" value={250} /> : titulo}
-                    </p>
-                    <p className="text-xs leading-tight text-slate-500">{texto}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <div className="mt-6 grid gap-3 text-sm font-bold text-[#071B4D] sm:grid-cols-2">
+        <p>✅ Piscina todos los días</p>
+        <p>✅ Monitores con experiencia</p>
+        <p>✅ Grupos por edades</p>
+        <p>✅ Comunicación directa con padres</p>
+        <p>✅ Horario flexible de 8:00 a 16:00</p>
+        <p>✅ Desde 50€/semana</p>
+      </div>
 
-            <div className="relative min-h-[560px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-sky-500 to-amber-300 shadow-2xl md:min-h-[430px]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.35),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.22),transparent_28%)]" />
-              <div className="absolute left-8 top-8 rounded-3xl bg-white/90 p-5 shadow-xl backdrop-blur">
-                <p className="text-sm font-black text-blue-700">Fechas</p>
-                <p className="text-lg font-black text-[#071B4D]">22 junio – 10 septiembre</p>
-              </div>
-              <div className="absolute right-8 top-32 rounded-3xl bg-white/90 p-5 shadow-xl backdrop-blur">
-                <p className="text-sm font-black text-blue-700">Horario</p>
-                <p className="text-lg font-black text-[#071B4D]">8:00 – 16:00</p>
-              </div>
-              <div className="absolute bottom-8 left-8 right-8 rounded-3xl bg-white/90 p-6 shadow-xl backdrop-blur">
-                <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-700">Sedes</p>
-                <p className="mt-2 text-xl font-black text-[#071B4D]">El Carmen · El Mirador de Santa Eufemia</p>
-                <p className="mt-2 text-sm text-slate-600">Actividades, piscina, talleres y juegos organizados por semanas.</p>
-              </div>
-              <div className="absolute left-1/2 top-1/2 z-10 hidden h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:flex">
-                <Logo className="h-48 w-auto object-contain" />
-              </div>
-            </div>
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="https://wa.me/34611503688?text=Hola,%20te%20escribo%20por%20el%20campus%20de%20verano%20en%20Tomares.%20%C2%BFQuedan%20plazas%3F"
+          className="rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800"
+        >
+          💬 Reservar plaza por WhatsApp
+        </a>
+
+        <a
+          href="#precios"
+          className="rounded-xl border border-blue-200 bg-white px-6 py-4 text-center text-base font-black text-blue-700 transition hover:bg-blue-50"
+        >
+          🧮 Ver precios y calcular
+        </a>
+      </div>
+
+      <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-700 ring-1 ring-amber-100">
+        ⚠️ Plazas limitadas por grupo de edad y sede
+      </p>
+
+      <div className="mt-9 grid grid-cols-2 items-stretch gap-4 md:grid-cols-4">
+        {[
+          ["👥", "+250", "niños cada verano"],
+          ["🏅", "Desde 2018", "creciendo juntos"],
+          ["📍", "Tomares", "El Carmen y El Mirador"],
+          ["🕘", "8:00 - 16:00", "horario flexible"],
+        ].map(([icono, titulo, texto]) => (
+          <div
+            key={titulo}
+            className="flex h-full flex-col items-center justify-center gap-2 rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-blue-50"
+          >
+            <span className="text-3xl">{icono}</span>
+            <p className="text-base font-black leading-tight text-blue-700">
+              {titulo === "+250" ? <AnimatedCounter prefix="+" value={250} /> : titulo}
+            </p>
+            <p className="text-xs leading-tight text-slate-500">{texto}</p>
           </div>
-        </section>
+        ))}
+      </div>
+    </div>
 
+    <div className="relative min-h-[560px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-sky-500 to-amber-300 shadow-2xl md:min-h-[430px]">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.35),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.22),transparent_28%)]" />
+
+      <div className="absolute left-8 top-8 rounded-3xl bg-white/90 p-5 shadow-xl backdrop-blur">
+        <p className="text-sm font-black text-blue-700">Fechas</p>
+        <p className="text-lg font-black text-[#071B4D]">22 junio – 10 septiembre</p>
+      </div>
+
+      <div className="absolute right-8 top-32 rounded-3xl bg-white/90 p-5 shadow-xl backdrop-blur">
+        <p className="text-sm font-black text-blue-700">Horario</p>
+        <p className="text-lg font-black text-[#071B4D]">8:00 – 16:00</p>
+      </div>
+
+      <div className="absolute bottom-8 left-8 right-8 rounded-3xl bg-white/90 p-6 shadow-xl backdrop-blur">
+        <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-700">
+          Sedes
+        </p>
+        <p className="mt-2 text-xl font-black text-[#071B4D]">
+          El Carmen · El Mirador de Santa Eufemia
+        </p>
+        <p className="mt-2 text-sm text-slate-600">
+          Campus de verano en Tomares para familias del Aljarafe.
+        </p>
+      </div>
+
+      <div className="absolute left-1/2 top-1/2 z-10 hidden h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:flex">
+        <Logo className="h-48 w-auto object-contain" />
+      </div>
+    </div>
+  </div>
+</section>
         <section id="actividades" className="mx-auto max-w-7xl px-5 py-10">
           <div className="mb-6 flex items-center justify-center gap-4">
             <div className="h-px w-20 bg-blue-100" />
