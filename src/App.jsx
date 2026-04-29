@@ -10,7 +10,7 @@ const FORM_CONFIG = {
   fields: {
     nombreNino: "entry.1632689659",
     edad: "entry.1212973234",
-    email: "entry.1799819209",    
+    email: "entry.1799819209",
     hermanosTexto: "entry.367621578",
     propietario: "entry.1387418677",
     direccionPropietario: "entry.1599358046",
@@ -142,10 +142,10 @@ export default function App() {
   const [tipoCliente, setTipoCliente] = useState("socio");
   const [matricula, setMatricula] = useState(true);
   const [semanasCalculadora, setSemanasCalculadora] = useState(0);
-const [diasSueltosCalculadora, setDiasSueltosCalculadora] = useState(0);
+  const [diasSueltosCalculadora, setDiasSueltosCalculadora] = useState(0);
   const [numeroHermanosCalculadora, setNumeroHermanosCalculadora] = useState(1);
 
-const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
+  const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
 
   const [nombreNino, setNombreNino] = useState("");
   const [edad, setEdad] = useState("");
@@ -157,7 +157,7 @@ const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
   const [semanasSeleccionadas, setSemanasSeleccionadas] = useState([]);
   const [diasSueltosTexto, setDiasSueltosTexto] = useState("");
   const [serviciosCalculadora, setServiciosCalculadora] = useState([]);
-const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
+  const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
   const [padreMadre, setPadreMadre] = useState("");
   const [telefono, setTelefono] = useState("");
   const [segundoContacto, setSegundoContacto] = useState("");
@@ -176,9 +176,9 @@ const [serviciosSeleccionados, setServiciosSeleccionados] = useState([]);
     const precioDiasSueltos = diasSueltosNumero * precioDiaSuelto;
 
     const tieneMatinal = serviciosSeleccionados.includes("Aula matinal: 8:00 a 9:00");
-const tienePostcampus = serviciosSeleccionados.includes("Postcampus: 14:00 a 16:00");
-const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 a 16:00");
-    
+    const tienePostcampus = serviciosSeleccionados.includes("Postcampus: 14:00 a 16:00");
+    const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 a 16:00");
+
     const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
     const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
     const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
@@ -204,93 +204,90 @@ const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 
       total,
     };
   }, [tipoCliente, semanasSeleccionadas, diasSueltosNumero, serviciosSeleccionados]);
-  
-const resumenCalculadora = useMemo(() => {
-  const numeroSemanas = semanasCalculadora;
-  const diasTotales = numeroSemanas * 5 + diasSueltosCalculadora;
-  const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
-  const precioMatricula = matricula ? 12 : 0;
-  const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
-  const precioDiasSueltos = diasSueltosCalculadora * precioDiaSuelto;
 
-  const tieneMatinal = serviciosCalculadora.includes("Aula matinal: 8:00 a 9:00");
-  const tienePostcampus = serviciosCalculadora.includes("Postcampus: 14:00 a 16:00");
-  const tieneComedor = serviciosCalculadora.includes("Postcampus+Comedor: 14:00 a 16:00");
+  const resumenCalculadora = useMemo(() => {
+    const numeroSemanas = semanasCalculadora;
+    const diasTotales = numeroSemanas * 5 + diasSueltosCalculadora;
+    const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
+    const precioMatricula = matricula ? 12 : 0;
+    const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
+    const precioDiasSueltos = diasSueltosCalculadora * precioDiaSuelto;
 
-  const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
-  const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
-  const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
+    const tieneMatinal = serviciosCalculadora.includes("Aula matinal: 8:00 a 9:00");
+    const tienePostcampus = serviciosCalculadora.includes("Postcampus: 14:00 a 16:00");
+    const tieneComedor = serviciosCalculadora.includes("Postcampus+Comedor: 14:00 a 16:00");
 
-  const precioBasePorNino =
-    precioMatricula +
-    precioSemanas +
-    precioDiasSueltos +
-    precioMatinal +
-    precioPostcampus +
-    precioComedor;
+    const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
+    const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
+    const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
 
-  let descuentoHermanos = 0;
-  let total = precioBasePorNino;
+    const precioBasePorNino =
+      precioMatricula +
+      precioSemanas +
+      precioDiasSueltos +
+      precioMatinal +
+      precioPostcampus +
+      precioComedor;
 
-  if (numeroHermanosCalculadora === 2) {
-    descuentoHermanos = precioBasePorNino * 0.10;
-    total = precioBasePorNino * 2 - descuentoHermanos;
-  }
+    let descuentoHermanos = 0;
+    let total = precioBasePorNino;
 
-  if (numeroHermanosCalculadora === 3) {
-    descuentoHermanos = precioBasePorNino * 0.10 + precioBasePorNino * 0.15;
-    total = precioBasePorNino * 3 - descuentoHermanos;
-  }
+    if (numeroHermanosCalculadora === 2) {
+      descuentoHermanos = precioBasePorNino * 0.10;
+      total = precioBasePorNino * 2 - descuentoHermanos;
+    }
 
-  return {
-    numeroSemanas,
-    diasTotales,
-    precioMatricula,
-    precioSemanas,
-    precioDiasSueltos,
-    precioMatinal,
-    precioPostcampus,
-    precioComedor,
-    precioBasePorNino,
+    if (numeroHermanosCalculadora === 3) {
+      descuentoHermanos = precioBasePorNino * 0.10 + precioBasePorNino * 0.15;
+      total = precioBasePorNino * 3 - descuentoHermanos;
+    }
+
+    return {
+      numeroSemanas,
+      diasTotales,
+      precioMatricula,
+      precioSemanas,
+      precioDiasSueltos,
+      precioMatinal,
+      precioPostcampus,
+      precioComedor,
+      precioBasePorNino,
+      numeroHermanosCalculadora,
+      descuentoHermanos,
+      total,
+    };
+  }, [
+    tipoCliente,
+    matricula,
+    semanasCalculadora,
+    diasSueltosCalculadora,
+    serviciosCalculadora,
     numeroHermanosCalculadora,
-    descuentoHermanos,
-    total,
-  };
+  ]);
 
-}, [
-  tipoCliente,
-  matricula,
-  semanasCalculadora,
-  diasSueltosCalculadora,
-  serviciosCalculadora,
-  numeroHermanosCalculadora,
-]);
+  const semanasTexto = semanasSeleccionadas.join(" | ");
+  const serviciosTexto = serviciosSeleccionados.join(" | ");
 
-const semanasTexto = semanasSeleccionadas.join(" | ");
-const serviciosTexto = serviciosSeleccionados.join(" | ");
-
-const resumenTexto = useMemo(() => {
-  return [
-    `Tipo: ${tipoCliente === "socio" ? "Socio" : "No socio"}`,
-    `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
-    `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
-    `Días sueltos para cálculo: ${diasSueltosNumero}`,
-    `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
-    `Días calculados para extras: ${resumen.diasTotales}`,
-    `Matrícula: Sí`,
-    `Total estimado: ${formatearEuros(resumen.total)}`,
-  ].join(" | ");
-}, [
-  tipoCliente,
-  semanasTexto,
-  diasSueltosTexto,
-  diasSueltosNumero,
-  serviciosTexto,
-  resumen.diasTotales,
-  resumen.total,
-]);
-
-
+  const resumenTexto = useMemo(() => {
+    return [
+      `Tipo: ${tipoCliente === "socio" ? "Socio" : "No socio"}`,
+      `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
+      `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
+      `Días sueltos para cálculo: ${diasSueltosNumero}`,
+      `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
+      `Días calculados para extras: ${resumen.diasTotales}`,
+      `Matrícula: Sí`,
+      `Total estimado: ${formatearEuros(resumen.total)}`,
+    ].join(" | ");
+  }, [
+    tipoCliente,
+    semanasTexto,
+    diasSueltosTexto,
+    diasSueltosNumero,
+    serviciosTexto,
+    resumen.diasTotales,
+    resumen.total,
+  ]);
 
   function validarFormulario() {
     const nuevosErrores = {};
@@ -358,56 +355,55 @@ const resumenTexto = useMemo(() => {
       setMensajeEnvio("Enviando inscripción...");
 
       const codigoInscripcion = `WEB-${Date.now()}`;
-const formData = new FormData();
+      const formData = new FormData();
 
-formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
-formData.append(FORM_CONFIG.fields.edad, edad.trim());
-formData.append(FORM_CONFIG.fields.email, email.trim());
-formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
-formData.append(FORM_CONFIG.fields.propietario, propietario);
-formData.append(
-  FORM_CONFIG.fields.direccionPropietario,
-  propietario === "Si" ? direccionPropietario.trim() : "No aplica"
-);
-formData.append(FORM_CONFIG.fields.sede, sede);
+      formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
+      formData.append(FORM_CONFIG.fields.edad, edad.trim());
+      formData.append(FORM_CONFIG.fields.email, email.trim());
+      formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
+      formData.append(FORM_CONFIG.fields.propietario, propietario);
+      formData.append(
+        FORM_CONFIG.fields.direccionPropietario,
+        propietario === "Si" ? direccionPropietario.trim() : "No aplica"
+      );
+      formData.append(FORM_CONFIG.fields.sede, sede);
 
-semanasSeleccionadas.forEach((semana) => {
-  formData.append(FORM_CONFIG.fields.semanasTexto, semana);
-});
+      semanasSeleccionadas.forEach((semana) => {
+        formData.append(FORM_CONFIG.fields.semanasTexto, semana);
+      });
 
-formData.append(
-  FORM_CONFIG.fields.diasSueltosTexto,
-  diasSueltosTexto.trim() || "No solicita días sueltos"
-);
+      formData.append(
+        FORM_CONFIG.fields.diasSueltosTexto,
+        diasSueltosTexto.trim() || "No solicita días sueltos"
+      );
 
-serviciosSeleccionados.forEach((servicio) => {
-  formData.append(FORM_CONFIG.fields.serviciosExtras, servicio);
-});
+      serviciosSeleccionados.forEach((servicio) => {
+        formData.append(FORM_CONFIG.fields.serviciosExtras, servicio);
+      });
 
-formData.append(FORM_CONFIG.fields.padreMadre, padreMadre.trim());
-formData.append(FORM_CONFIG.fields.telefono, telefono.trim());
-formData.append(FORM_CONFIG.fields.segundoContacto, segundoContacto.trim() || "No indicado");
-formData.append(FORM_CONFIG.fields.telefono2, telefono2.trim() || "No indicado");
-formData.append(
-  FORM_CONFIG.fields.observaciones,
-  `${observaciones.trim() || "Sin observaciones"}
+      formData.append(FORM_CONFIG.fields.padreMadre, padreMadre.trim());
+      formData.append(FORM_CONFIG.fields.telefono, telefono.trim());
+      formData.append(FORM_CONFIG.fields.segundoContacto, segundoContacto.trim() || "No indicado");
+      formData.append(FORM_CONFIG.fields.telefono2, telefono2.trim() || "No indicado");
+      formData.append(
+        FORM_CONFIG.fields.observaciones,
+        `${observaciones.trim() || "Sin observaciones"}
 
 Resumen web: ${resumenTexto}
 
 Código inscripción: ${codigoInscripcion}`
-);
+      );
 
-enviarAGoogleForms(formData);
+      enviarAGoogleForms(formData);
 
-    setTimeout(() => {
-  setEstadoEnvio("success");
+      setTimeout(() => {
+        setEstadoEnvio("success");
 
-  setMensajeEnvio(
-    `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
-  );
+        setMensajeEnvio(
+          `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
+        );
 
-  // 👉 MENSAJE WHATSAPP
-  const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
+        const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
 
 👤 Niño/a: ${nombreNino}
 🎂 Edad: ${edad}
@@ -418,78 +414,75 @@ enviarAGoogleForms(formData);
 💰 Total estimado: ${formatearEuros(resumen.total)}
 🆔 Código: ${codigoInscripcion}`;
 
-  // 👇 LIMPIAS FORMULARIO
-  setNombreNino("");
-  setEdad("");
-  setEmail("");
-  setHermanosTexto("");
-  setPropietario("No");
-  setDireccionPropietario("");
-  setSede("El Carmen");
-  setSemanasSeleccionadas([]);
-  setDiasSueltosTexto("");
-  setDiasSueltosNumero(0);
-  setServiciosSeleccionados([]);
-  setPadreMadre("");
-  setTelefono("");
-  setSegundoContacto("");
-  setTelefono2("");
-  setObservaciones("");
-  setErrores({});
+        setNombreNino("");
+        setEdad("");
+        setEmail("");
+        setHermanosTexto("");
+        setPropietario("No");
+        setDireccionPropietario("");
+        setSede("El Carmen");
+        setSemanasSeleccionadas([]);
+        setDiasSueltosTexto("");
+        setDiasSueltosNumero(0);
+        setServiciosSeleccionados([]);
+        setPadreMadre("");
+        setTelefono("");
+        setSegundoContacto("");
+        setTelefono2("");
+        setObservaciones("");
+        setErrores({});
 
-  // 👉 WHATSAPP
         setTimeout(() => {
-        window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
-      }, 500);
-
-    }, 900);
-  } catch (error) {
-    setEstadoEnvio("error");
-    setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
+          window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
+        }, 500);
+      }, 900);
+    } catch (error) {
+      setEstadoEnvio("error");
+      setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
+    }
   }
-}
+
   return (
     <div className="min-h-screen bg-[#F8FBFF] text-[#071B4D]">
-  <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
-  <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 md:px-5">
-    <a href="#inicio" className="flex shrink-0 items-center">
-      <Logo className="h-10 w-auto object-contain md:h-14" />
-    </a>
+      <header className="sticky top-0 z-50 border-b border-blue-100 bg-white/95 shadow-sm backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 md:px-5">
+          <a href="#inicio" className="flex shrink-0 items-center">
+            <Logo className="h-10 w-auto object-contain md:h-14" />
+          </a>
 
-    <nav className="hidden items-center gap-8 text-sm font-black text-[#071B4D] md:flex">
-      <a href="#inicio" className="hover:text-blue-700">Inicio</a>
-      <a href="#actividades" className="hover:text-blue-700">Actividades</a>
-      <a href="#precios" className="hover:text-blue-700">Precios</a>
-      <a href="#inscripcion" className="hover:text-blue-700">Inscripción</a>
-      <a href="https://wa.me/34611503688" className="hover:text-blue-700">Contacto</a>
-    </nav>
+          <nav className="hidden items-center gap-8 text-sm font-black text-[#071B4D] md:flex">
+            <a href="#inicio" className="hover:text-blue-700">Inicio</a>
+            <a href="#actividades" className="hover:text-blue-700">Actividades</a>
+            <a href="#precios" className="hover:text-blue-700">Precios</a>
+            <a href="#inscripcion" className="hover:text-blue-700">Inscripción</a>
+            <a href="https://wa.me/34611503688" className="hover:text-blue-700">Contacto</a>
+          </nav>
 
-    <a
-      href="#inscripcion"
-      className="shrink-0 rounded-xl bg-blue-700 px-4 py-3 text-xs font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800 md:px-5 md:text-sm"
-    >
-      Inscribirme
-    </a>
-  </div>
-</header>
-     <main id="inicio">
-  <section className="relative overflow-hidden bg-white">
-    <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
-
-    <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
-      
-      <div className="relative z-10 flex flex-col justify-center">
-        
-        <div className="mb-6">
-          <div className="inline-block rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-blue-50">
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">
-              Kids events & entertainment
-            </p>
-            <p className="text-sm font-black text-blue-800">
-              Campus de Verano 2026
-            </p>
-          </div>
+          <a
+            href="#inscripcion"
+            className="shrink-0 rounded-xl bg-blue-700 px-4 py-3 text-xs font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800 md:px-5 md:text-sm"
+          >
+            Inscribirme
+          </a>
         </div>
+      </header>
+
+      <main id="inicio">
+        <section className="relative overflow-hidden bg-white">
+          <div className="absolute inset-y-0 right-0 hidden w-1/2 bg-gradient-to-l from-blue-100 via-sky-50 to-transparent md:block" />
+
+          <div className="mx-auto grid max-w-7xl gap-10 px-5 py-12 md:grid-cols-[0.95fr_1.05fr] md:py-16">
+            <div className="relative z-10 flex flex-col justify-center">
+              <div className="mb-6">
+                <div className="inline-block rounded-2xl bg-white/80 px-4 py-3 shadow-sm ring-1 ring-blue-50">
+                  <p className="text-xs font-black uppercase tracking-[0.25em] text-amber-400">
+                    Kids events & entertainment
+                  </p>
+                  <p className="text-sm font-black text-blue-800">
+                    Campus de Verano 2026
+                  </p>
+                </div>
+              </div>
 
               <h1 className="max-w-2xl text-4xl font-black leading-tight tracking-tight text-[#071B4D] md:text-6xl">
                 Un verano para disfrutar, crecer y conciliar con <span className="text-amber-400">tranquilidad.</span>
@@ -525,7 +518,7 @@ enviarAGoogleForms(formData);
               </div>
             </div>
 
-            <div className="relative min-h-[560px] md:min-h-[430px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-sky-500 to-amber-300 shadow-2xl">
+            <div className="relative min-h-[560px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-sky-500 to-amber-300 shadow-2xl md:min-h-[430px]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.35),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.22),transparent_28%)]" />
               <div className="absolute left-8 top-8 rounded-3xl bg-white/90 p-5 shadow-xl backdrop-blur">
                 <p className="text-sm font-black text-blue-700">Fechas</p>
@@ -540,9 +533,9 @@ enviarAGoogleForms(formData);
                 <p className="mt-2 text-xl font-black text-[#071B4D]">El Carmen · El Mirador de Santa Eufemia</p>
                 <p className="mt-2 text-sm text-slate-600">Actividades, piscina, talleres y juegos organizados por semanas.</p>
               </div>
-         <div className="absolute left-1/2 top-1/2 z-10 hidden h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:flex">
-  <Logo className="h-48 w-auto object-contain" />
-</div>
+              <div className="absolute left-1/2 top-1/2 z-10 hidden h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:flex">
+                <Logo className="h-48 w-auto object-contain" />
+              </div>
             </div>
           </div>
         </section>
@@ -568,42 +561,37 @@ enviarAGoogleForms(formData);
           <div className="mb-8 text-center">
             <p className="text-sm font-black uppercase tracking-[0.25em] text-blue-700">Galería</p>
             <h2 className="mt-2 text-3xl font-black text-[#071B4D]">Así se vive el campus</h2>
-           <p className="mt-3 text-slate-600">Momentos de diversión, juegos y actividades del campus</p>
+            <p className="mt-3 text-slate-600">Momentos de diversión, juegos y actividades del campus</p>
           </div>
 
-<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  {[
-    "/galeria/img01.jpg",
-    "/galeria/img02.jpg",
-    "/galeria/img03.jpg",
-    "/galeria/img04.jpg",
-    "/galeria/img06.jpg",
-    "/galeria/img07.jpg",
-    "/galeria/img08.jpg",
-    "/galeria/img09.jpg",
-    "/galeria/img10.jpg",
-    "/galeria/img12.jpg",
-    "/galeria/img14.jpg",
-    "/galeria/img15.jpg",
-  ].map((src, index) => (
-    <div
-      key={src}
-      className="group relative overflow-hidden rounded-2xl bg-slate-100"
-    >
-      <img
-        src={src}
-        alt={`Campus El Columpio ${index + 1}`}
-        className="h-48 w-full object-cover transition duration-300 group-hover:scale-110"
-        onError={(event) => {
-          event.currentTarget.src = "/galeria/img1.jpg";
-        }}
-      />
-
-      {/* Overlay efecto pro */}
-      <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/20" />
-    </div>
-  ))}
-</div>
+          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {[
+              "/galeria/img01.jpg",
+              "/galeria/img02.jpg",
+              "/galeria/img03.jpg",
+              "/galeria/img04.jpg",
+              "/galeria/img06.jpg",
+              "/galeria/img07.jpg",
+              "/galeria/img08.jpg",
+              "/galeria/img09.jpg",
+              "/galeria/img10.jpg",
+              "/galeria/img12.jpg",
+              "/galeria/img14.jpg",
+              "/galeria/img15.jpg",
+            ].map((src, index) => (
+              <div key={src} className="group relative overflow-hidden rounded-2xl bg-slate-100">
+                <img
+                  src={src}
+                  alt={`Campus El Columpio ${index + 1}`}
+                  className="h-48 w-full object-cover transition duration-300 group-hover:scale-110"
+                  onError={(event) => {
+                    event.currentTarget.src = "/galeria/img1.jpg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/0 transition duration-300 group-hover:bg-black/20" />
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-5 py-14">
@@ -678,35 +666,35 @@ enviarAGoogleForms(formData);
               </div>
 
               <div className="mt-6">
-  <label className="mb-3 block text-sm font-black text-[#071B4D]">
-    Número de hermanos
-  </label>
+                <label className="mb-3 block text-sm font-black text-[#071B4D]">
+                  Número de hermanos
+                </label>
 
-  <div className="grid grid-cols-3 gap-3">
-    {[
-      [1, "1 niño/a"],
-      [2, "2 hermanos"],
-      [3, "3 hermanos"],
-    ].map(([numero, label]) => (
-      <button
-        key={numero}
-        type="button"
-        onClick={() => setNumeroHermanosCalculadora(numero)}
-        className={`rounded-xl border px-4 py-3 text-center font-black transition ${
-          numeroHermanosCalculadora === numero
-            ? "border-blue-700 bg-blue-700 text-white shadow-lg shadow-blue-100"
-            : "border-slate-200 bg-white text-[#071B4D] hover:bg-blue-50"
-        }`}
-      >
-        {label}
-      </button>
-    ))}
-  </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    [1, "1 niño/a"],
+                    [2, "2 hermanos"],
+                    [3, "3 hermanos"],
+                  ].map(([numero, label]) => (
+                    <button
+                      key={numero}
+                      type="button"
+                      onClick={() => setNumeroHermanosCalculadora(numero)}
+                      className={`rounded-xl border px-4 py-3 text-center font-black transition ${
+                        numeroHermanosCalculadora === numero
+                          ? "border-blue-700 bg-blue-700 text-white shadow-lg shadow-blue-100"
+                          : "border-slate-200 bg-white text-[#071B4D] hover:bg-blue-50"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
 
-  <p className="mt-2 text-xs text-slate-500">
-    2 hermanos: 10% de descuento en el segundo. 3 hermanos: 10% en el segundo y 15% en el tercero.
-  </p>
-</div>
+                <p className="mt-2 text-xs text-slate-500">
+                  2 hermanos: 10% de descuento en el segundo. 3 hermanos: 10% en el segundo y 15% en el tercero.
+                </p>
+              </div>
 
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <div>
@@ -726,7 +714,7 @@ enviarAGoogleForms(formData);
                     type="number"
                     min="0"
                     value={diasSueltosCalculadora}
-onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.value) || 0))}
+                    onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.value) || 0))}
                     className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-xl font-black outline-none focus:border-blue-500"
                   />
                   <p className="mt-2 text-xs text-slate-500">Se añadirán al total</p>
@@ -737,16 +725,16 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 <label className="mb-3 block text-sm font-black text-[#071B4D]">Servicios extra</label>
                 <div className="grid gap-3">
                   {SERVICIOS.map((servicio) => (
-  <label key={servicio} className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#071B4D] hover:bg-blue-50">
-    <input
-      type="checkbox"
-      checked={serviciosCalculadora.includes(servicio)}
-      onChange={() => setServiciosCalculadora((prev) => toggleArrayValue(prev, servicio))}
-      className="h-4 w-4"
-    />
-    <span>{servicio}</span>
-  </label>
-))}
+                    <label key={servicio} className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-[#071B4D] hover:bg-blue-50">
+                      <input
+                        type="checkbox"
+                        checked={serviciosCalculadora.includes(servicio)}
+                        onChange={() => setServiciosCalculadora((prev) => toggleArrayValue(prev, servicio))}
+                        className="h-4 w-4"
+                      />
+                      <span>{servicio}</span>
+                    </label>
+                  ))}
                 </div>
               </div>
 
@@ -759,26 +747,26 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
             <div className="rounded-[2rem] bg-gradient-to-br from-blue-900 to-blue-700 p-7 text-white shadow-xl">
               <p className="text-sm font-black uppercase tracking-[0.25em] text-sky-200">Resumen estimado</p>
               <h3 className="mt-4 text-5xl font-black text-amber-300">
-  {formatearEuros(resumenCalculadora.total)}
-</h3>
+                {formatearEuros(resumenCalculadora.total)}
+              </h3>
               <p className="mt-2 text-center text-xs text-blue-100">
-  {resumenCalculadora.diasTotales > 0
-    ? `(${formatearEuros(resumenCalculadora.total / resumenCalculadora.diasTotales)} / día)`
-    : ""}
-</p>
-              <p className="mt-2 text-center text-sm text-green-200 font-bold">
-  ✅ Reserva tu plaza en menos de 1 minuto
-</p>
+                {resumenCalculadora.diasTotales > 0
+                  ? `(${formatearEuros(resumenCalculadora.total / resumenCalculadora.diasTotales)} / día)`
+                  : ""}
+              </p>
+              <p className="mt-2 text-center text-sm font-bold text-green-200">
+                ✅ Reserva tu plaza en menos de 1 minuto
+              </p>
               <div className="mt-8 space-y-4 text-sm">
                 {[
-  ["Matrícula", resumenCalculadora.precioMatricula],
-  [`Semanas completas (${resumenCalculadora.numeroSemanas})`, resumenCalculadora.precioSemanas],
-  [`Días sueltos (${diasSueltosCalculadora})`, resumenCalculadora.precioDiasSueltos],
-  [`Aula matinal (${resumenCalculadora.diasTotales} días)`, resumenCalculadora.precioMatinal],
-  ["Postcampus", resumenCalculadora.precioPostcampus],
-  ["Comedor", resumenCalculadora.precioComedor],
-  ["Descuento hermanos", -resumenCalculadora.descuentoHermanos],
-].map(([label, value]) => (
+                  ["Matrícula", resumenCalculadora.precioMatricula],
+                  [`Semanas completas (${resumenCalculadora.numeroSemanas})`, resumenCalculadora.precioSemanas],
+                  [`Días sueltos (${diasSueltosCalculadora})`, resumenCalculadora.precioDiasSueltos],
+                  [`Aula matinal (${resumenCalculadora.diasTotales} días)`, resumenCalculadora.precioMatinal],
+                  ["Postcampus", resumenCalculadora.precioPostcampus],
+                  ["Comedor", resumenCalculadora.precioComedor],
+                  ["Descuento hermanos", -resumenCalculadora.descuentoHermanos],
+                ].map(([label, value]) => (
                   <div key={label} className="flex items-center justify-between border-b border-white/10 pb-3">
                     <span className="text-blue-100">{label}</span>
                     <span className="font-black">{formatearEuros(value)}</span>
@@ -821,23 +809,23 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                       <option value="El Mirador de Santa Eufemia">El Mirador de Santa Eufemia</option>
                     </select>
                   </div>
-</div>
+                </div>
 
-<div>
-  <label className="mb-1 block text-sm font-bold text-[#071B4D]">
-    Email *
-  </label>
-  <input
-    value={email}
-    onChange={(event) => setEmail(event.target.value)}
-    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-    placeholder="Ej: padre@email.com"
-  />
-  {errores.email ? (
-    <p className="mt-1 text-xs text-rose-600">{errores.email}</p>
-  ) : null}
-</div>
-    
+                <div>
+                  <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+                    Email *
+                  </label>
+                  <input
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+                    placeholder="Ej: padre@email.com"
+                  />
+                  {errores.email ? (
+                    <p className="mt-1 text-xs text-rose-600">{errores.email}</p>
+                  ) : null}
+                </div>
+
                 <input value={hermanosTexto} onChange={(event) => setHermanosTexto(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Hermano/a y edad si aplica" />
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -868,10 +856,7 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                         <input
                           type="checkbox"
                           checked={semanasSeleccionadas.includes(semana)}
-                          onChange={() => setSemanasSeleccionadas((prev) => {
-                            const nuevas = toggleArrayValue(prev, semana)
-                            return nuevas;
-                          })}
+                          onChange={() => setSemanasSeleccionadas((prev) => toggleArrayValue(prev, semana))}
                         />
                         <span>{semana}</span>
                       </label>
@@ -881,34 +866,32 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
-  <div>
-    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
-      Días sueltos: especificar fechas
-    </label>
-    <input
-      value={diasSueltosTexto}
-      onChange={(event) => setDiasSueltosTexto(event.target.value)}
-      className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-      placeholder="Ej: 24 junio, 25 junio..."
-    />
-  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+                      Días sueltos: especificar fechas
+                    </label>
+                    <input
+                      value={diasSueltosTexto}
+                      onChange={(event) => setDiasSueltosTexto(event.target.value)}
+                      className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+                      placeholder="Ej: 24 junio, 25 junio..."
+                    />
+                  </div>
 
-  <div>
-    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
-      Nº de días sueltos
-    </label>
-    <input
-      type="number"
-      min="0"
-      value={diasSueltosNumero}
-      onChange={(event) =>
-        setDiasSueltosNumero(Math.max(0, Number(event.target.value) || 0))
-      }
-      className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-lg font-black outline-none focus:border-blue-500"
-      placeholder="0"
-    />
-  </div>
-</div>
+                  <div>
+                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+                      Nº de días sueltos
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={diasSueltosNumero}
+                      onChange={(event) => setDiasSueltosNumero(Math.max(0, Number(event.target.value) || 0))}
+                      className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-lg font-black outline-none focus:border-blue-500"
+                      placeholder="0"
+                    />
+                  </div>
+                </div>
 
                 <div>
                   <label className="mb-2 block text-sm font-bold text-[#071B4D]">Servicios extra</label>
@@ -944,9 +927,9 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
                 </div>
 
                 <textarea value={observaciones} onChange={(event) => setObservaciones(event.target.value)} className="min-h-[110px] w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Observaciones: alergias, medicación o información importante" />
-<p className="rounded-xl bg-amber-50 px-4 py-3 text-center text-sm font-bold text-amber-700 ring-1 ring-amber-100">
-  ⚠️ Plazas limitadas por grupo de edad y sede
-</p>
+                <p className="rounded-xl bg-amber-50 px-4 py-3 text-center text-sm font-bold text-amber-700 ring-1 ring-amber-100">
+                  ⚠️ Plazas limitadas por grupo de edad y sede
+                </p>
                 <button type="submit" disabled={estadoEnvio === "loading"} className="rounded-xl bg-blue-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800 disabled:opacity-70">
                   ✈️ {estadoEnvio === "loading" ? "Enviando..." : "Enviar inscripción"}
                 </button>
@@ -973,13 +956,13 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
               <p className="text-center text-sm font-black uppercase text-blue-800">Precio orientativo</p>
               <p className="mt-2 text-center text-4xl font-black text-blue-900">{formatearEuros(resumen.total)}</p>
               <p className="mt-2 text-center text-xs text-slate-500">
-  {resumen.diasTotales > 0
-    ? `(${formatearEuros(resumen.total / resumen.diasTotales)} / día)`
-    : ""}
-</p>
-              <p className="mt-2 text-center text-sm text-green-700 font-bold">
-  ✅ Inscripción rápida en menos de 1 minuto
-</p>
+                {resumen.diasTotales > 0
+                  ? `(${formatearEuros(resumen.total / resumen.diasTotales)} / día)`
+                  : ""}
+              </p>
+              <p className="mt-2 text-center text-sm font-bold text-green-700">
+                ✅ Inscripción rápida en menos de 1 minuto
+              </p>
               <p className="mt-4 rounded-2xl bg-white p-4 text-sm leading-6 text-slate-600">Este es el precio orientativo según los datos introducidos. El importe final se confirmará tras revisar la inscripción.</p>
               <a href="https://wa.me/34611503688" className="mt-5 flex items-center justify-center rounded-2xl border border-emerald-200 bg-white p-4 text-center font-black text-emerald-700">
                 💬 ¿Dudas? 611 503 688
@@ -1006,4 +989,3 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
     </div>
   );
 }
-
