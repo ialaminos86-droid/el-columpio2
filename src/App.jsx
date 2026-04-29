@@ -256,14 +256,6 @@ const resumenCalculadora = useMemo(() => {
     descuentoHermanos,
     total,
   };
-}, [
-  tipoCliente,
-  matricula,
-  semanasCalculadora,
-  diasSueltosCalculadora,
-  serviciosCalculadora,
-  numeroHermanosCalculadora,
-]);
 
 }, [
   tipoCliente,
@@ -298,26 +290,7 @@ const resumenTexto = useMemo(() => {
   resumen.total,
 ]);
 
-const semanasTexto = semanasSeleccionadas.join(" | ");
-const serviciosTexto = serviciosSeleccionados.join(" | ");
 
-const resumenTexto = useMemo(() => {
-  return [
-    `Tipo: ${tipoCliente === "socio" ? "Socio" : "No socio"}`,
-    `Semanas: ${semanasTexto || "No seleccionadas"}`,
-    `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
-    `Servicios: ${serviciosTexto || "Sin extras"}`,
-    `Total: ${formatearEuros(resumen.total)}`
-  ].join(" | ");
-}, [
-  tipoCliente,
-  semanasTexto,
-  diasSueltosTexto,
-  serviciosTexto,
-  resumen.total
-]);
-
-function validarFormulario() {
 
   function validarFormulario() {
     const nuevosErrores = {};
