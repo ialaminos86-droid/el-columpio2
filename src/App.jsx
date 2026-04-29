@@ -907,10 +907,11 @@ Código inscripción: ${codigoInscripcion}`
           <button
             key={valor}
             type="button"
-            onClick={() => {
-              setNumeroHermanos(valor);
-              setHermanosTexto(valor);
-            }}
+onClick={() => {
+  setNumeroHermanos(valor);
+  setHermanosTexto(valor);
+  setNumeroHermanosFormulario(valor === "1 hermano más" ? 2 : 3);
+}}
             className={`rounded-xl border px-4 py-3 font-black ${
               numeroHermanos === valor
                 ? "border-blue-700 bg-blue-700 text-white"
