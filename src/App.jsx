@@ -908,8 +908,10 @@ Código inscripción: ${codigoInscripcion}`
             key={valor}
             type="button"
 onClick={() => {
-  setNumeroHermanos(valor);
-  setHermanosTexto(valor);
+  const hermanos = Math.max(0, valor - 1);
+
+setNumeroHermanos(hermanos);
+setHermanosTexto(hermanos > 0 ? hermanos : "");
   setNumeroHermanosFormulario(valor === "1 hermano más" ? 2 : 3);
 }}
             className={`rounded-xl border px-4 py-3 font-black ${
