@@ -863,47 +863,7 @@ Código inscripción: ${codigoInscripcion}`
                   ) : null}
                 </div>
 
-                <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4">
-                  <label className="mb-2 block text-sm font-bold text-[#071B4D]">
-                    Hermanos/as
-                  </label>
-                  <input
-                    value={hermanosTexto}
-                    onChange={(event) => setHermanosTexto(event.target.value)}
-                    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-                    placeholder="Nombre y edad del hermano/a si aplica"
-                  />
-
-                  <div className="mt-4">
-                    <label className="mb-2 block text-sm font-black text-[#071B4D]">
-                      Número de hermanos para calcular el precio
-                    </label>
-                    <div className="grid grid-cols-3 gap-3">
-                      {[
-                        [1, "1 niño/a"],
-                        [2, "2 hermanos"],
-                        [3, "3 hermanos"],
-                      ].map(([numero, label]) => (
-                        <button
-                          key={numero}
-                          type="button"
-                          onClick={() => setNumeroHermanosFormulario(numero)}
-                          className={`rounded-xl border px-3 py-3 text-center text-sm font-black transition ${
-                            numeroHermanosFormulario === numero
-                              ? "border-blue-700 bg-blue-700 text-white shadow-lg shadow-blue-100"
-                              : "border-slate-200 bg-white text-[#071B4D] hover:bg-blue-50"
-                          }`}
-                        >
-                          {label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <p className="mt-3 rounded-xl bg-white px-4 py-3 text-xs leading-5 text-slate-600 ring-1 ring-blue-100">
-                    El cálculo con descuento de hermanos solo es válido si los hermanos coinciden en los mismos días de campus. Si uno viene más días que otro, el descuento se aplicará al hermano que venga menos días. En ese caso, se debe rellenar un segundo formulario indicando que tiene hermano, pero con fechas diferentes.
-                  </p>
-                </div>
+          
 <div className="rounded-2xl border border-slate-200 bg-white p-4">
   <label className="mb-3 block text-sm font-bold text-[#071B4D]">
     ¿Tiene hermanos que también se van a inscribir?
