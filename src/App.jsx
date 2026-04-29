@@ -150,7 +150,9 @@ export default function App() {
   const [nombreNino, setNombreNino] = useState("");
   const [edad, setEdad] = useState("");
   const [email, setEmail] = useState("");
-  const [hermanosTexto, setHermanosTexto] = useState("");
+  const [tieneHermanos, setTieneHermanos] = useState("No");
+const [numeroHermanos, setNumeroHermanos] = useState("");
+const [hermanosTexto, setHermanosTexto] = useState("");
   const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   const [propietario, setPropietario] = useState("No");
   const [direccionPropietario, setDireccionPropietario] = useState("");
@@ -388,7 +390,10 @@ export default function App() {
       formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
       formData.append(FORM_CONFIG.fields.edad, edad.trim());
       formData.append(FORM_CONFIG.fields.email, email.trim());
-      formData.append(FORM_CONFIG.fields.hermanosTexto, hermanosTexto.trim() || "No indicado");
+      formData.append(
+  FORM_CONFIG.fields.hermanosTexto,
+  tieneHermanos === "Si" ? numeroHermanos || "Sí, pero no especifica número" : "No tiene hermanos inscritos"
+);
       formData.append(FORM_CONFIG.fields.propietario, propietario);
       formData.append(
         FORM_CONFIG.fields.direccionPropietario,
@@ -447,6 +452,8 @@ Código inscripción: ${codigoInscripcion}`
         setEdad("");
         setEmail("");
         setHermanosTexto("");
+        setTieneHermanos("No");
+        setNumeroHermanos("");
         setNumeroHermanosFormulario(1);
         setPropietario("No");
         setDireccionPropietario("");
@@ -897,7 +904,66 @@ Código inscripción: ${codigoInscripcion}`
                     El cálculo con descuento de hermanos solo es válido si los hermanos coinciden en los mismos días de campus. Si uno viene más días que otro, el descuento se aplicará al hermano que venga menos días. En ese caso, se debe rellenar un segundo formulario indicando que tiene hermano, pero con fechas diferentes.
                   </p>
                 </div>
+<div className="rounded-2xl border border-slate-200 bg-white p-4">
+  <label className="mb-3 block text-sm font-bold text-[#071B4D]">
+    ¿Tiene hermanos que también se van a inscribir?
+  </label>
 
+  <div className="grid grid-cols-2 gap-3">
+    {["No", "Si"].map((valor) => (
+      <button
+        key={valor}
+        type="button"
+        onClick={() => {
+          setTieneHermanos(valor);
+          if (valor === "No") {
+            setNumeroHermanos("");
+            setHermanosTexto("");
+          }
+        }}
+        className={`rounded-xl border px-4 py-3 font-black ${
+          tieneHermanos === valor
+            ? "border-blue-700 bg-blue-700 text-white"
+            : "border-slate-200 bg-white text-[#071B4D]"
+        }`}
+      >
+        {valor === "Si" ? "Sí" : "No"}
+      </button>
+    ))}
+  </div>
+
+  {tieneHermanos === "Si" ? (
+    <div className="mt-4">
+      <p className="mb-3 rounded-xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-700 ring-1 ring-amber-100">
+        Importante: el niño/a de este formulario ya está contado. Indica solo los hermanos adicionales que también se inscriben.
+      </p>
+
+      <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+        Número de hermanos adicionales
+      </label>
+
+      <div className="grid grid-cols-2 gap-3">
+        {["1 hermano más", "2 hermanos más"].map((valor) => (
+          <button
+            key={valor}
+            type="button"
+            onClick={() => {
+              setNumeroHermanos(valor);
+              setHermanosTexto(valor);
+            }}
+            className={`rounded-xl border px-4 py-3 font-black ${
+              numeroHermanos === valor
+                ? "border-blue-700 bg-blue-700 text-white"
+                : "border-slate-200 bg-white text-[#071B4D]"
+            }`}
+          >
+            {valor}
+          </button>
+        ))}
+      </div>
+    </div>
+  ) : null}
+</div>
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
                     <label className="mb-2 block text-sm font-bold text-[#071B4D]">¿Es propietario de la urbanización? *</label>
