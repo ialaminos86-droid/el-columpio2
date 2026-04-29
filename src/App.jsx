@@ -499,7 +499,7 @@ enviarAGoogleForms(formData);
               </div>
             </div>
 
-            <div className="relative min-h-[430px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-sky-500 to-amber-300 shadow-2xl">
+            <div className="relative min-h-[560px] overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-600 via-sky-500 to-amber-300 shadow-2xl md:min-h-[430px]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.35),transparent_30%),radial-gradient(circle_at_80%_30%,rgba(255,255,255,0.22),transparent_28%)]" />
               <div className="absolute left-8 top-8 rounded-3xl bg-white/90 p-5 shadow-xl backdrop-blur">
                 <p className="text-sm font-black text-blue-700">Fechas</p>
@@ -514,8 +514,8 @@ enviarAGoogleForms(formData);
                 <p className="mt-2 text-xl font-black text-[#071B4D]">El Carmen · El Mirador de Santa Eufemia</p>
                 <p className="mt-2 text-sm text-slate-600">Actividades, piscina, talleres y juegos organizados por semanas.</p>
               </div>
-         <div className="absolute left-1/2 top-1/2 flex h-36 w-36 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-4 shadow-2xl ring-4 ring-white/40 sm:h-44 sm:w-44 sm:p-5 md:h-56 md:w-56 md:p-7">
-  <Logo className="max-h-full max-w-full object-contain" />
+         <div className="absolute left-1/2 top-5 z-10 flex h-28 w-28 -translate-x-1/2 items-center justify-center rounded-full bg-white/95 p-3 shadow-2xl ring-4 ring-white/40 md:top-1/2 md:h-56 md:w-56 md:-translate-y-1/2 md:p-7">
+  <Logo className="h-20 w-auto object-contain md:h-48" />
 </div>
             </div>
           </div>
