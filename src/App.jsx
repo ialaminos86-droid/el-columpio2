@@ -151,6 +151,7 @@ export default function App() {
   const [edad, setEdad] = useState("");
   const [email, setEmail] = useState("");
   const [hermanosTexto, setHermanosTexto] = useState("");
+  const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   const [propietario, setPropietario] = useState("No");
   const [direccionPropietario, setDireccionPropietario] = useState("");
   const [sede, setSede] = useState("El Carmen");
@@ -183,13 +184,26 @@ export default function App() {
     const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
     const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
 
-    const total =
+    const precioBasePorNino =
       precioMatricula +
       precioSemanas +
       precioDiasSueltos +
       precioMatinal +
       precioPostcampus +
       precioComedor;
+
+    let descuentoHermanos = 0;
+    let total = precioBasePorNino;
+
+    if (numeroHermanosFormulario === 2) {
+      descuentoHermanos = precioBasePorNino * 0.10;
+      total = precioBasePorNino * 2 - descuentoHermanos;
+    }
+
+    if (numeroHermanosFormulario === 3) {
+      descuentoHermanos = precioBasePorNino * 0.10 + precioBasePorNino * 0.15;
+      total = precioBasePorNino * 3 - descuentoHermanos;
+    }
 
     return {
       numeroSemanas,
@@ -201,9 +215,18 @@ export default function App() {
       precioMatinal,
       precioPostcampus,
       precioComedor,
+      precioBasePorNino,
+      numeroHermanosFormulario,
+      descuentoHermanos,
       total,
     };
-  }, [tipoCliente, semanasSeleccionadas, diasSueltosNumero, serviciosSeleccionados]);
+  }, [
+    tipoCliente,
+    semanasSeleccionadas,
+    diasSueltosNumero,
+    serviciosSeleccionados,
+    numeroHermanosFormulario,
+  ]);
 
   const resumenCalculadora = useMemo(() => {
     const numeroSemanas = semanasCalculadora;
@@ -276,8 +299,11 @@ export default function App() {
       `Días sueltos para cálculo: ${diasSueltosNumero}`,
       `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
       `Días calculados para extras: ${resumen.diasTotales}`,
+      `Número de hermanos para cálculo: ${numeroHermanosFormulario}`,
+      `Descuento hermanos: ${formatearEuros(resumen.descuentoHermanos)}`,
       `Matrícula: Sí`,
       `Total estimado: ${formatearEuros(resumen.total)}`,
+      `Nota: el descuento de hermanos solo aplica si coinciden los mismos días. Si un hermano asiste menos días, el descuento se aplica al hermano con menos días y se debe rellenar otro formulario para ese hermano.`,
     ].join(" | ");
   }, [
     tipoCliente,
@@ -286,7 +312,9 @@ export default function App() {
     diasSueltosNumero,
     serviciosTexto,
     resumen.diasTotales,
+    resumen.descuentoHermanos,
     resumen.total,
+    numeroHermanosFormulario,
   ]);
 
   function validarFormulario() {
@@ -410,6 +438,7 @@ Código inscripción: ${codigoInscripcion}`
 📍 Sede: ${sede}
 📅 Semanas: ${semanasTexto || "Días sueltos"}
 ➕ Servicios: ${serviciosTexto || "Sin extras"}
+👨‍👩‍👧‍👦 Hermanos incluidos en cálculo: ${numeroHermanosFormulario}
 
 💰 Total estimado: ${formatearEuros(resumen.total)}
 🆔 Código: ${codigoInscripcion}`;
@@ -418,6 +447,7 @@ Código inscripción: ${codigoInscripcion}`
         setEdad("");
         setEmail("");
         setHermanosTexto("");
+        setNumeroHermanosFormulario(1);
         setPropietario("No");
         setDireccionPropietario("");
         setSede("El Carmen");
@@ -826,7 +856,47 @@ Código inscripción: ${codigoInscripcion}`
                   ) : null}
                 </div>
 
-                <input value={hermanosTexto} onChange={(event) => setHermanosTexto(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Hermano/a y edad si aplica" />
+                <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-4">
+                  <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+                    Hermanos/as
+                  </label>
+                  <input
+                    value={hermanosTexto}
+                    onChange={(event) => setHermanosTexto(event.target.value)}
+                    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+                    placeholder="Nombre y edad del hermano/a si aplica"
+                  />
+
+                  <div className="mt-4">
+                    <label className="mb-2 block text-sm font-black text-[#071B4D]">
+                      Número de hermanos para calcular el precio
+                    </label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        [1, "1 niño/a"],
+                        [2, "2 hermanos"],
+                        [3, "3 hermanos"],
+                      ].map(([numero, label]) => (
+                        <button
+                          key={numero}
+                          type="button"
+                          onClick={() => setNumeroHermanosFormulario(numero)}
+                          className={`rounded-xl border px-3 py-3 text-center text-sm font-black transition ${
+                            numeroHermanosFormulario === numero
+                              ? "border-blue-700 bg-blue-700 text-white shadow-lg shadow-blue-100"
+                              : "border-slate-200 bg-white text-[#071B4D] hover:bg-blue-50"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <p className="mt-3 rounded-xl bg-white px-4 py-3 text-xs leading-5 text-slate-600 ring-1 ring-blue-100">
+                    El cálculo con descuento de hermanos solo es válido si los hermanos coinciden en los mismos días de campus. Si uno viene más días que otro, el descuento se aplicará al hermano que venga menos días. En ese caso, se debe rellenar un segundo formulario indicando que tiene hermano, pero con fechas diferentes.
+                  </p>
+                </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
@@ -946,11 +1016,13 @@ Código inscripción: ${codigoInscripcion}`
               <h3 className="text-xl font-black text-blue-800">Resumen de tu inscripción</h3>
               <div className="mt-6 space-y-4 text-sm">
                 <div className="flex justify-between gap-4"><span>👤 Tipo</span><strong>{tipoCliente === "socio" ? "Socio" : "No socio"}</strong></div>
+                <div className="flex justify-between gap-4"><span>👨‍👩‍👧‍👦 Hermanos cálculo</span><strong>{numeroHermanosFormulario}</strong></div>
                 <div className="flex justify-between gap-4"><span>🔗 Semanas completas</span><strong>{resumen.numeroSemanas}</strong></div>
                 <div className="flex justify-between gap-4"><span>📅 Días sueltos</span><strong>{diasSueltosNumero}</strong></div>
                 <div className="flex justify-between gap-4"><span>⏱️ Días para extras</span><strong>{resumen.diasTotales}</strong></div>
                 <div className="flex justify-between gap-4"><span>🧩 Servicios</span><strong className="text-right">{serviciosTexto || "Sin extras"}</strong></div>
                 <div className="flex justify-between gap-4"><span>🧾 Matrícula</span><strong>Sí</strong></div>
+                <div className="flex justify-between gap-4"><span>🎁 Descuento hermanos</span><strong>-{formatearEuros(resumen.descuentoHermanos)}</strong></div>
               </div>
               <div className="my-6 border-t border-dashed border-amber-300" />
               <p className="text-center text-sm font-black uppercase text-blue-800">Precio orientativo</p>
