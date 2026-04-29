@@ -143,6 +143,7 @@ export default function App() {
   const [matricula, setMatricula] = useState(true);
   const [semanasCalculadora, setSemanasCalculadora] = useState(0);
 const [diasSueltosCalculadora, setDiasSueltosCalculadora] = useState(0);
+  const [numeroHermanosCalculadora, setNumeroHermanosCalculadora] = useState(1);
 
 const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
 
@@ -220,13 +221,26 @@ const resumenCalculadora = useMemo(() => {
   const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
   const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
 
-  const total =
+  const precioBasePorNino =
     precioMatricula +
     precioSemanas +
     precioDiasSueltos +
     precioMatinal +
     precioPostcampus +
     precioComedor;
+
+  let descuentoHermanos = 0;
+  let total = precioBasePorNino;
+
+  if (numeroHermanosCalculadora === 2) {
+    descuentoHermanos = precioBasePorNino * 0.10;
+    total = precioBasePorNino * 2 - descuentoHermanos;
+  }
+
+  if (numeroHermanosCalculadora === 3) {
+    descuentoHermanos = precioBasePorNino * 0.10 + precioBasePorNino * 0.15;
+    total = precioBasePorNino * 3 - descuentoHermanos;
+  }
 
   return {
     numeroSemanas,
@@ -237,34 +251,19 @@ const resumenCalculadora = useMemo(() => {
     precioMatinal,
     precioPostcampus,
     precioComedor,
+    precioBasePorNino,
+    numeroHermanosCalculadora,
+    descuentoHermanos,
     total,
   };
-}, [tipoCliente, matricula, semanasCalculadora, diasSueltosCalculadora, serviciosCalculadora]);
-  
-  const semanasTexto = semanasSeleccionadas.join(" | ");
-  const serviciosTexto = serviciosSeleccionados.join(" | ");
-
-  const resumenTexto = useMemo(() => {
-    return [
-      `Tipo: ${tipoCliente === "socio" ? "Socio" : "No socio"}`,
-      `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
-      `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
-      `Días sueltos para cálculo: ${diasSueltosNumero}`,
-      `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
-      `Días calculados para extras: ${resumen.diasTotales}`,
-      `Matrícula: Sí`,
-      `Total estimado: ${formatearEuros(resumen.total)}`,
-    ].join(" | ");
-  }, [
-    tipoCliente,
-    semanasTexto,
-    diasSueltosTexto,
-    diasSueltosNumero,
-    serviciosTexto,
-    resumen.diasTotales,
-    resumen.total,
-    matricula,
-  ]);
+}, [
+  tipoCliente,
+  matricula,
+  semanasCalculadora,
+  diasSueltosCalculadora,
+  serviciosCalculadora,
+  numeroHermanosCalculadora,
+]);
 
   function validarFormulario() {
     const nuevosErrores = {};
@@ -651,6 +650,37 @@ enviarAGoogleForms(formData);
                 ))}
               </div>
 
+              <div className="mt-6">
+  <label className="mb-3 block text-sm font-black text-[#071B4D]">
+    Número de hermanos
+  </label>
+
+  <div className="grid grid-cols-3 gap-3">
+    {[
+      [1, "1 niño/a"],
+      [2, "2 hermanos"],
+      [3, "3 hermanos"],
+    ].map(([numero, label]) => (
+      <button
+        key={numero}
+        type="button"
+        onClick={() => setNumeroHermanosCalculadora(numero)}
+        className={`rounded-xl border px-4 py-3 text-center font-black transition ${
+          numeroHermanosCalculadora === numero
+            ? "border-blue-700 bg-blue-700 text-white shadow-lg shadow-blue-100"
+            : "border-slate-200 bg-white text-[#071B4D] hover:bg-blue-50"
+        }`}
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+
+  <p className="mt-2 text-xs text-slate-500">
+    2 hermanos: 10% de descuento en el segundo. 3 hermanos: 10% en el segundo y 15% en el tercero.
+  </p>
+</div>
+
               <div className="mt-6 grid gap-5 sm:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-black text-[#071B4D]">Semanas completas</label>
@@ -720,6 +750,7 @@ onChange={(event) => setDiasSueltosCalculadora(Math.max(0, Number(event.target.v
   [`Aula matinal (${resumenCalculadora.diasTotales} días)`, resumenCalculadora.precioMatinal],
   ["Postcampus", resumenCalculadora.precioPostcampus],
   ["Comedor", resumenCalculadora.precioComedor],
+  ["Descuento hermanos", -resumenCalculadora.descuentoHermanos],
 ].map(([label, value]) => (
                   <div key={label} className="flex items-center justify-between border-b border-white/10 pb-3">
                     <span className="text-blue-100">{label}</span>
