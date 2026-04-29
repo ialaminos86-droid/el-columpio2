@@ -265,6 +265,41 @@ const resumenCalculadora = useMemo(() => {
   numeroHermanosCalculadora,
 ]);
 
+}, [
+  tipoCliente,
+  matricula,
+  semanasCalculadora,
+  diasSueltosCalculadora,
+  serviciosCalculadora,
+  numeroHermanosCalculadora,
+]);
+
+const semanasTexto = semanasSeleccionadas.join(" | ");
+const serviciosTexto = serviciosSeleccionados.join(" | ");
+
+const resumenTexto = useMemo(() => {
+  return [
+    `Tipo: ${tipoCliente === "socio" ? "Socio" : "No socio"}`,
+    `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
+    `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
+    `Días sueltos para cálculo: ${diasSueltosNumero}`,
+    `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
+    `Días calculados para extras: ${resumen.diasTotales}`,
+    `Matrícula: Sí`,
+    `Total estimado: ${formatearEuros(resumen.total)}`,
+  ].join(" | ");
+}, [
+  tipoCliente,
+  semanasTexto,
+  diasSueltosTexto,
+  diasSueltosNumero,
+  serviciosTexto,
+  resumen.diasTotales,
+  resumen.total,
+]);
+
+function validarFormulario() {
+
   function validarFormulario() {
     const nuevosErrores = {};
 
