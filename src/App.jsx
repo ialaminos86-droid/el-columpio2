@@ -15,6 +15,7 @@ const FORM_CONFIG = {
     propietario: "entry.1387418677",
     direccionPropietario: "entry.1599358046",
     sede: "entry.1104574246",
+    const sedes = ["El Carmen", "El Mirador de Santa Eufemia", "Club Jardines de Andalucía"];
     semanasTexto: "entry.1069191589",
     diasSueltosTexto: "entry.902508500",
     serviciosExtras: "entry.981458518",
@@ -871,10 +872,19 @@ Código inscripción: ${codigoInscripcion}`
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-bold text-[#071B4D]">Sede *</label>
-                    <select value={sede} onChange={(event) => setSede(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500">
-                      <option value="El Carmen">El Carmen</option>
-                      <option value="El Mirador de Santa Eufemia">El Mirador de Santa Eufemia</option>
-                    </select>
+                    <select
+  value={sede}
+  onChange={(e) => setSede(e.target.value)}
+  className="w-full rounded-xl border border-slate-300 px-4 py-3"
+>
+  <option value="">Selecciona sede</option>
+
+  {SEDES.map((sedeNombre) => (
+    <option key={sedeNombre} value={sedeNombre}>
+      {sedeNombre}
+    </option>
+  ))}
+</select>
                   </div>
                 </div>
 
