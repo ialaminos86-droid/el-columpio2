@@ -15,7 +15,6 @@ const FORM_CONFIG = {
     propietario: "entry.1387418677",
     direccionPropietario: "entry.1599358046",
     sede: "entry.1104574246",
-    const sedes = ["El Carmen", "El Mirador de Santa Eufemia", "Club Jardines de Andalucía"];
     semanasTexto: "entry.1069191589",
     diasSueltosTexto: "entry.902508500",
     serviciosExtras: "entry.981458518",
@@ -26,6 +25,12 @@ const FORM_CONFIG = {
     observaciones: "entry.2062134869",
   },
 };
+
+const SEDES = [
+  "El Carmen",
+  "El Mirador de Santa Eufemia",
+  "Club Jardines de Andalucía",
+];
 
 const SEMANAS = [
   "1º Semana Campus: Junio 22 al 26. Super héroes",
@@ -560,7 +565,7 @@ Código inscripción: ${codigoInscripcion}`
         {[
           ["👥", "+250", "niños cada verano"],
           ["🏅", "Desde 2018", "creciendo juntos"],
-          ["📍", "Tomares", "El Carmen y El Mirador"],
+          ["📍", "3 sedes", "El Carmen · El Mirador · Jardines de Andalucía"],
           ["🕘", "8:00 - 16:00", "horario flexible"],
         ].map(([icono, titulo, texto]) => (
           <div
@@ -595,7 +600,7 @@ Código inscripción: ${codigoInscripcion}`
           Sedes
         </p>
         <p className="mt-2 text-xl font-black text-[#071B4D]">
-          El Carmen · El Mirador de Santa Eufemia
+          El Carmen · El Mirador de Santa Eufemia · Club Jardines de Andalucía
         </p>
         <p className="mt-2 text-sm text-slate-600">
           Campus de verano en Tomares para familias del Aljarafe.
@@ -943,24 +948,25 @@ Código inscripción: ${codigoInscripcion}`
       </label>
 
       <div className="grid grid-cols-2 gap-3">
-        {["1 hermano más", "2 hermanos más"].map((valor) => (
-          <button
-            key={valor}
-            type="button"
-onClick={() => {
-  const hermanos = Math.max(0, valor - 1);
-
-setNumeroHermanos(hermanos);
-setHermanosTexto(hermanos > 0 ? hermanos : "");
-  setNumeroHermanosFormulario(valor === "1 hermano más" ? 2 : 3);
-}}
+       {[
+  { label: "1 hermano más", total: 2 },
+  { label: "2 hermanos más", total: 3 },
+].map((opcion) => (
+  <button
+    key={opcion.label}
+    type="button"
+    onClick={() => {
+      setNumeroHermanos(opcion.label);
+      setHermanosTexto(opcion.label);
+      setNumeroHermanosFormulario(opcion.total);
+    }}
             className={`rounded-xl border px-4 py-3 font-black ${
-              numeroHermanos === valor
+              numeroHermanos === valor.label
                 ? "border-blue-700 bg-blue-700 text-white"
                 : "border-slate-200 bg-white text-[#071B4D]"
             }`}
           >
-            {valor}
+            {opcion.label}
           </button>
         ))}
       </div>
