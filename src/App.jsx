@@ -302,6 +302,7 @@ const [hermanosTexto, setHermanosTexto] = useState("");
   const resumenTexto = useMemo(() => {
     return [
       `Tipo: ${tipoCliente === "socio" ? "Socio" : "No socio"}`,
+      `Sede: ${sede}`,
       `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
       `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
       `Días sueltos para cálculo: ${diasSueltosNumero}`,
@@ -315,6 +316,7 @@ const [hermanosTexto, setHermanosTexto] = useState("");
     ].join(" | ");
   }, [
     tipoCliente,
+    sede,
     semanasTexto,
     diasSueltosTexto,
     diasSueltosNumero,
@@ -961,7 +963,7 @@ Código inscripción: ${codigoInscripcion}`
       setNumeroHermanosFormulario(opcion.total);
     }}
             className={`rounded-xl border px-4 py-3 font-black ${
-              numeroHermanos === valor.label
+              numeroHermanos === opcion.label
                 ? "border-blue-700 bg-blue-700 text-white"
                 : "border-slate-200 bg-white text-[#071B4D]"
             }`}
