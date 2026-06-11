@@ -664,7 +664,7 @@ setHermano2Servicios([]);
           Sedes
         </p>
         <p className="mt-2 text-xl font-black text-[#071B4D]">
-          El Carmen · El Mirador de Santa Eufemia · Club Jardines de Andalucía
+          El Carmen · El Mirador de Santa Eufemia
         </p>
         <p className="mt-2 text-sm text-slate-600">
           Campus de verano en Tomares para familias del Aljarafe.
