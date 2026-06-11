@@ -937,7 +937,9 @@ setHermano2Servicios([]);
 <input
   value={nombreNino}
   onChange={(event) => setNombreNino(event.target.value)}
+  className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
   placeholder="Ej: Alejandro Pérez García"
+/>
                     {errores.nombreNino ? <p className="mt-1 text-xs text-rose-600">{errores.nombreNino}</p> : null}
                   </div>
                   <div>
