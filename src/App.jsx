@@ -331,7 +331,8 @@ hermano2DiasSueltosNumero,
       `Sede: ${sede}`,
       `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
       `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
-      `Días sueltos para cálculo: ${diasSueltosNumero}`,
+      ``Días sueltos niño principal: ${diasSueltosNumero}`,
+`Días sueltos hermanos: ${hermano1DiasSueltosNumero + hermano2DiasSueltosNumero}`, sueltos para cálculo: ${diasSueltosNumero}`,
       `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
       `Días calculados para extras: ${resumen.diasTotales}`,
       `Número de hermanos para cálculo: ${numeroHermanosFormulario}`,
@@ -1286,14 +1287,14 @@ setHermano2Servicios([]);
               <h3 className="text-xl font-black text-blue-800">Resumen de tu inscripción</h3>
               <div className="mt-6 space-y-4 text-sm">
                 <div className="flex justify-between gap-4"><span>👤 Tipo</span><strong>{tipoCliente === "socio" ? "Socio" : "No socio"}</strong></div>
-                <div className="flex justify-between gap-4"><span>👨‍👩‍👧‍👦 Hermanos cálculo</span><strong>{numeroHermanosFormulario}</strong></div>
-                <div className="flex justify-between gap-4"><span>🔗 Semanas completas</span><strong>{resumen.numeroSemanas}</strong></div>
-                <div className="flex justify-between gap-4"><span>📅 Días sueltos</span><strong>{diasSueltosNumero}</strong></div>
-                <div className="flex justify-between gap-4"><span>⏱️ Días para extras</span><strong>{resumen.diasTotales}</strong></div>
-                <div className="flex justify-between gap-4"><span>🧩 Servicios</span><strong className="text-right">{serviciosTexto || "Sin extras"}</strong></div>
-                <div className="flex justify-between gap-4"><span>🧾 Matrícula</span><strong>Sí</strong></div>
-                <div className="flex justify-between gap-4"><span>🎁 Descuento hermanos</span><strong>-{formatearEuros(resumen.descuentoHermanos)}</strong></div>
-              </div>
+<div className="flex justify-between gap-4"><span>👨‍👩‍👧‍👦 Hermanos cálculo</span><strong>{numeroHermanosFormulario}</strong></div>
+<div className="flex justify-between gap-4"><span>🔗 Semanas completas</span><strong>{resumen.numeroSemanas}</strong></div>
+<div className="flex justify-between gap-4"><span>📅 Días niño principal</span><strong>{diasSueltosNumero}</strong></div>
+<div className="flex justify-between gap-4"><span>👦👧 Días hermanos</span><strong>{hermano1DiasSueltosNumero + hermano2DiasSueltosNumero}</strong></div>
+<div className="flex justify-between gap-4"><span>⏱️ Días para extras</span><strong>{resumen.diasTotales}</strong></div>
+<div className="flex justify-between gap-4"><span>🧩 Servicios</span><strong className="text-right">{serviciosTexto || "Sin extras"}</strong></div>
+<div className="flex justify-between gap-4"><span>🧾 Matrícula</span><strong>Sí</strong></div>
+<div className="flex justify-between gap-4"><span>🎁 Descuento hermanos</span><strong>-{formatearEuros(resumen.descuentoHermanos)}</strong></div>
               <div className="my-6 border-t border-dashed border-amber-300" />
               <p className="text-center text-sm font-black uppercase text-blue-800">Precio orientativo</p>
               <p className="mt-2 text-center text-4xl font-black text-blue-900">{formatearEuros(resumen.total)}</p>
