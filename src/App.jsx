@@ -173,11 +173,13 @@ const [hermanosTexto, setHermanosTexto] = useState("");
 const [hermano1NombreEdad, setHermano1NombreEdad] = useState("");
 const [hermano1Semanas, setHermano1Semanas] = useState([]);
 const [hermano1DiasSueltos, setHermano1DiasSueltos] = useState("");
+  const [hermano1DiasSueltosNumero, setHermano1DiasSueltosNumero] = useState(0);
 const [hermano1Servicios, setHermano1Servicios] = useState([]);
 
 const [hermano2NombreEdad, setHermano2NombreEdad] = useState("");
 const [hermano2Semanas, setHermano2Semanas] = useState([]);
 const [hermano2DiasSueltos, setHermano2DiasSueltos] = useState("");
+  const [hermano2DiasSueltosNumero, setHermano2DiasSueltosNumero] = useState(0);
 const [hermano2Servicios, setHermano2Servicios] = useState([]);
 
 const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
@@ -203,7 +205,8 @@ const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
     const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
     const precioMatricula = 12;
     const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
-    const precioDiasSueltos = diasSueltosNumero * precioDiaSuelto;
+   const diasSueltosHermanos = hermano1DiasSueltosNumero + hermano2DiasSueltosNumero;
+const precioDiasSueltos = (diasSueltosNumero + diasSueltosHermanos) * precioDiaSuelto;
 
     const tieneMatinal = serviciosSeleccionados.includes("Aula matinal: 8:00 a 9:00");
     const tienePostcampus = serviciosSeleccionados.includes("Postcampus: 14:00 a 16:00");
@@ -253,6 +256,8 @@ const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
     tipoCliente,
     semanasSeleccionadas,
     diasSueltosNumero,
+    hermano1DiasSueltosNumero,
+hermano2DiasSueltosNumero,
     serviciosSeleccionados,
     numeroHermanosFormulario,
   ]);
@@ -516,11 +521,13 @@ Código inscripción: ${codigoInscripcion}`
         setHermano1NombreEdad("");
 setHermano1Semanas([]);
 setHermano1DiasSueltos("");
+setHermano1DiasSueltosNumero(0);
 setHermano1Servicios([]);
 
 setHermano2NombreEdad("");
 setHermano2Semanas([]);
 setHermano2DiasSueltos("");
+setHermano2DiasSueltosNumero(0);
 setHermano2Servicios([]);
         setTieneHermanos("No");
         setNumeroHermanos("");
@@ -1150,6 +1157,16 @@ setHermano2Servicios([]);
       placeholder="Días sueltos hermano 1"
       className="mt-4 w-full rounded-xl border border-slate-200 px-4 py-3"
     />
+    <input
+  type="number"
+  min="0"
+  value={hermano1DiasSueltosNumero}
+  onChange={(e) =>
+    setHermano1DiasSueltosNumero(Math.max(0, Number(e.target.value) || 0))
+  }
+  placeholder="Nº de días sueltos hermano 1"
+  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-center"
+/>
 
     <p className="mt-4 mb-2 text-sm font-bold">Servicios hermano 1</p>
     <div className="grid gap-2 md:grid-cols-3">
@@ -1198,6 +1215,16 @@ setHermano2Servicios([]);
       placeholder="Días sueltos hermano 2"
       className="mt-4 w-full rounded-xl border border-slate-200 px-4 py-3"
     />
+    <input
+  type="number"
+  min="0"
+  value={hermano2DiasSueltosNumero}
+  onChange={(e) =>
+    setHermano2DiasSueltosNumero(Math.max(0, Number(e.target.value) || 0))
+  }
+  placeholder="Nº de días sueltos hermano 2"
+  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-center"
+/>
 
     <p className="mt-4 mb-2 text-sm font-bold">Servicios hermano 2</p>
     <div className="grid gap-2 md:grid-cols-3">
