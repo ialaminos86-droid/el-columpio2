@@ -9,15 +9,25 @@ const FORM_CONFIG = {
     "https://docs.google.com/forms/d/e/1FAIpQLSdqxK4BQ3N90nsHHWw4GLQHf8nl9FKOVtxNbpHkeSB3OG5nZA/formResponse",
   fields: {
     nombreNino: "entry.1632689659",
-    edad: "entry.1212973234",
-    email: "entry.1799819209",
-    hermanosTexto: "entry.367621578",
-    propietario: "entry.1387418677",
-    direccionPropietario: "entry.1599358046",
+
     sede: "entry.1104574246",
     semanasTexto: "entry.1069191589",
     diasSueltosTexto: "entry.902508500",
     serviciosExtras: "entry.981458518",
+
+    hermano1NombreEdad: "entry.1212973234",
+    hermano1Semanas: "entry.374784654",
+    hermano1DiasSueltos: "entry.423499073",
+    hermano1Servicios: "entry.1966989697",
+
+    hermano2NombreEdad: "entry.367621578",
+    hermano2Semanas: "entry.1949014484",
+    hermano2DiasSueltos: "entry.584375610",
+    hermano2Servicios: "entry.1423870977",
+
+    email: "entry.1799819209",
+    propietario: "entry.1387418677",
+    direccionPropietario: "entry.1599358046",
     padreMadre: "entry.1381846823",
     telefono: "entry.2012682352",
     segundoContacto: "entry.188456918",
@@ -154,12 +164,24 @@ export default function App() {
   const [diasSueltosNumero, setDiasSueltosNumero] = useState(0);
 
   const [nombreNino, setNombreNino] = useState("");
-  const [edad, setEdad] = useState("");
-  const [email, setEmail] = useState("");
-  const [tieneHermanos, setTieneHermanos] = useState("No");
+const [edad, setEdad] = useState("");
+const [email, setEmail] = useState("");
+
+const [tieneHermanos, setTieneHermanos] = useState("No");
 const [numeroHermanos, setNumeroHermanos] = useState("");
 const [hermanosTexto, setHermanosTexto] = useState("");
-  const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
+
+const [hermano1NombreEdad, setHermano1NombreEdad] = useState("");
+const [hermano1Semanas, setHermano1Semanas] = useState([]);
+const [hermano1DiasSueltos, setHermano1DiasSueltos] = useState("");
+const [hermano1Servicios, setHermano1Servicios] = useState([]);
+
+const [hermano2NombreEdad, setHermano2NombreEdad] = useState("");
+const [hermano2Semanas, setHermano2Semanas] = useState([]);
+const [hermano2DiasSueltos, setHermano2DiasSueltos] = useState("");
+const [hermano2Servicios, setHermano2Servicios] = useState([]);
+
+const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   const [propietario, setPropietario] = useState("No");
   const [direccionPropietario, setDireccionPropietario] = useState("");
   const [sede, setSede] = useState("El Carmen");
@@ -395,13 +417,12 @@ const [hermanosTexto, setHermanosTexto] = useState("");
       const codigoInscripcion = `WEB-${Date.now()}`;
       const formData = new FormData();
 
-      formData.append(FORM_CONFIG.fields.nombreNino, nombreNino.trim());
-      formData.append(FORM_CONFIG.fields.edad, edad.trim());
-      formData.append(FORM_CONFIG.fields.email, email.trim());
       formData.append(
-  FORM_CONFIG.fields.hermanosTexto,
-  tieneHermanos === "Si" ? numeroHermanos || "Sí, pero no especifica número" : "No tiene hermanos inscritos"
+  FORM_CONFIG.fields.nombreNino,
+  `${nombreNino.trim()} - ${edad.trim()} años`
 );
+
+formData.append(FORM_CONFIG.fields.email, email.trim());
       formData.append(FORM_CONFIG.fields.propietario, propietario);
       formData.append(
         FORM_CONFIG.fields.direccionPropietario,
@@ -421,6 +442,39 @@ const [hermanosTexto, setHermanosTexto] = useState("");
       serviciosSeleccionados.forEach((servicio) => {
         formData.append(FORM_CONFIG.fields.serviciosExtras, servicio);
       });
+      if (hermano1NombreEdad.trim()) {
+  formData.append(FORM_CONFIG.fields.hermano1NombreEdad, hermano1NombreEdad.trim());
+
+  hermano1Semanas.forEach((semana) => {
+    formData.append(FORM_CONFIG.fields.hermano1Semanas, semana);
+  });
+
+  formData.append(
+    FORM_CONFIG.fields.hermano1DiasSueltos,
+    hermano1DiasSueltos.trim() || "No solicita días sueltos"
+  );
+
+  hermano1Servicios.forEach((servicio) => {
+    formData.append(FORM_CONFIG.fields.hermano1Servicios, servicio);
+  });
+}
+
+if (hermano2NombreEdad.trim()) {
+  formData.append(FORM_CONFIG.fields.hermano2NombreEdad, hermano2NombreEdad.trim());
+
+  hermano2Semanas.forEach((semana) => {
+    formData.append(FORM_CONFIG.fields.hermano2Semanas, semana);
+  });
+
+  formData.append(
+    FORM_CONFIG.fields.hermano2DiasSueltos,
+    hermano2DiasSueltos.trim() || "No solicita días sueltos"
+  );
+
+  hermano2Servicios.forEach((servicio) => {
+    formData.append(FORM_CONFIG.fields.hermano2Servicios, servicio);
+  });
+}
 
       formData.append(FORM_CONFIG.fields.padreMadre, padreMadre.trim());
       formData.append(FORM_CONFIG.fields.telefono, telefono.trim());
@@ -460,6 +514,15 @@ Código inscripción: ${codigoInscripcion}`
         setEdad("");
         setEmail("");
         setHermanosTexto("");
+        setHermano1NombreEdad("");
+setHermano1Semanas([]);
+setHermano1DiasSueltos("");
+setHermano1Servicios([]);
+
+setHermano2NombreEdad("");
+setHermano2Semanas([]);
+setHermano2DiasSueltos("");
+setHermano2Servicios([]);
         setTieneHermanos("No");
         setNumeroHermanos("");
         setNumeroHermanosFormulario(1);
@@ -972,6 +1035,101 @@ Código inscripción: ${codigoInscripcion}`
           </button>
         ))}
       </div>
+      {numeroHermanosFormulario >= 2 && (
+  <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4">
+    <h3 className="mb-3 font-black text-blue-800">Hermano 1</h3>
+
+    <input
+      value={hermano1NombreEdad}
+      onChange={(e) => setHermano1NombreEdad(e.target.value)}
+      placeholder="Nombre y edad del hermano 1"
+      className="w-full rounded-xl border border-slate-200 px-4 py-3"
+    />
+
+    <p className="mt-4 mb-2 text-sm font-bold">Semanas hermano 1</p>
+    <div className="grid gap-2 md:grid-cols-2">
+      {SEMANAS.map((semana) => (
+        <label key={`h1-${semana}`} className="flex gap-3 rounded-xl border bg-white px-3 py-3 text-sm">
+          <input
+            type="checkbox"
+            checked={hermano1Semanas.includes(semana)}
+            onChange={() => setHermano1Semanas((prev) => toggleArrayValue(prev, semana))}
+          />
+          <span>{semana}</span>
+        </label>
+      ))}
+    </div>
+
+    <input
+      value={hermano1DiasSueltos}
+      onChange={(e) => setHermano1DiasSueltos(e.target.value)}
+      placeholder="Días sueltos hermano 1"
+      className="mt-4 w-full rounded-xl border border-slate-200 px-4 py-3"
+    />
+
+    <p className="mt-4 mb-2 text-sm font-bold">Servicios hermano 1</p>
+    <div className="grid gap-2 md:grid-cols-3">
+      {SERVICIOS.map((servicio) => (
+        <label key={`h1-serv-${servicio}`} className="flex gap-3 rounded-xl border bg-white px-3 py-3 text-sm">
+          <input
+            type="checkbox"
+            checked={hermano1Servicios.includes(servicio)}
+            onChange={() => setHermano1Servicios((prev) => toggleArrayValue(prev, servicio))}
+          />
+          <span>{servicio}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+)}
+
+{numeroHermanosFormulario >= 3 && (
+  <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4">
+    <h3 className="mb-3 font-black text-blue-800">Hermano 2</h3>
+
+    <input
+      value={hermano2NombreEdad}
+      onChange={(e) => setHermano2NombreEdad(e.target.value)}
+      placeholder="Nombre y edad del hermano 2"
+      className="w-full rounded-xl border border-slate-200 px-4 py-3"
+    />
+
+    <p className="mt-4 mb-2 text-sm font-bold">Semanas hermano 2</p>
+    <div className="grid gap-2 md:grid-cols-2">
+      {SEMANAS.map((semana) => (
+        <label key={`h2-${semana}`} className="flex gap-3 rounded-xl border bg-white px-3 py-3 text-sm">
+          <input
+            type="checkbox"
+            checked={hermano2Semanas.includes(semana)}
+            onChange={() => setHermano2Semanas((prev) => toggleArrayValue(prev, semana))}
+          />
+          <span>{semana}</span>
+        </label>
+      ))}
+    </div>
+
+    <input
+      value={hermano2DiasSueltos}
+      onChange={(e) => setHermano2DiasSueltos(e.target.value)}
+      placeholder="Días sueltos hermano 2"
+      className="mt-4 w-full rounded-xl border border-slate-200 px-4 py-3"
+    />
+
+    <p className="mt-4 mb-2 text-sm font-bold">Servicios hermano 2</p>
+    <div className="grid gap-2 md:grid-cols-3">
+      {SERVICIOS.map((servicio) => (
+        <label key={`h2-serv-${servicio}`} className="flex gap-3 rounded-xl border bg-white px-3 py-3 text-sm">
+          <input
+            type="checkbox"
+            checked={hermano2Servicios.includes(servicio)}
+            onChange={() => setHermano2Servicios((prev) => toggleArrayValue(prev, servicio))}
+          />
+          <span>{servicio}</span>
+        </label>
+      ))}
+    </div>
+  </div>
+)}
     </div>
   ) : null}
 </div>
