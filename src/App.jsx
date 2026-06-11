@@ -39,7 +39,6 @@ const FORM_CONFIG = {
 const SEDES = [
   "El Carmen",
   "El Mirador de Santa Eufemia",
-  "Club Jardines de Andalucía",
 ];
 
 const SEMANAS = [
@@ -334,7 +333,7 @@ const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
       `Descuento hermanos: ${formatearEuros(resumen.descuentoHermanos)}`,
       `Matrícula: Sí`,
       `Total estimado: ${formatearEuros(resumen.total)}`,
-      `Nota: el descuento de hermanos solo aplica si coinciden los mismos días. Si un hermano asiste menos días, el descuento se aplica al hermano con menos días y se debe rellenar otro formulario para ese hermano.`,
+      `Nota: si los hermanos tienen semanas o servicios diferentes, el importe final será revisado manualmente antes de confirmarlo.`,
     ].join(" | ");
   }, [
     tipoCliente,
@@ -630,7 +629,7 @@ setHermano2Servicios([]);
         {[
           ["👥", "+250", "niños cada verano"],
           ["🏅", "Desde 2018", "creciendo juntos"],
-          ["📍", "3 sedes", "El Carmen · El Mirador · Jardines de Andalucía"],
+          ["📍", "2 sedes", "El Carmen · El Mirador"],
           ["🕘", "8:00 - 16:00", "horario flexible"],
         ].map(([icono, titulo, texto]) => (
           <div
@@ -974,9 +973,86 @@ setHermano2Servicios([]);
                 </div>
 
           
-<div className="rounded-2xl border border-slate-200 bg-white p-4">
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="mb-2 block text-sm font-bold text-[#071B4D]">¿Es propietario de la urbanización? *</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      {["Si", "No"].map((valor) => (
+                        <button key={valor} type="button" onClick={() => setPropietario(valor)} className={`rounded-xl border px-4 py-3 font-black ${propietario === valor ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-[#071B4D]"}`}>
+                          {valor === "Si" ? "Sí" : "No"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {propietario === "Si" ? (
+                    <div>
+                      <label className="mb-2 block text-sm font-bold text-[#071B4D]">Dirección y propietario *</label>
+                      <input value={direccionPropietario} onChange={(event) => setDireccionPropietario(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Dirección y nombre" />
+                      {errores.direccionPropietario ? <p className="mt-1 text-xs text-rose-600">{errores.direccionPropietario}</p> : null}
+                    </div>
+                  ) : null}
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-[#071B4D]">Semanas elegidas *</label>
+                  <div className="grid gap-2 md:grid-cols-2">
+                    {SEMANAS.map((semana) => (
+                      <label key={semana} className={`flex cursor-pointer gap-3 rounded-xl border px-3 py-3 text-sm ${semanasSeleccionadas.includes(semana) ? "border-blue-700 bg-blue-50 text-blue-800" : "border-slate-200 bg-white text-[#071B4D]"}`}>
+                        <input
+                          type="checkbox"
+                          checked={semanasSeleccionadas.includes(semana)}
+                          onChange={() => setSemanasSeleccionadas((prev) => toggleArrayValue(prev, semana))}
+                        />
+                        <span>{semana}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {errores.semanas ? <p className="mt-2 text-xs text-rose-600">{errores.semanas}</p> : null}
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+                      Días sueltos: especificar fechas
+                    </label>
+                    <input
+                      value={diasSueltosTexto}
+                      onChange={(event) => setDiasSueltosTexto(event.target.value)}
+                      className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+                      placeholder="Ej: 24 junio, 25 junio..."
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+                      Nº de días sueltos
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={diasSueltosNumero}
+                      onChange={(event) => setDiasSueltosNumero(Math.max(0, Number(event.target.value) || 0))}
+                      className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-lg font-black outline-none focus:border-blue-500"
+                      placeholder="0"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-bold text-[#071B4D]">Servicios extra</label>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {SERVICIOS.map((servicio) => (
+                      <label key={servicio} className={`flex cursor-pointer gap-3 rounded-xl border px-3 py-3 text-sm font-bold ${serviciosSeleccionados.includes(servicio) ? "border-blue-700 bg-blue-50 text-blue-800" : "border-slate-200 bg-white text-[#071B4D]"}`}>
+                        <input type="checkbox" checked={serviciosSeleccionados.includes(servicio)} onChange={() => setServiciosSeleccionados((prev) => toggleArrayValue(prev, servicio))} />
+                        <span>{servicio}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-white p-4">
   <label className="mb-3 block text-sm font-bold text-[#071B4D]">
-    ¿Tiene hermanos que también se van a inscribir?
+¿Desea añadir hermanos a esta inscripción?
   </label>
 
   <div className="grid grid-cols-2 gap-3">
@@ -1133,82 +1209,6 @@ setHermano2Servicios([]);
     </div>
   ) : null}
 </div>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label className="mb-2 block text-sm font-bold text-[#071B4D]">¿Es propietario de la urbanización? *</label>
-                    <div className="grid grid-cols-2 gap-3">
-                      {["Si", "No"].map((valor) => (
-                        <button key={valor} type="button" onClick={() => setPropietario(valor)} className={`rounded-xl border px-4 py-3 font-black ${propietario === valor ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-[#071B4D]"}`}>
-                          {valor === "Si" ? "Sí" : "No"}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  {propietario === "Si" ? (
-                    <div>
-                      <label className="mb-2 block text-sm font-bold text-[#071B4D]">Dirección y propietario *</label>
-                      <input value={direccionPropietario} onChange={(event) => setDireccionPropietario(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Dirección y nombre" />
-                      {errores.direccionPropietario ? <p className="mt-1 text-xs text-rose-600">{errores.direccionPropietario}</p> : null}
-                    </div>
-                  ) : null}
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-[#071B4D]">Semanas elegidas *</label>
-                  <div className="grid gap-2 md:grid-cols-2">
-                    {SEMANAS.map((semana) => (
-                      <label key={semana} className={`flex cursor-pointer gap-3 rounded-xl border px-3 py-3 text-sm ${semanasSeleccionadas.includes(semana) ? "border-blue-700 bg-blue-50 text-blue-800" : "border-slate-200 bg-white text-[#071B4D]"}`}>
-                        <input
-                          type="checkbox"
-                          checked={semanasSeleccionadas.includes(semana)}
-                          onChange={() => setSemanasSeleccionadas((prev) => toggleArrayValue(prev, semana))}
-                        />
-                        <span>{semana}</span>
-                      </label>
-                    ))}
-                  </div>
-                  {errores.semanas ? <p className="mt-2 text-xs text-rose-600">{errores.semanas}</p> : null}
-                </div>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
-                      Días sueltos: especificar fechas
-                    </label>
-                    <input
-                      value={diasSueltosTexto}
-                      onChange={(event) => setDiasSueltosTexto(event.target.value)}
-                      className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-                      placeholder="Ej: 24 junio, 25 junio..."
-                    />
-                  </div>
-
-                  <div>
-                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
-                      Nº de días sueltos
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={diasSueltosNumero}
-                      onChange={(event) => setDiasSueltosNumero(Math.max(0, Number(event.target.value) || 0))}
-                      className="w-full rounded-xl border border-slate-200 px-4 py-3 text-center text-lg font-black outline-none focus:border-blue-500"
-                      placeholder="0"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-bold text-[#071B4D]">Servicios extra</label>
-                  <div className="grid gap-3 md:grid-cols-3">
-                    {SERVICIOS.map((servicio) => (
-                      <label key={servicio} className={`flex cursor-pointer gap-3 rounded-xl border px-3 py-3 text-sm font-bold ${serviciosSeleccionados.includes(servicio) ? "border-blue-700 bg-blue-50 text-blue-800" : "border-slate-200 bg-white text-[#071B4D]"}`}>
-                        <input type="checkbox" checked={serviciosSeleccionados.includes(servicio)} onChange={() => setServiciosSeleccionados((prev) => toggleArrayValue(prev, servicio))} />
-                        <span>{servicio}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
 
                 <div className="grid gap-4 md:grid-cols-4">
                   <div className="md:col-span-1">
