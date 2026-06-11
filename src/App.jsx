@@ -351,7 +351,7 @@ const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   function validarFormulario() {
     const nuevosErrores = {};
 
-    if (!nombreNino.trim()) nuevosErrores.nombreNino = "Introduce el nombre del niño/a.";
+    if (!nombreNino.trim()) nuevosErrores.nombreNino = "Introduce el Nombre y apellidos del niño/a.";
     if (!edad.trim()) nuevosErrores.edad = "Indica la edad.";
     if (!email.trim()) nuevosErrores.email = "Indica un email.";
     if (!semanasTexto.trim() && !diasSueltosTexto.trim()) {
@@ -930,8 +930,14 @@ setHermano2Servicios([]);
               <form className="grid gap-4" onSubmit={handleSubmit}>
                 <div className="grid gap-4 md:grid-cols-3">
                   <div>
-                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">Nombre del niño/a *</label>
-                    <input value={nombreNino} onChange={(event) => setNombreNino(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Escribe el nombre" />
+                    <label className="mb-1 block text-sm font-bold text-[#071B4D]">
+  Nombre y apellidos del niño *
+</label>
+
+<input
+  value={nombreNino}
+  onChange={(event) => setNombreNino(event.target.value)}
+  placeholder="Ej: Alejandro Pérez García"
                     {errores.nombreNino ? <p className="mt-1 text-xs text-rose-600">{errores.nombreNino}</p> : null}
                   </div>
                   <div>
@@ -1118,7 +1124,7 @@ setHermano2Servicios([]);
     <input
       value={hermano1NombreEdad}
       onChange={(e) => setHermano1NombreEdad(e.target.value)}
-      placeholder="Nombre y edad del hermano 1"
+      placeholder="Ej: Jaime Pérez García - 5 años"
       className="w-full rounded-xl border border-slate-200 px-4 py-3"
     />
 
@@ -1163,12 +1169,12 @@ setHermano2Servicios([]);
   <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4">
     <h3 className="mb-3 font-black text-blue-800">Hermano 2</h3>
 
-    <input
-      value={hermano2NombreEdad}
-      onChange={(e) => setHermano2NombreEdad(e.target.value)}
-      placeholder="Nombre y edad del hermano 2"
-      className="w-full rounded-xl border border-slate-200 px-4 py-3"
-    />
+   <input
+  value={hermano2NombreEdad}
+  onChange={(e) => setHermano2NombreEdad(e.target.value)}
+  placeholder="Ej: Lucía Pérez García - 8 años"
+  className="w-full rounded-xl border border-slate-200 px-4 py-3"
+/>
 
     <p className="mt-4 mb-2 text-sm font-bold">Semanas hermano 2</p>
     <div className="grid gap-2 md:grid-cols-2">
