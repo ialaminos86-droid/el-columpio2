@@ -171,19 +171,17 @@ const [numeroHermanos, setNumeroHermanos] = useState("");
 const [hermanosTexto, setHermanosTexto] = useState("");
 
 const [hermano1NombreEdad, setHermano1NombreEdad] = useState("");
-  const [hermano1IgualPrincipal, setHermano1IgualPrincipal] = useState(true);
-const [hermano2IgualPrincipal, setHermano2IgualPrincipal] = useState(true);
+const [hermano1IgualPrincipal, setHermano1IgualPrincipal] = useState(true);
 const [hermano1Semanas, setHermano1Semanas] = useState([]);
 const [hermano1DiasSueltos, setHermano1DiasSueltos] = useState("");
-  const [hermano1DiasSueltosNumero, setHermano1DiasSueltosNumero] = useState(0);
+const [hermano1DiasSueltosNumero, setHermano1DiasSueltosNumero] = useState(0);
 const [hermano1Servicios, setHermano1Servicios] = useState([]);
 
 const [hermano2NombreEdad, setHermano2NombreEdad] = useState("");
-  const [hermano1IgualPrincipal, setHermano1IgualPrincipal] = useState(true);
 const [hermano2IgualPrincipal, setHermano2IgualPrincipal] = useState(true);
 const [hermano2Semanas, setHermano2Semanas] = useState([]);
 const [hermano2DiasSueltos, setHermano2DiasSueltos] = useState("");
-  const [hermano2DiasSueltosNumero, setHermano2DiasSueltosNumero] = useState(0);
+const [hermano2DiasSueltosNumero, setHermano2DiasSueltosNumero] = useState(0);
 const [hermano2Servicios, setHermano2Servicios] = useState([]);
 
 const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
@@ -335,9 +333,9 @@ hermano2DiasSueltosNumero,
       `Sede: ${sede}`,
       `Semanas elegidas: ${semanasTexto || "Pendiente"}`,
       `Días sueltos: ${diasSueltosTexto || "No solicita"}`,
-      ``Días sueltos niño principal: ${diasSueltosNumero}`,
-`Días sueltos hermanos: ${hermano1DiasSueltosNumero + hermano2DiasSueltosNumero}`, sueltos para cálculo: ${diasSueltosNumero}`,
-      `Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
+`Días sueltos niño principal: ${diasSueltosNumero}`,
+`Días sueltos hermanos: ${hermano1DiasSueltosNumero + hermano2DiasSueltosNumero}`,
+`Servicios extra: ${serviciosTexto || "Sin servicios extra"}`,
       `Días calculados para extras: ${resumen.diasTotales}`,
       `Número de hermanos para cálculo: ${numeroHermanosFormulario}`,
       `Descuento hermanos: ${formatearEuros(resumen.descuentoHermanos)}`,
@@ -1199,6 +1197,9 @@ setHermano2Servicios([]);
       ))}
     </div>
   </>
+)}
+
+</div>
 )}
 
 {numeroHermanosFormulario >= 3 && (
