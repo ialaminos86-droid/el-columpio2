@@ -1315,7 +1315,10 @@ setHermano2Servicios([]);
 <div className="flex justify-between gap-4"><span>🧩 Servicios</span><strong className="text-right">{serviciosTexto || "Sin extras"}</strong></div>
 <div className="flex justify-between gap-4"><span>🧾 Matrícula</span><strong>Sí</strong></div>
 <div className="flex justify-between gap-4"><span>🎁 Descuento hermanos</span><strong>-{formatearEuros(resumen.descuentoHermanos)}</strong></div>
-              <div className="my-6 border-t border-dashed border-amber-300" />
+
+              </div>        
+                
+                <div className="my-6 border-t border-dashed border-amber-300" />
               <p className="text-center text-sm font-black uppercase text-blue-800">Precio orientativo</p>
               <p className="mt-2 text-center text-4xl font-black text-blue-900">{formatearEuros(resumen.total)}</p>
               <p className="mt-2 text-center text-xs text-slate-500">
