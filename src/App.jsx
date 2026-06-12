@@ -176,14 +176,13 @@ const [hermano1Semanas, setHermano1Semanas] = useState([]);
 const [hermano1DiasSueltos, setHermano1DiasSueltos] = useState("");
 const [hermano1DiasSueltosNumero, setHermano1DiasSueltosNumero] = useState(0);
 const [hermano1Servicios, setHermano1Servicios] = useState([]);
-
 const [hermano2NombreEdad, setHermano2NombreEdad] = useState("");
+  
 const [hermano2IgualPrincipal, setHermano2IgualPrincipal] = useState(true);
 const [hermano2Semanas, setHermano2Semanas] = useState([]);
 const [hermano2DiasSueltos, setHermano2DiasSueltos] = useState("");
 const [hermano2DiasSueltosNumero, setHermano2DiasSueltosNumero] = useState(0);
 const [hermano2Servicios, setHermano2Servicios] = useState([]);
-
 const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   const [propietario, setPropietario] = useState("No");
   const [direccionPropietario, setDireccionPropietario] = useState("");
@@ -1212,7 +1211,17 @@ setHermano2Servicios([]);
   placeholder="Ej: Lucía Pérez García - 8 años"
   className="w-full rounded-xl border border-slate-200 px-4 py-3"
 />
+    <label className="mt-4 flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm font-bold text-[#071B4D]">
+  <input
+    type="checkbox"
+    checked={hermano2IgualPrincipal}
+    onChange={(e) => setHermano2IgualPrincipal(e.target.checked)}
+  />
+  Mismas semanas, días y servicios que el niño principal
+</label>
 
+{!hermano2IgualPrincipal && (
+  <>
     <p className="mt-4 mb-2 text-sm font-bold">Semanas hermano 2</p>
     <div className="grid gap-2 md:grid-cols-2">
       {SEMANAS.map((semana) => (
@@ -1233,16 +1242,17 @@ setHermano2Servicios([]);
       placeholder="Días sueltos hermano 2"
       className="mt-4 w-full rounded-xl border border-slate-200 px-4 py-3"
     />
+
     <input
-  type="number"
-  min="0"
-  value={hermano2DiasSueltosNumero}
-  onChange={(e) =>
-    setHermano2DiasSueltosNumero(Math.max(0, Number(e.target.value) || 0))
-  }
-  placeholder="Nº de días sueltos hermano 2"
-  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-center"
-/>
+      type="number"
+      min="0"
+      value={hermano2DiasSueltosNumero}
+      onChange={(e) =>
+        setHermano2DiasSueltosNumero(Math.max(0, Number(e.target.value) || 0))
+      }
+      placeholder="Nº de días sueltos hermano 2"
+      className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-center"
+    />
 
     <p className="mt-4 mb-2 text-sm font-bold">Servicios hermano 2</p>
     <div className="grid gap-2 md:grid-cols-3">
@@ -1257,7 +1267,7 @@ setHermano2Servicios([]);
         </label>
       ))}
     </div>
-  </div>
+  </>
 )}
     </div>
   ) : null}
