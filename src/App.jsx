@@ -593,7 +593,7 @@ Código inscripción: ${codigoInscripcion}`
 ➕ Servicios: ${serviciosTexto || "Sin extras"}
 👨‍👩‍👧‍👦 Hermanos incluidos en cálculo: ${numeroHermanosFormulario}
 
-💰 Total estimado: ${formatearEuros(resumen.total)}
+💰 Importe orientativo: ${formatearEuros(resumen.total)}
 🆔 Código: ${codigoInscripcion}`;
 
         setNombreNino("");
@@ -1422,7 +1422,7 @@ setHermano2Servicios([]);
               <p className="mt-2 text-center text-sm font-bold text-green-700">
                 ✅ Inscripción rápida en menos de 1 minuto
               </p>
-              <p className="mt-4 rounded-2xl bg-white p-4 text-sm leading-6 text-slate-600">Este es el precio orientativo según los datos introducidos. El importe final se confirmará tras revisar la inscripción.</p>
+              <p className="mt-4 rounded-2xl bg-white p-4 text-sm leading-6 text-slate-600">Este importe es orientativo y será revisado por nuestro equipo antes de la confirmación definitiva de la inscripción. El importe final se confirmará tras revisar la inscripción.</p>
               <a href="https://wa.me/34611503688" className="mt-5 flex items-center justify-center rounded-2xl border border-emerald-200 bg-white p-4 text-center font-black text-emerald-700">
                 💬 ¿Dudas? 611 503 688
               </a>
