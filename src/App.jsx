@@ -1289,7 +1289,7 @@ setHermano2Servicios([]);
           <input
             type="checkbox"
             checked={hermano2Servicios.includes(servicio)}
-            onChange={() => setHermano2Servicios((prev) => toggleArrayValue(prev, servicio))}
+                     onChange={() => setHermano2Servicios((prev) => toggleArrayValue(prev, servicio))}
           />
           <span>{servicio}</span>
         </label>
@@ -1297,6 +1297,9 @@ setHermano2Servicios([]);
     </div>
   </>
 )}
+    </div>
+)}
+
     </div>
   ) : null}
 </div>
