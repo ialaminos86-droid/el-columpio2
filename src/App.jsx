@@ -200,6 +200,34 @@ const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   const [estadoEnvio, setEstadoEnvio] = useState("idle");
   const [mensajeEnvio, setMensajeEnvio] = useState("");
 
+useEffect(() => {
+  if (hermano1IgualPrincipal) {
+    setHermano1Semanas(semanasSeleccionadas);
+    setHermano1DiasSueltos(diasSueltosTexto);
+    setHermano1DiasSueltosNumero(diasSueltosNumero);
+    setHermano1Servicios(serviciosSeleccionados);
+  }
+}, [
+  hermano1IgualPrincipal,
+  semanasSeleccionadas,
+  diasSueltosTexto,
+  diasSueltosNumero,
+  serviciosSeleccionados,
+]);
+  useEffect(() => {
+  if (hermano2IgualPrincipal) {
+    setHermano2Semanas(semanasSeleccionadas);
+    setHermano2DiasSueltos(diasSueltosTexto);
+    setHermano2DiasSueltosNumero(diasSueltosNumero);
+    setHermano2Servicios(serviciosSeleccionados);
+  }
+}, [
+  hermano2IgualPrincipal,
+  semanasSeleccionadas,
+  diasSueltosTexto,
+  diasSueltosNumero,
+  serviciosSeleccionados,
+]);
   const resumen = useMemo(() => {
     const numeroSemanas = semanasSeleccionadas.length;
     const diasTotales = numeroSemanas * 5 + diasSueltosNumero;
