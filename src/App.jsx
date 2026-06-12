@@ -229,43 +229,94 @@ useEffect(() => {
   serviciosSeleccionados,
 ]);
   const resumen = useMemo(() => {
-    const numeroSemanas = semanasSeleccionadas.length;
-    const diasTotales = numeroSemanas * 5 + diasSueltosNumero;
-    const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
-    const precioMatricula = 12;
-    const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
-   const diasSueltosHermanos = hermano1DiasSueltosNumero + hermano2DiasSueltosNumero;
-const precioDiasSueltos = (diasSueltosNumero + diasSueltosHermanos) * precioDiaSuelto;
+const precioDiaSuelto = tipoCliente === "socio" ? 15 : 18;
+const precioMatricula = 12;
 
-    const tieneMatinal = serviciosSeleccionados.includes("Aula matinal: 8:00 a 9:00");
-    const tienePostcampus = serviciosSeleccionados.includes("Postcampus: 14:00 a 16:00");
-    const tieneComedor = serviciosSeleccionados.includes("Postcampus+Comedor: 14:00 a 16:00");
+const calcularNino = (semanas, diasSueltos, servicios) => {
+  const numeroSemanas = semanas.length;
+  const diasTotales = numeroSemanas * 5 + diasSueltos;
+  const precioSemanas = calcularPrecioSemanas(numeroSemanas, tipoCliente);
+  const precioDiasSueltos = diasSueltos * precioDiaSuelto;
 
-    const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
-    const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
-    const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
+  const tieneMatinal = servicios.includes("Aula matinal: 8:00 a 9:00");
+  const tienePostcampus = servicios.includes("Postcampus: 14:00 a 16:00");
+  const tieneComedor = servicios.includes("Postcampus+Comedor: 14:00 a 16:00");
 
-    const precioBasePorNino =
+  const precioMatinal = tieneMatinal ? diasTotales * 3 : 0;
+  const precioComedor = tieneComedor ? diasTotales * 7.5 : 0;
+  const precioPostcampus = tienePostcampus && !tieneComedor ? diasTotales * 3 : 0;
+
+  return {
+    numeroSemanas,
+    diasTotales,
+    precioSemanas,
+    precioDiasSueltos,
+    precioMatinal,
+    precioPostcampus,
+    precioComedor,
+    total:
       precioMatricula +
       precioSemanas +
       precioDiasSueltos +
       precioMatinal +
       precioPostcampus +
-      precioComedor;
+      precioComedor,
+  };
+};
 
-    let descuentoHermanos = 0;
-    let total = precioBasePorNino;
+const principal = calcularNino(semanasSeleccionadas, diasSueltosNumero, serviciosSeleccionados);
+const hermano1 = calcularNino(hermano1Semanas, hermano1DiasSueltosNumero, hermano1Servicios);
+const hermano2 = calcularNino(hermano2Semanas, hermano2DiasSueltosNumero, hermano2Servicios);
 
-    if (numeroHermanosFormulario === 2) {
-      descuentoHermanos = precioBasePorNino * 0.10;
-      total = precioBasePorNino * 2 - descuentoHermanos;
-    }
+const numeroSemanas = principal.numeroSemanas;
+const diasTotales = principal.diasTotales + (numeroHermanosFormulario >= 2 ? hermano1.diasTotales : 0) + (numeroHermanosFormulario >= 3 ? hermano2.diasTotales : 0);
 
-    if (numeroHermanosFormulario === 3) {
-      descuentoHermanos = precioBasePorNino * 0.10 + precioBasePorNino * 0.15;
-      total = precioBasePorNino * 3 - descuentoHermanos;
-    }
+const precioSemanas =
+  principal.precioSemanas +
+  (numeroHermanosFormulario >= 2 ? hermano1.precioSemanas : 0) +
+  (numeroHermanosFormulario >= 3 ? hermano2.precioSemanas : 0);
 
+const precioDiasSueltos =
+  principal.precioDiasSueltos +
+  (numeroHermanosFormulario >= 2 ? hermano1.precioDiasSueltos : 0) +
+  (numeroHermanosFormulario >= 3 ? hermano2.precioDiasSueltos : 0);
+
+const precioMatinal =
+  principal.precioMatinal +
+  (numeroHermanosFormulario >= 2 ? hermano1.precioMatinal : 0) +
+  (numeroHermanosFormulario >= 3 ? hermano2.precioMatinal : 0);
+
+const precioPostcampus =
+  principal.precioPostcampus +
+  (numeroHermanosFormulario >= 2 ? hermano1.precioPostcampus : 0) +
+  (numeroHermanosFormulario >= 3 ? hermano2.precioPostcampus : 0);
+
+const precioComedor =
+  principal.precioComedor +
+  (numeroHermanosFormulario >= 2 ? hermano1.precioComedor : 0) +
+  (numeroHermanosFormulario >= 3 ? hermano2.precioComedor : 0);
+
+const precioBasePorNino = principal.total;
+const subtotalSinDescuento =
+  principal.total +
+  (numeroHermanosFormulario >= 2 ? hermano1.total : 0) +
+  (numeroHermanosFormulario >= 3 ? hermano2.total : 0);
+
+let descuentoHermanos = 0;
+let total = subtotalSinDescuento;
+
+if (numeroHermanosFormulario === 2) {
+  descuentoHermanos = hermano1.total * 0.10;
+  total = subtotalSinDescuento - descuentoHermanos;
+}
+
+if (numeroHermanosFormulario === 3) {
+  descuentoHermanos =
+    hermano1.total * 0.10 +
+    hermano2.total * 0.15;
+
+  total = subtotalSinDescuento - descuentoHermanos;
+}
     return {
       numeroSemanas,
       diasTotales,
@@ -277,6 +328,7 @@ const precioDiasSueltos = (diasSueltosNumero + diasSueltosHermanos) * precioDiaS
       precioPostcampus,
       precioComedor,
       precioBasePorNino,
+      subtotalSinDescuento,
       numeroHermanosFormulario,
       descuentoHermanos,
       total,
