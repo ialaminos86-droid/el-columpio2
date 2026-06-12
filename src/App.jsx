@@ -171,12 +171,16 @@ const [numeroHermanos, setNumeroHermanos] = useState("");
 const [hermanosTexto, setHermanosTexto] = useState("");
 
 const [hermano1NombreEdad, setHermano1NombreEdad] = useState("");
+  const [hermano1IgualPrincipal, setHermano1IgualPrincipal] = useState(true);
+const [hermano2IgualPrincipal, setHermano2IgualPrincipal] = useState(true);
 const [hermano1Semanas, setHermano1Semanas] = useState([]);
 const [hermano1DiasSueltos, setHermano1DiasSueltos] = useState("");
   const [hermano1DiasSueltosNumero, setHermano1DiasSueltosNumero] = useState(0);
 const [hermano1Servicios, setHermano1Servicios] = useState([]);
 
 const [hermano2NombreEdad, setHermano2NombreEdad] = useState("");
+  const [hermano1IgualPrincipal, setHermano1IgualPrincipal] = useState(true);
+const [hermano2IgualPrincipal, setHermano2IgualPrincipal] = useState(true);
 const [hermano2Semanas, setHermano2Semanas] = useState([]);
 const [hermano2DiasSueltos, setHermano2DiasSueltos] = useState("");
   const [hermano2DiasSueltosNumero, setHermano2DiasSueltosNumero] = useState(0);
@@ -1129,15 +1133,26 @@ setHermano2Servicios([]);
       </div>
       {numeroHermanosFormulario >= 2 && (
   <div className="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4">
-    <h3 className="mb-3 font-black text-blue-800">Hermano 1</h3>
+ <h3 className="mb-3 font-black text-blue-800">Hermano 1</h3>
 
-    <input
-      value={hermano1NombreEdad}
-      onChange={(e) => setHermano1NombreEdad(e.target.value)}
-      placeholder="Ej: Jaime Pérez García - 5 años"
-      className="w-full rounded-xl border border-slate-200 px-4 py-3"
-    />
+<input
+  value={hermano1NombreEdad}
+  onChange={(e) => setHermano1NombreEdad(e.target.value)}
+  placeholder="Ej: Jaime Pérez García - 5 años"
+  className="w-full rounded-xl border border-slate-200 px-4 py-3"
+/>
 
+<label className="mt-4 flex items-center gap-3 rounded-xl bg-white px-4 py-3 text-sm font-bold text-[#071B4D]">
+  <input
+    type="checkbox"
+    checked={hermano1IgualPrincipal}
+    onChange={(e) => setHermano1IgualPrincipal(e.target.checked)}
+  />
+  Mismas semanas, días y servicios que el niño principal
+</label>
+
+{!hermano1IgualPrincipal && (
+  <>
     <p className="mt-4 mb-2 text-sm font-bold">Semanas hermano 1</p>
     <div className="grid gap-2 md:grid-cols-2">
       {SEMANAS.map((semana) => (
@@ -1158,16 +1173,17 @@ setHermano2Servicios([]);
       placeholder="Días sueltos hermano 1"
       className="mt-4 w-full rounded-xl border border-slate-200 px-4 py-3"
     />
+
     <input
-  type="number"
-  min="0"
-  value={hermano1DiasSueltosNumero}
-  onChange={(e) =>
-    setHermano1DiasSueltosNumero(Math.max(0, Number(e.target.value) || 0))
-  }
-  placeholder="Nº de días sueltos hermano 1"
-  className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-center"
-/>
+      type="number"
+      min="0"
+      value={hermano1DiasSueltosNumero}
+      onChange={(e) =>
+        setHermano1DiasSueltosNumero(Math.max(0, Number(e.target.value) || 0))
+      }
+      placeholder="Nº de días sueltos hermano 1"
+      className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-center"
+    />
 
     <p className="mt-4 mb-2 text-sm font-bold">Servicios hermano 1</p>
     <div className="grid gap-2 md:grid-cols-3">
@@ -1182,7 +1198,7 @@ setHermano2Servicios([]);
         </label>
       ))}
     </div>
-  </div>
+  </>
 )}
 
 {numeroHermanosFormulario >= 3 && (
@@ -1286,7 +1302,10 @@ setHermano2Servicios([]);
             <aside className="rounded-[2rem] bg-amber-50 p-6 text-[#071B4D] shadow-xl ring-1 ring-amber-100 lg:sticky lg:top-28 lg:self-start">
               <h3 className="text-xl font-black text-blue-800">Resumen de tu inscripción</h3>
               <div className="mt-6 space-y-4 text-sm">
-                <div className="flex justify-between gap-4"><span>👤 Tipo</span><strong>{tipoCliente === "socio" ? "Socio" : "No socio"}</strong></div>
+              <div className="flex justify-between gap-4">
+  <span>📅 Días niño principal</span>
+  <strong>{diasSueltosNumero}</strong>
+</div>
 <div className="flex justify-between gap-4"><span>👨‍👩‍👧‍👦 Hermanos cálculo</span><strong>{numeroHermanosFormulario}</strong></div>
 <div className="flex justify-between gap-4"><span>🔗 Semanas completas</span><strong>{resumen.numeroSemanas}</strong></div>
 <div className="flex justify-between gap-4"><span>📅 Días niño principal</span><strong>{diasSueltosNumero}</strong></div>
