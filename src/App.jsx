@@ -199,6 +199,8 @@ const [numeroHermanosFormulario, setNumeroHermanosFormulario] = useState(1);
   const [errores, setErrores] = useState({});
   const [estadoEnvio, setEstadoEnvio] = useState("idle");
   const [mensajeEnvio, setMensajeEnvio] = useState("");
+  const [whatsappUrl, setWhatsappUrl] = useState("");
+const [codigoEnviado, setCodigoEnviado] = useState("");
 
 useEffect(() => {
   if (hermano1IgualPrincipal) {
@@ -434,7 +436,74 @@ hermano2DiasSueltosNumero,
     resumen.total,
     numeroHermanosFormulario,
   ]);
+function textoArray(array, textoVacio = "No indicado") {
+  return Array.isArray(array) && array.length > 0 ? array.join(" | ") : textoVacio;
+}
 
+function crearMensajeWhatsApp(codigoInscripcion) {
+  const bloqueHermano1 =
+    numeroHermanosFormulario >= 2 && hermano1NombreEdad.trim()
+      ? `
+
+👦 HERMANO 1
+Nombre y edad: ${hermano1NombreEdad}
+Semanas: ${textoArray(hermano1Semanas, "No indica semanas")}
+Días sueltos: ${hermano1DiasSueltos || "No solicita"}
+Nº días sueltos: ${hermano1DiasSueltosNumero}
+Servicios: ${textoArray(hermano1Servicios, "Sin extras")}`
+      : "";
+
+  const bloqueHermano2 =
+    numeroHermanosFormulario >= 3 && hermano2NombreEdad.trim()
+      ? `
+
+👧 HERMANO 2
+Nombre y edad: ${hermano2NombreEdad}
+Semanas: ${textoArray(hermano2Semanas, "No indica semanas")}
+Días sueltos: ${hermano2DiasSueltos || "No solicita"}
+Nº días sueltos: ${hermano2DiasSueltosNumero}
+Servicios: ${textoArray(hermano2Servicios, "Sin extras")}`
+      : "";
+
+  return `INSCRIPCIÓN CAMPUS EL COLUMPIO
+
+🆔 Código: ${codigoInscripcion}
+📅 Fecha: ${new Date().toLocaleDateString("es-ES")}
+
+👤 NIÑO/A PRINCIPAL
+Nombre: ${nombreNino}
+Edad: ${edad}
+Sede: ${sede}
+Semanas: ${semanasTexto || "No indica semanas completas"}
+Días sueltos: ${diasSueltosTexto || "No solicita"}
+Nº días sueltos: ${diasSueltosNumero}
+Servicios extra: ${serviciosTexto || "Sin extras"}
+
+👨‍👩‍👧‍👦 HERMANOS
+Número de niños en la inscripción: ${numeroHermanosFormulario}${bloqueHermano1}${bloqueHermano2}
+
+👨‍👩‍👧 DATOS FAMILIA
+Padre/madre: ${padreMadre}
+Teléfono 1: ${telefono}
+Segundo contacto: ${segundoContacto || "No indicado"}
+Teléfono 2: ${telefono2 || "No indicado"}
+Email: ${email}
+
+🏠 PROPIETARIO
+¿Es propietario?: ${propietario}
+Dirección / propietario: ${propietario === "Si" ? direccionPropietario : "No aplica"}
+
+📝 OBSERVACIONES
+${observaciones || "Sin observaciones"}
+
+💰 IMPORTE ORIENTATIVO WEB
+${formatearEuros(resumen.total)}
+
+Resumen web:
+${resumenTexto}
+
+Mensaje enviado desde la web.`;
+}
   function validarFormulario() {
     const nuevosErrores = {};
 
@@ -575,63 +644,36 @@ Resumen web: ${resumenTexto}
 Código inscripción: ${codigoInscripcion}`
       );
 
-      enviarAGoogleForms(formData);
+    const mensajeWhatsApp = crearMensajeWhatsApp(codigoInscripcion);
+const nuevaWhatsappUrl = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
 
-      setTimeout(() => {
-        setEstadoEnvio("success");
+try {
+  localStorage.setItem(
+    "ultimaInscripcionCampus",
+    JSON.stringify({
+      codigo: codigoInscripcion,
+      fecha: new Date().toISOString(),
+      nombreNino,
+      edad,
+      sede,
+      padreMadre,
+      telefono,
+      email,
+      mensajeWhatsApp,
+    })
+  );
+} catch (storageError) {
+  console.warn("No se pudo guardar copia local de la inscripción", storageError);
+}
 
-        setMensajeEnvio(
-          `Inscripción enviada. Código: ${codigoInscripcion}. Si no aparece en Google Sheets en unos segundos, revisa que el formulario siga aceptando respuestas.`
-        );
+enviarAGoogleForms(formData);
 
-        const mensajeWhatsApp = `Hola, acabo de realizar la inscripción al Campus de Verano El Columpio.
-
-👤 Niño/a: ${nombreNino}
-🎂 Edad: ${edad}
-📍 Sede: ${sede}
-📅 Semanas: ${semanasTexto || "Días sueltos"}
-➕ Servicios: ${serviciosTexto || "Sin extras"}
-👨‍👩‍👧‍👦 Hermanos incluidos en cálculo: ${numeroHermanosFormulario}
-
-💰 Importe orientativo: ${formatearEuros(resumen.total)}
-🆔 Código: ${codigoInscripcion}`;
-
-        setNombreNino("");
-        setEdad("");
-        setEmail("");
-        setHermanosTexto("");
-        setHermano1NombreEdad("");
-setHermano1Semanas([]);
-setHermano1DiasSueltos("");
-setHermano1DiasSueltosNumero(0);
-setHermano1Servicios([]);
-
-setHermano2NombreEdad("");
-setHermano2Semanas([]);
-setHermano2DiasSueltos("");
-setHermano2DiasSueltosNumero(0);
-setHermano2Servicios([]);
-        setTieneHermanos("No");
-        setNumeroHermanos("");
-        setNumeroHermanosFormulario(1);
-        setPropietario("No");
-        setDireccionPropietario("");
-        setSede("El Carmen");
-        setSemanasSeleccionadas([]);
-        setDiasSueltosTexto("");
-        setDiasSueltosNumero(0);
-        setServiciosSeleccionados([]);
-        setPadreMadre("");
-        setTelefono("");
-        setSegundoContacto("");
-        setTelefono2("");
-        setObservaciones("");
-        setErrores({});
-
-        setTimeout(() => {
-          window.location.href = `https://wa.me/34611503688?text=${encodeURIComponent(mensajeWhatsApp)}`;
-        }, 500);
-      }, 900);
+setWhatsappUrl(nuevaWhatsappUrl);
+setCodigoEnviado(codigoInscripcion);
+setEstadoEnvio("success");
+setMensajeEnvio(
+  `Inscripción preparada. Código: ${codigoInscripcion}. Último paso obligatorio: pulsa el botón verde de WhatsApp para enviarnos el resumen y confirmar que hemos recibido los datos.`
+);
     } catch (error) {
       setEstadoEnvio("error");
       setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
@@ -1382,16 +1424,46 @@ setHermano2Servicios([]);
                   ⚠️ Plazas limitadas por grupo de edad y sede
                 </p>
                 <button type="submit" disabled={estadoEnvio === "loading"} className="rounded-xl bg-blue-700 px-6 py-4 text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800 disabled:opacity-70">
-                  ✈️ {estadoEnvio === "loading" ? "Enviando..." : "Enviar inscripción"}
+                  ✈️ {estadoEnvio === "loading" ? "Enviando..." : "Enviar inscripción y confirmar por WhatsApp"}
                 </button>
               </form>
 
               {mensajeEnvio ? (
-                <div className={`mt-5 rounded-2xl p-4 text-sm font-semibold ${estadoEnvio === "success" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}`}>
-                  {mensajeEnvio}
-                </div>
-              ) : null}
-            </div>
+  <div
+    className={`mt-5 rounded-2xl p-4 text-sm font-semibold ${
+      estadoEnvio === "success"
+        ? "bg-emerald-50 text-emerald-700"
+        : "bg-rose-50 text-rose-700"
+    }`}
+  >
+    {mensajeEnvio}
+  </div>
+) : null}
+
+{estadoEnvio === "success" && whatsappUrl ? (
+  <div className="mt-5 rounded-3xl border-2 border-emerald-200 bg-emerald-50 p-5 text-center">
+    <p className="text-lg font-black text-emerald-800">
+      Último paso para confirmar la inscripción
+    </p>
+
+    <p className="mt-2 text-sm font-semibold text-emerald-700">
+      Pulsa el botón y envíanos el resumen por WhatsApp. Así nos aseguramos de que la inscripción queda registrada aunque Google Forms falle.
+    </p>
+
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-6 py-4 text-base font-black text-white shadow-lg shadow-emerald-100 transition hover:bg-emerald-700 md:w-auto"
+    >
+      💬 Confirmar inscripción por WhatsApp
+    </a>
+
+    <p className="mt-3 text-xs font-bold text-emerald-700">
+      Código de inscripción: {codigoEnviado}
+    </p>
+  </div>
+) : null}
 
             <aside className="rounded-[2rem] bg-amber-50 p-6 text-[#071B4D] shadow-xl ring-1 ring-amber-100 lg:sticky lg:top-28 lg:self-start">
               <h3 className="text-xl font-black text-blue-800">Resumen de tu inscripción</h3>
