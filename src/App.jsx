@@ -336,14 +336,18 @@ if (numeroHermanosFormulario === 3) {
       total,
     };
   }, [
-    tipoCliente,
-    semanasSeleccionadas,
-    diasSueltosNumero,
-    hermano1DiasSueltosNumero,
-hermano2DiasSueltosNumero,
-    serviciosSeleccionados,
-    numeroHermanosFormulario,
-  ]);
+  tipoCliente,
+  semanasSeleccionadas,
+  diasSueltosNumero,
+  serviciosSeleccionados,
+  hermano1Semanas,
+  hermano1DiasSueltosNumero,
+  hermano1Servicios,
+  hermano2Semanas,
+  hermano2DiasSueltosNumero,
+  hermano2Servicios,
+  numeroHermanosFormulario,
+]);
 
   const resumenCalculadora = useMemo(() => {
     const numeroSemanas = semanasCalculadora;
@@ -675,6 +679,11 @@ setEstadoEnvio("success");
 setMensajeEnvio(
   `Inscripción preparada. Código: ${codigoInscripcion}. Último paso obligatorio: pulsa el botón verde de WhatsApp para enviarnos el resumen y confirmar que hemos recibido los datos.`
 );
+      setTimeout(() => {
+  document
+    .getElementById("confirmacion-whatsapp")
+    ?.scrollIntoView({ behavior: "smooth", block: "center" });
+}, 100);
     } catch (error) {
       setEstadoEnvio("error");
       setMensajeEnvio("No se pudo enviar la inscripción. Inténtalo de nuevo o contacta por WhatsApp.");
@@ -1240,13 +1249,27 @@ setMensajeEnvio(
       <button
         key={valor}
         type="button"
-        onClick={() => {
-          setTieneHermanos(valor);
-          if (valor === "No") {
-            setNumeroHermanos("");
-            setHermanosTexto("");
-          }
-        }}
+       onClick={() => {
+  setTieneHermanos(valor);
+
+  if (valor === "No") {
+    setNumeroHermanos("");
+    setHermanosTexto("");
+    setNumeroHermanosFormulario(1);
+
+    setHermano1NombreEdad("");
+    setHermano1Semanas([]);
+    setHermano1DiasSueltos("");
+    setHermano1DiasSueltosNumero(0);
+    setHermano1Servicios([]);
+
+    setHermano2NombreEdad("");
+    setHermano2Semanas([]);
+    setHermano2DiasSueltos("");
+    setHermano2DiasSueltosNumero(0);
+    setHermano2Servicios([]);
+  }
+}}
         className={`rounded-xl border px-4 py-3 font-black ${
           tieneHermanos === valor
             ? "border-blue-700 bg-blue-700 text-white"
@@ -1482,7 +1505,10 @@ setMensajeEnvio(
 ) : null}
 
 {estadoEnvio === "success" && whatsappUrl ? (
-  <div className="mt-5 rounded-3xl border-2 border-emerald-200 bg-emerald-50 p-5 text-center">
+  <div
+    id="confirmacion-whatsapp"
+    className="mt-5 rounded-3xl border-2 border-emerald-200 bg-emerald-50 p-5 text-center"
+  >
     <p className="text-lg font-black text-emerald-800">
       Último paso para confirmar la inscripción
     </p>
