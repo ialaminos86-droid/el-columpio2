@@ -154,7 +154,7 @@ function AnimatedCounter({ value, prefix = "", suffix = "", duration = 1200 }) {
 }
 
 export default function App() {
-  const [tipoCliente, setTipoCliente] = useState("socio");
+  const [tipoCliente, setTipoCliente] = useState("noSocio");
   const [matricula, setMatricula] = useState(true);
   const [semanasCalculadora, setSemanasCalculadora] = useState(0);
   const [diasSueltosCalculadora, setDiasSueltosCalculadora] = useState(0);
@@ -473,6 +473,7 @@ Servicios: ${textoArray(hermano2Servicios, "Sin extras")}`
 👤 NIÑO/A PRINCIPAL
 Nombre: ${nombreNino}
 Edad: ${edad}
+Tipo de inscripción: ${tipoCliente === "socio" ? "Socio" : "No socio"}
 Sede: ${sede}
 Semanas: ${semanasTexto || "No indica semanas completas"}
 Días sueltos: ${diasSueltosTexto || "No solicita"}
@@ -737,12 +738,12 @@ setMensajeEnvio(
       </div>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a
-          href="https://wa.me/34611503688?text=Hola,%20te%20escribo%20por%20el%20campus%20de%20verano%20en%20Tomares.%20%C2%BFQuedan%20plazas%3F"
-          className="rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800"
-        >
-          💬 Reservar plaza por WhatsApp
-        </a>
+       <a
+  href="#inscripcion"
+  className="rounded-xl bg-blue-700 px-6 py-4 text-center text-base font-black text-white shadow-lg shadow-blue-100 transition hover:bg-blue-800"
+>
+  📝 Rellenar formulario de inscripción
+</a>
 
         <a
           href="#precios"
@@ -1121,12 +1122,59 @@ setMensajeEnvio(
 
           
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div>
-                    <label className="mb-2 block text-sm font-bold text-[#071B4D]">¿Es propietario de la urbanización? *</label>
-                    <div className="grid grid-cols-2 gap-3">
-                      {["Si", "No"].map((valor) => (
-                        <button key={valor} type="button" onClick={() => setPropietario(valor)} className={`rounded-xl border px-4 py-3 font-black ${propietario === valor ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-[#071B4D]"}`}>
+<div className="grid gap-4 md:grid-cols-2">
+  <div>
+    <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+      ¿Es propietario de la urbanización? *
+    </label>
+
+    <div className="grid grid-cols-2 gap-3">
+      {["Si", "No"].map((valor) => (
+        <button
+          key={valor}
+          type="button"
+          onClick={() => {
+            setPropietario(valor);
+            setTipoCliente(valor === "Si" ? "socio" : "noSocio");
+
+            if (valor === "No") {
+              setDireccionPropietario("");
+            }
+          }}
+          className={`rounded-xl border px-4 py-3 font-black ${
+            propietario === valor
+              ? "border-blue-700 bg-blue-700 text-white"
+              : "border-slate-200 bg-white text-[#071B4D]"
+          }`}
+        >
+          {valor === "Si" ? "Sí" : "No"}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {propietario === "Si" ? (
+    <div>
+      <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+        Dirección y propietario *
+      </label>
+
+      <input
+        value={direccionPropietario}
+        onChange={(event) => setDireccionPropietario(event.target.value)}
+        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+        placeholder="Dirección y nombre"
+      />
+
+      {errores.direccionPropietario ? (
+        <p className="mt-1 text-xs text-rose-600">
+          {errores.direccionPropietario}
+        </p>
+      ) : null}
+    </div>
+  ) : null}
+</div>
+}} className={`rounded-xl border px-4 py-3 font-black ${propietario === valor ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-[#071B4D]"}`}>
                           {valor === "Si" ? "Sí" : "No"}
                         </button>
                       ))}
