@@ -1464,6 +1464,7 @@ setMensajeEnvio(
     </p>
   </div>
 ) : null}
+</div>
 
             <aside className="rounded-[2rem] bg-amber-50 p-6 text-[#071B4D] shadow-xl ring-1 ring-amber-100 lg:sticky lg:top-28 lg:self-start">
               <h3 className="text-xl font-black text-blue-800">Resumen de tu inscripción</h3>
