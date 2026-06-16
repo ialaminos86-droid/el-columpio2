@@ -1174,21 +1174,6 @@ setMensajeEnvio(
     </div>
   ) : null}
 </div>
-}} className={`rounded-xl border px-4 py-3 font-black ${propietario === valor ? "border-blue-700 bg-blue-700 text-white" : "border-slate-200 bg-white text-[#071B4D]"}`}>
-                          {valor === "Si" ? "Sí" : "No"}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  {propietario === "Si" ? (
-                    <div>
-                      <label className="mb-2 block text-sm font-bold text-[#071B4D]">Dirección y propietario *</label>
-                      <input value={direccionPropietario} onChange={(event) => setDireccionPropietario(event.target.value)} className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500" placeholder="Dirección y nombre" />
-                      {errores.direccionPropietario ? <p className="mt-1 text-xs text-rose-600">{errores.direccionPropietario}</p> : null}
-                    </div>
-                  ) : null}
-                </div>
-
                 <div>
                   <label className="mb-2 block text-sm font-bold text-[#071B4D]">Semanas elegidas *</label>
                   <div className="grid gap-2 md:grid-cols-2">
