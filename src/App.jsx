@@ -748,13 +748,14 @@ setMensajeEnvio(
           href="#precios"
           className="rounded-xl border border-blue-200 bg-white px-6 py-4 text-center text-base font-black text-blue-700 transition hover:bg-blue-50"
         >
-          🧮 Ver precios y calcular
+          🧮 Calcular precio orientativo
         </a>
       </div>
 
-      <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-700 ring-1 ring-amber-100">
-        ⚠️ Plazas limitadas por grupo de edad y sede
-      </p>
+     <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm font-bold text-amber-700 ring-1 ring-amber-100">
+  ⚠️ Para reservar plaza, rellena el formulario. Al finalizar te pediremos enviar un resumen por WhatsApp para comprobar que todo ha llegado correctamente.
+</p>
+      
 
       <div className="mt-9 grid grid-cols-2 items-stretch gap-4 md:grid-cols-4">
         {[
@@ -877,12 +878,19 @@ setMensajeEnvio(
                   Nuestro objetivo no es solo que se lo pasen bien, sino que tú estés tranquilo sabiendo que están en un entorno seguro, organizado y con profesionales que realmente disfrutan con lo que hacen.
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <a href="#inscripcion" className="rounded-xl bg-white px-6 py-4 text-center text-base font-black text-blue-700 transition hover:bg-blue-50">
-                    Reservar plaza
-                  </a>
-                  <a href="https://wa.me/34611503688" className="rounded-xl border border-white/30 px-6 py-4 text-center text-base font-black text-white transition hover:bg-white/10">
-                    Hablar por WhatsApp
-                  </a>
+<a
+  href="#inscripcion"
+  className="rounded-xl bg-white px-6 py-4 text-center text-base font-black text-blue-700 transition hover:bg-blue-50"
+>
+  Rellenar formulario
+</a>
+
+<a
+  href="#precios"
+  className="rounded-xl border border-white/30 px-6 py-4 text-center text-base font-black text-white transition hover:bg-white/10"
+>
+  Calcular precio
+</a>
                 </div>
               </div>
 
