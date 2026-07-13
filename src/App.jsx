@@ -586,13 +586,12 @@ Mensaje enviado desde la web.`;
 );
 
 formData.append(FORM_CONFIG.fields.email, email.trim());
-      formData.append(FORM_CONFIG.fields.propietario, propietario);
-      formData.append(
-       formData.append(
+formData.append(FORM_CONFIG.fields.propietario, propietario);
+formData.append(
   FORM_CONFIG.fields.direccionPropietario,
   direccionPropietario.trim()
 );
-      formData.append(FORM_CONFIG.fields.sede, sede);
+formData.append(FORM_CONFIG.fields.sede, sede);
 
       semanasSeleccionadas.forEach((semana) => {
         formData.append(FORM_CONFIG.fields.semanasTexto, semana);
