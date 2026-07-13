@@ -807,11 +807,15 @@ setMensajeEnvio(
         </p>
         <p className="mt-2 text-xl font-black text-[#071B4D]">
           El Carmen · El Mirador de Santa Eufemia
-        </p>
-        <p className="mt-2 text-sm text-slate-600">
-          Campus de verano en Tomares para familias del Aljarafe.
-        </p>
-      </div>
+       <div className="mt-3 space-y-1 text-sm text-slate-600">
+  <p>
+    <strong>El Carmen:</strong> para propietarios y amigos.
+  </p>
+
+  <p>
+    <strong>El Mirador:</strong> para propietarios y amigos.
+  </p>
+</div>
 
       <div className="absolute left-1/2 top-1/2 z-10 hidden h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:flex">
         <Logo className="h-48 w-auto object-contain" />
