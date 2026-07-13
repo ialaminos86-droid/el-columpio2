@@ -1139,36 +1139,48 @@ setMensajeEnvio(
 
           
 
-<div className="grid gap-4 md:grid-cols-2">
-  <div>
-    <label className="mb-2 block text-sm font-bold text-[#071B4D]">
-      ¿Es propietario de la urbanización? *
-    </label>
+<div>
+  <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+    ¿Es propietario de la urbanización? *
+  </label>
 
-    <div className="grid grid-cols-2 gap-3">
-      {["Si", "No"].map((valor) => (
-        <button
-          key={valor}
-          type="button"
-          onClick={() => {
-            setPropietario(valor);
-            setTipoCliente(valor === "Si" ? "socio" : "noSocio");
+  <div className="grid grid-cols-2 gap-3">
+    {["Si", "No"].map((valor) => (
+      <button
+        key={valor}
+        type="button"
+        onClick={() => {
+          setPropietario(valor);
+          setTipoCliente(valor === "Si" ? "socio" : "noSocio");
 
-            if (valor === "No") {
-              setDireccionPropietario("");
-            }
-          }}
-          className={`rounded-xl border px-4 py-3 font-black ${
-            propietario === valor
-              ? "border-blue-700 bg-blue-700 text-white"
-              : "border-slate-200 bg-white text-[#071B4D]"
-          }`}
-        >
-          {valor === "Si" ? "Sí" : "No"}
-        </button>
-      ))}
-    </div>
+          if (valor === "No") {
+            setDireccionPropietario("");
+          }
+        }}
+        className={`rounded-xl border px-4 py-3 font-black ${
+          propietario === valor
+            ? "border-blue-700 bg-blue-700 text-white"
+            : "border-slate-200 bg-white text-[#071B4D]"
+        }`}
+      >
+        {valor === "Si" ? "Sí" : "No"}
+      </button>
+    ))}
   </div>
+
+  {sede === "El Carmen" && propietario === "No" ? (
+    <div className="mt-3 rounded-xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200">
+      <p className="font-black">🏡 Acceso al Campus El Carmen</p>
+
+      <p className="mt-1">
+        El Campus El Carmen está dirigido principalmente a propietarios,
+        familiares y amigos de residentes de la urbanización. Si no eres
+        propietario, indica en observaciones el nombre del vecino o familia
+        de referencia por la que has conocido el campus.
+      </p>
+    </div>
+  ) : null}
+</div>
 
   {propietario === "Si" ? (
     <div>
