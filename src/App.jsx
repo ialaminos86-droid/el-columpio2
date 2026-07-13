@@ -7,7 +7,7 @@ const LOGO_SRC = logoColumpio;
 const FORM_CONFIG = {
   formUrl:
     "https://docs.google.com/forms/d/e/1FAIpQLSdqxK4BQ3N90nsHHWw4GLQHf8nl9FKOVtxNbpHkeSB3OG5nZA/formResponse",
-  fields: {
+  fields: 
     nombreNino: "entry.1632689659",
 
     sede: "entry.1104574246",
@@ -518,11 +518,12 @@ Mensaje enviado desde la web.`;
     if (!semanasTexto.trim() && !diasSueltosTexto.trim()) {
       nuevosErrores.semanas = "Selecciona semanas o especifica días sueltos.";
     }
-   if (!direccionPropietario.trim()) {
+  if (sede === "El Carmen" && !direccionPropietario.trim()) {
   nuevosErrores.direccionPropietario =
     propietario === "Si"
       ? "Indica tu dirección y nombre como propietario."
       : "Indica el nombre y la dirección del propietario de referencia.";
+}
 }
     if (!padreMadre.trim()) nuevosErrores.padreMadre = "Indica el nombre del padre/madre.";
     if (!telefono.trim()) nuevosErrores.telefono = "Indica un teléfono de contacto.";
