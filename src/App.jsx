@@ -801,20 +801,24 @@ setMensajeEnvio(
         <p className="text-lg font-black text-[#071B4D]">8:00 – 16:00</p>
       </div>
 
-      <div className="absolute bottom-8 left-8 right-8 rounded-3xl bg-white/90 p-6 shadow-xl backdrop-blur">
-        <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-700">
-          Sedes
-        </p>
-        <p className="mt-2 text-xl font-black text-[#071B4D]">
-          El Carmen · El Mirador de Santa Eufemia
-       <div className="mt-3 space-y-1 text-sm text-slate-600">
-  <p>
-    <strong>El Carmen:</strong> para propietarios y amigos.
+     <div className="absolute bottom-8 left-8 right-8 rounded-3xl bg-white/90 p-6 shadow-xl backdrop-blur">
+  <p className="text-sm font-black uppercase tracking-[0.2em] text-blue-700">
+    Sedes
   </p>
 
-  <p>
-    <strong>El Mirador:</strong> para propietarios y amigos.
+  <p className="mt-2 text-xl font-black text-[#071B4D]">
+    El Carmen · El Mirador de Santa Eufemia
   </p>
+
+  <div className="mt-3 space-y-1 text-sm text-slate-600">
+    <p>
+      <strong>El Carmen:</strong> para propietarios y amigos.
+    </p>
+
+    <p>
+      <strong>El Mirador:</strong> para propietarios y amigos.
+    </p>
+  </div>
 </div>
 
       <div className="absolute left-1/2 top-1/2 z-10 hidden h-56 w-56 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 p-7 shadow-2xl ring-4 ring-white/40 md:flex">
