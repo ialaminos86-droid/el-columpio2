@@ -518,9 +518,12 @@ Mensaje enviado desde la web.`;
     if (!semanasTexto.trim() && !diasSueltosTexto.trim()) {
       nuevosErrores.semanas = "Selecciona semanas o especifica días sueltos.";
     }
-    if (propietario === "Si" && !direccionPropietario.trim()) {
-      nuevosErrores.direccionPropietario = "Indica la dirección y nombre del propietario.";
-    }
+   if (!direccionPropietario.trim()) {
+  nuevosErrores.direccionPropietario =
+    propietario === "Si"
+      ? "Indica tu dirección y nombre como propietario."
+      : "Indica el nombre y la dirección del propietario de referencia.";
+}
     if (!padreMadre.trim()) nuevosErrores.padreMadre = "Indica el nombre del padre/madre.";
     if (!telefono.trim()) nuevosErrores.telefono = "Indica un teléfono de contacto.";
 
@@ -1153,9 +1156,7 @@ setMensajeEnvio(
           setPropietario(valor);
           setTipoCliente(valor === "Si" ? "socio" : "noSocio");
 
-          if (valor === "No") {
-            setDireccionPropietario("");
-          }
+      
         }}
         className={`rounded-xl border px-4 py-3 font-black ${
           propietario === valor
@@ -1182,25 +1183,28 @@ setMensajeEnvio(
   ) : null}
 </div>
 
-  {propietario === "Si" ? (
-    <div>
-      <label className="mb-2 block text-sm font-bold text-[#071B4D]">
-        Dirección y propietario *
-      </label>
+ <div>
+  <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+    {propietario === "Si"
+      ? "Dirección y nombre del propietario *"
+      : "Nombre y dirección del propietario de referencia *"}
+  </label>
 
-      <input
-        value={direccionPropietario}
-        onChange={(event) => setDireccionPropietario(event.target.value)}
-        className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-        placeholder="Dirección y nombre"
-      />
+  <input
+    value={direccionPropietario}
+    onChange={(event) => setDireccionPropietario(event.target.value)}
+    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+    placeholder={
+      propietario === "Si"
+        ? "Ej: Calle..., vivienda..., nombre"
+        : "Ej: Nombre del vecino y número de vivienda"
+    }
+  />
 
-      {errores.direccionPropietario ? (
-        <p className="mt-1 text-xs text-rose-600">
-          {errores.direccionPropietario}
-        </p>
-      ) : null}
-    </div>
+  {errores.direccionPropietario ? (
+    <p className="mt-1 text-xs text-rose-600">
+      {errores.direccionPropietario}
+    </p>
   ) : null}
 </div>
                 <div>
