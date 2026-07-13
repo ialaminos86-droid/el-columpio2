@@ -494,9 +494,9 @@ Segundo contacto: ${segundoContacto || "No indicado"}
 Teléfono 2: ${telefono2 || "No indicado"}
 Email: ${email}
 
-🏠 PROPIETARIO
+🏠 DATOS DE ACCESO
 ¿Es propietario?: ${propietario}
-Dirección / propietario: ${propietario === "Si" ? direccionPropietario : "No aplica"}
+Datos propietario / referencia: ${direccionPropietario}
 
 📝 OBSERVACIONES
 ${observaciones || "Sin observaciones"}
@@ -588,9 +588,10 @@ Mensaje enviado desde la web.`;
 formData.append(FORM_CONFIG.fields.email, email.trim());
       formData.append(FORM_CONFIG.fields.propietario, propietario);
       formData.append(
-        FORM_CONFIG.fields.direccionPropietario,
-        propietario === "Si" ? direccionPropietario.trim() : "No aplica"
-      );
+       formData.append(
+  FORM_CONFIG.fields.direccionPropietario,
+  direccionPropietario.trim()
+);
       formData.append(FORM_CONFIG.fields.sede, sede);
 
       semanasSeleccionadas.forEach((semana) => {
@@ -1142,70 +1143,70 @@ setMensajeEnvio(
 
           
 
-<div>
-  <label className="mb-2 block text-sm font-bold text-[#071B4D]">
-    ¿Es propietario de la urbanización? *
-  </label>
+<div className="grid gap-4 md:grid-cols-2">
+  <div>
+    <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+      ¿Es propietario de la urbanización? *
+    </label>
 
-  <div className="grid grid-cols-2 gap-3">
-    {["Si", "No"].map((valor) => (
-      <button
-        key={valor}
-        type="button"
-        onClick={() => {
-          setPropietario(valor);
-          setTipoCliente(valor === "Si" ? "socio" : "noSocio");
+    <div className="grid grid-cols-2 gap-3">
+      {["Si", "No"].map((valor) => (
+        <button
+          key={valor}
+          type="button"
+          onClick={() => {
+            setPropietario(valor);
+            setTipoCliente(valor === "Si" ? "socio" : "noSocio");
+          }}
+          className={`rounded-xl border px-4 py-3 font-black ${
+            propietario === valor
+              ? "border-blue-700 bg-blue-700 text-white"
+              : "border-slate-200 bg-white text-[#071B4D]"
+          }`}
+        >
+          {valor === "Si" ? "Sí" : "No"}
+        </button>
+      ))}
+    </div>
 
-      
-        }}
-        className={`rounded-xl border px-4 py-3 font-black ${
-          propietario === valor
-            ? "border-blue-700 bg-blue-700 text-white"
-            : "border-slate-200 bg-white text-[#071B4D]"
-        }`}
-      >
-        {valor === "Si" ? "Sí" : "No"}
-      </button>
-    ))}
+    {sede === "El Carmen" && propietario === "No" ? (
+      <div className="mt-3 rounded-xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200">
+        <p className="font-black">🏡 Acceso al Campus El Carmen</p>
+
+        <p className="mt-1">
+          El Campus El Carmen está dirigido principalmente a propietarios,
+          familiares y amigos de residentes de la urbanización. Si no eres
+          propietario, indica el nombre y la dirección del propietario o familia
+          de referencia que conoces.
+        </p>
+      </div>
+    ) : null}
   </div>
 
-  {sede === "El Carmen" && propietario === "No" ? (
-    <div className="mt-3 rounded-xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800 ring-1 ring-amber-200">
-      <p className="font-black">🏡 Acceso al Campus El Carmen</p>
+  <div>
+    <label className="mb-2 block text-sm font-bold text-[#071B4D]">
+      {propietario === "Si"
+        ? "Dirección y nombre del propietario *"
+        : "Nombre y dirección del propietario de referencia *"}
+    </label>
 
-      <p className="mt-1">
-        El Campus El Carmen está dirigido principalmente a propietarios,
-        familiares y amigos de residentes de la urbanización. Si no eres
-        propietario, indica en observaciones el nombre del vecino o familia
-        de referencia por la que has conocido el campus.
+    <input
+      value={direccionPropietario}
+      onChange={(event) => setDireccionPropietario(event.target.value)}
+      className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
+      placeholder={
+        propietario === "Si"
+          ? "Ej: Calle..., vivienda..., nombre"
+          : "Ej: Nombre del vecino y número de vivienda"
+      }
+    />
+
+    {errores.direccionPropietario ? (
+      <p className="mt-1 text-xs text-rose-600">
+        {errores.direccionPropietario}
       </p>
-    </div>
-  ) : null}
-</div>
-
- <div>
-  <label className="mb-2 block text-sm font-bold text-[#071B4D]">
-    {propietario === "Si"
-      ? "Dirección y nombre del propietario *"
-      : "Nombre y dirección del propietario de referencia *"}
-  </label>
-
-  <input
-    value={direccionPropietario}
-    onChange={(event) => setDireccionPropietario(event.target.value)}
-    className="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-blue-500"
-    placeholder={
-      propietario === "Si"
-        ? "Ej: Calle..., vivienda..., nombre"
-        : "Ej: Nombre del vecino y número de vivienda"
-    }
-  />
-
-  {errores.direccionPropietario ? (
-    <p className="mt-1 text-xs text-rose-600">
-      {errores.direccionPropietario}
-    </p>
-  ) : null}
+    ) : null}
+  </div>
 </div>
                 <div>
                   <label className="mb-2 block text-sm font-bold text-[#071B4D]">Semanas elegidas *</label>
